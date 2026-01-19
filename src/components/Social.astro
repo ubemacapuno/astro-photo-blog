@@ -4,14 +4,7 @@ const { platform, username } = Astro.props;
 
 <a
   href={`https://www.${platform}.com/${platform === "linkedin" ? "in/" : ""}${username}`}
-  >{platform}</a
+  class="px-4 py-2 text-white dark:text-black bg-black dark:bg-white no-underline hover:underline"
 >
-
-<style>
-  a {
-    padding: 0.5rem 1rem;
-    color: white;
-    background-color: #4c1d95;
-    text-decoration: none;
-  }
-</style>
+  {platform}
+</a>
