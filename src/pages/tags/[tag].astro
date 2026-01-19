@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogPost from "../../components/BlogPost.astro";
+import type { Post } from "../../types";
+
+// getStaticPaths function should always return a list of objects containing params (what to call each page route) and optionally any props (data that you want to pass to those pages)
+export async function getStaticPaths() {
+  const allPosts = Object.values(
+    import.meta.glob("../posts/*.md", { eager: true }),
+  ) as Post[];
+
+  // map the unique tags (using Set) from all posts to an array
+    const uniqueTags = [
+    ...new Set(
+      allPosts
+        .map((post) => post.frontmatter.tags)
+        .filter((tags): tags is string[] => tags !== undefined) // tags is string[] | undefined, so we need to filter out the undefined tags
+        .flat(),
+    ),
+  ];
+
+  // with unique tags, filter the posts to only include the posts with the tag
+  return uniqueTags.map((tag) => {
+    const filteredPosts = allPosts.filter((post) =>
+      post.frontmatter.tags?.includes(tag),
+    );
+    return {
+      params: { tag },
+      props: { posts: filteredPosts },
+    };
+  });
+}
+
+const { tag } = Astro.params;
+const { posts } = Astro.props as { posts: Post[] };
+const filteredPosts: Post[] = posts.filter((post) =>
+  post.frontmatter.tags?.includes(tag),
+);
+---
+
+<BaseLayout pageTitle={`#${tag}`}>
+  <p>Posts tagged with {tag}</p>
+  <BlogPost allPosts={filteredPosts} />
+</BaseLayout>
+
+

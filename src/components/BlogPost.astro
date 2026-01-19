@@ -1,0 +1,21 @@
+---
+import type { Post } from "../types";
+
+interface Props {
+  allPosts: Post[];
+}
+
+const { allPosts } = Astro.props as Props;
+---
+
+<ul>
+  {
+    allPosts.map((post) => (
+      <li>
+        <a href={post.url} data-astro-prefetch>
+          {post.frontmatter.title}
+        </a>
+      </li>
+    ))
+  }
+</ul>
