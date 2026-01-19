@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Greeting from "../components/Greeting.vue";
+
 const pageTitle = "Home Page";
 // import.meta.glob() to access data from files in your project
 // getStaticPaths() to create multiple pages (routes) at once
@@ -7,4 +9,5 @@ const pageTitle = "Home Page";
 
 <BaseLayout {pageTitle}>
   <h2>My awesome blog subtitle</h2>
+  <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
 </BaseLayout>
