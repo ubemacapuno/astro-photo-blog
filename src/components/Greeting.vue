@@ -20,6 +20,6 @@ function setRandomGreeting() {
 <template>
   <div>
     <h3>{{ greeting }}! Thank you for visiting!</h3>
-    <button @click="setRandomGreeting">New Greeting</button>
+    <button class="px-4 py-2 text-white dark:text-black bg-black dark:bg-white no-underline hover:underline" @click="setRandomGreeting">New Greeting</button>
   </div>
 </template>

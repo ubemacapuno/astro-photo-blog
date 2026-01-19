@@ -4,19 +4,13 @@ import Social from "./Social.astro";
 const socialLinks = [
   { platform: "linkedin", username: "corey-damocles" },
   { platform: "github", username: "ubemacapuno" },
-]
+];
 ---
 
-<style>
-  footer {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+<footer class="flex gap-4 mt-auto">
+  {
+    socialLinks.map((link) => (
+      <Social platform={link.platform} username={link.username} />
+    ))
   }
-</style>
-
-<footer>
-  {socialLinks.map((link) => (
-    <Social platform={link.platform} username={link.username} />
-  ))}
 </footer>

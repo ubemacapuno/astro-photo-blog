@@ -1,29 +1,79 @@
+@import "tailwindcss";
+
+/* Enable class-based dark mode in Tailwind v4 
+ * @see https://tailwindcss.com/docs/adding-custom-styles
+*/
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  /* Simple black/white theme colors */
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: #f5f5f5;
+  --color-text-primary: #000000;
+  --color-text-secondary: #ffffff;
+  --color-nav-bg: #000000;
+  --color-nav-text: #ffffff;
+  --color-nav-hover: #333333;
+  --color-nav-active: #000000;
+
+  /* neo-brutalism theme colors  */
+  --color-accent: #ff9776;
+  
+  /* Neo-brutalism colors - Violet */
+  --color-violet-100: #A5B4FB;
+  --color-violet-200: #A8A6FF;
+  --color-violet-300: #918efa;
+  --color-violet-400: #807dfa;
+
+  /* Neo-brutalism colors - Pink */
+  --color-pink-200: #FFA6F6;
+  --color-pink-300: #fa8cef;
+  --color-pink-400: #fa7fee;
+
+  /* Neo-brutalism colors - Red */
+  --color-red-200: #FF9F9F;
+  --color-red-300: #fa7a7a;
+  --color-red-400: #f76363;
+
+  /* Neo-brutalism colors - Orange */
+  --color-orange-200: #FFC29F;
+  --color-orange-300: #FF965B;
+  --color-orange-400: #fa8543;
+
+  /* Neo-brutalism colors - Yellow */
+  --color-yellow-200: #FFF59F;
+  --color-yellow-300: #FFF066;
+  --color-yellow-400: #FFE500;
+
+  /* Neo-brutalism colors - Lime */
+  --color-lime-100: #c6fab4;
+  --color-lime-200: #B8FF9F;
+  --color-lime-300: #9dfc7c;
+  --color-lime-400: #7df752;
+
+  /* Neo-brutalism colors - Cyan */
+  --color-cyan-200: #A6FAFF;
+  --color-cyan-300: #79F7FF;
+  --color-cyan-400: #53f2fc;
+}
+
+/* Dark mode colors */
+.dark {
+  --color-bg-primary: #000000;
+  --color-bg-secondary: #1a1a1a;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #000000;
+  --color-nav-bg: #ffffff;
+  --color-nav-text: #000000;
+  --color-nav-hover: #cccccc;
+  --color-nav-active: #ffffff;
+}
+
+/* Base styles */
 html {
-  background-color: #f1f5f9;
-  font-family: sans-serif;
-}
-
-html.dark {
-  background-color: #0d0950;
-  color: #fff;
-}
-
-.dark .menu {
-  background-color: #fff;
-  color: #000;
-}
-
-.dark .nav-links a:hover,
-.dark .nav-links a:focus {
-  color: #0d0950;
-}
-
-.dark .nav-links a {
-  color: #fff;
-}
-
-.dark a {
-  color: #ff9776;
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
 body {
@@ -38,62 +88,13 @@ body {
   box-sizing: border-box;
 }
 
-h1 {
-  margin: 1rem 0;
-  font-size: 2.5rem;
-}
-
-/* nav styles */
-.menu {
-  background-color: #0d0950;
-  border: none;
-  color: #fff;
-  font-size: 1.2rem;
+/* Global link styles - only apply to links in main content */
+main a {
+  color: inherit;
+  text-decoration: underline;
   font-weight: bold;
-  padding: 5px 10px;
 }
 
-.nav-links {
-  width: 100%;
-  display: none;
-  margin: 0;
-}
-
-.nav-links a {
-  display: block;
-  text-align: center;
-  padding: 10px 0;
-  text-decoration: none;
-  font-size: 1.2rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  color: #0d0950;
-}
-
-.nav-links a:hover,
-.nav-links a:focus {
-  background-color: #ff9776;
-}
-
-:has(.menu[aria-expanded="true"]) .nav-links {
-  display: unset;
-}
-
-@media screen and (min-width: 636px) {
-  .nav-links {
-    margin-left: 5em;
-    display: block;
-    position: static;
-    width: auto;
-    background: none;
-  }
-
-  .nav-links a {
-    display: inline-block;
-    padding: 15px 20px;
-  }
-
-  .menu {
-    display: none;
-  }
+main a:hover {
+  text-decoration: italic;
 }

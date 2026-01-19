@@ -4,10 +4,41 @@ const pages = [
   { label: "About", href: "/about/" },
   { label: "Blog", href: "/blog/" },
   { label: "Tags", href: "/tags/" },
-]
+];
+
+const pathname = Astro.url.pathname;
+
+// Normalize paths by removing trailing slashes (except for root)
+// e.g. /blog/ will match /blog/anything
+const normalizePath = (path: string) => {
+  if (path === "/") return "/";
+  return path.replace(/\/$/, ""); // /blog/ -> /blog
+};
+
+const isActive = (href: string) => {
+  const normalizedPathname = normalizePath(pathname); 
+  const normalizedHref = normalizePath(href);
+  
+  if (normalizedPathname === normalizedHref) return true;
+  if (href !== "/" && normalizedPathname.startsWith(normalizedHref + "/")) return true;
+  return false;
+};
 ---
-<div id="main-menu" class="nav-links">
-{pages.map((page) => (
-  <a href={page.href} data-astro-prefetch>{page.label}</a>
-))}
+
+<div id="main-menu" class="hidden w-full md:block md:w-auto mx-auto text-center">
+  {
+    pages.map((page) => (
+      <a
+        href={page.href}
+        data-astro-prefetch
+        class={`block text-center py-2.5 text-xl md:inline-block md:px-5 md:py-4 text-black dark:text-white
+        ${isActive(page.href)
+          ? "font-semibold underline"
+          : "hover:text-gray-600 dark:hover:text-gray-300"
+        }`}
+      >
+        {page.label}
+      </a>
+    ))
+  }
 </div>

@@ -4,23 +4,12 @@ import Menu from "./Menu.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 ---
 
-<style>
-  nav {
-  }
-</style>
 <header>
   <nav>
-    <div>
+    <div class="flex justify-between">
       <ThemeIcon />
       <Menu />
     </div>
     <Navigation />
   </nav>
 </header>
-
-<style>
-  div {
-    display: flex;
-    justify-content: space-between;
-  }
-</style>
