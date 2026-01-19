@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-/* Enable class-based dark mode in Tailwind v4 */
+/* Enable class-based dark mode in Tailwind v4 
+ * @see https://tailwindcss.com/docs/adding-custom-styles
+*/
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
@@ -13,6 +15,46 @@
   --color-nav-text: #ffffff;
   --color-nav-hover: #333333;
   --color-nav-active: #000000;
+
+  /* neo-brutalism theme colors  */
+  --color-accent: #ff9776;
+  
+  /* Neo-brutalism colors - Violet */
+  --color-violet-100: #A5B4FB;
+  --color-violet-200: #A8A6FF;
+  --color-violet-300: #918efa;
+  --color-violet-400: #807dfa;
+
+  /* Neo-brutalism colors - Pink */
+  --color-pink-200: #FFA6F6;
+  --color-pink-300: #fa8cef;
+  --color-pink-400: #fa7fee;
+
+  /* Neo-brutalism colors - Red */
+  --color-red-200: #FF9F9F;
+  --color-red-300: #fa7a7a;
+  --color-red-400: #f76363;
+
+  /* Neo-brutalism colors - Orange */
+  --color-orange-200: #FFC29F;
+  --color-orange-300: #FF965B;
+  --color-orange-400: #fa8543;
+
+  /* Neo-brutalism colors - Yellow */
+  --color-yellow-200: #FFF59F;
+  --color-yellow-300: #FFF066;
+  --color-yellow-400: #FFE500;
+
+  /* Neo-brutalism colors - Lime */
+  --color-lime-100: #c6fab4;
+  --color-lime-200: #B8FF9F;
+  --color-lime-300: #9dfc7c;
+  --color-lime-400: #7df752;
+
+  /* Neo-brutalism colors - Cyan */
+  --color-cyan-200: #A6FAFF;
+  --color-cyan-300: #79F7FF;
+  --color-cyan-400: #53f2fc;
 }
 
 /* Dark mode colors */
@@ -26,48 +68,6 @@
   --color-nav-hover: #cccccc;
   --color-nav-active: #ffffff;
 }
-
-/* Archived colorful theme colors - kept for future use */
-/*
-  --color-accent: #ff9776;
-  
-  Neo-brutalism colors - Violet
-  --color-violet-100: #A5B4FB;
-  --color-violet-200: #A8A6FF;
-  --color-violet-300: #918efa;
-  --color-violet-400: #807dfa;
-
-  Neo-brutalism colors - Pink
-  --color-pink-200: #FFA6F6;
-  --color-pink-300: #fa8cef;
-  --color-pink-400: #fa7fee;
-
-  Neo-brutalism colors - Red
-  --color-red-200: #FF9F9F;
-  --color-red-300: #fa7a7a;
-  --color-red-400: #f76363;
-
-  Neo-brutalism colors - Orange
-  --color-orange-200: #FFC29F;
-  --color-orange-300: #FF965B;
-  --color-orange-400: #fa8543;
-
-  Neo-brutalism colors - Yellow
-  --color-yellow-200: #FFF59F;
-  --color-yellow-300: #FFF066;
-  --color-yellow-400: #FFE500;
-
-  Neo-brutalism colors - Lime
-  --color-lime-100: #c6fab4;
-  --color-lime-200: #B8FF9F;
-  --color-lime-300: #9dfc7c;
-  --color-lime-400: #7df752;
-
-  Neo-brutalism colors - Cyan
-  --color-cyan-200: #A6FAFF;
-  --color-cyan-300: #79F7FF;
-  --color-cyan-400: #53f2fc;
-*/
 
 /* Base styles */
 html {
@@ -86,4 +86,15 @@ body {
 
 * {
   box-sizing: border-box;
+}
+
+/* Global link styles - only apply to links in main content */
+main a {
+  color: inherit;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+main a:hover {
+  text-decoration: italic;
 }
