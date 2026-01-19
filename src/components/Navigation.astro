@@ -1,10 +1,13 @@
 ---
-
+const pages = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about/" },
+  { label: "Blog", href: "/blog/" },
+  { label: "Tags", href: "/tags/" },
+]
 ---
-
 <div id="main-menu" class="nav-links">
-  <a href="/">Home</a>
-  <a href="/about/">About</a>
-  <a href="/blog/">Blog</a>
-  <a href="/tags/">Tags</a>
+{pages.map((page) => (
+  <a href={page.href} data-astro-prefetch>{page.label}</a>
+))}
 </div>
