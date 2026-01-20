@@ -1,13 +1,80 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Greeting from "../components/Greeting.vue";
+import ImageCarousel from "../components/ImageCarousel.vue";
+import type { CarouselImage } from "../types";
 
-const pageTitle = "Home Page";
-// import.meta.glob() to access data from files in your project
-// getStaticPaths() to create multiple pages (routes) at once
+const pageTitle = "";
+
+function shuffleArray<T>(array: T[]): T[] {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+}
+
+const baseCarouselImages: CarouselImage[] = [
+  { src: "/images/hero-1.jpg", alt: "Hero image 1" },
+  { src: "/images/hero-2.jpg", alt: "Hero image 2" },
+  { src: "/images/hero-3.jpg", alt: "Hero image 3" },
+  { src: "/images/hero-4.jpg", alt: "Hero image 4" },
+  { src: "/images/hero-5.jpg", alt: "Hero image 5" },
+  { src: "/images/hero-6.jpg", alt: "Hero image 6" },
+  { src: "/images/hero-7.jpg", alt: "Hero image 7" },
+  { src: "/images/hero-8.jpg", alt: "Hero image 8" },
+  { src: "/images/hero-9.jpg", alt: "Hero image 9" },
+];
+
+const carouselImages = shuffleArray(baseCarouselImages);
 ---
 
 <BaseLayout {pageTitle}>
-  <h2>My awesome blog subtitle</h2>
-  <Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
+  <section class="flex justify-center items-start min-h-[50vh] md:min-h-[60vh] whitespace-nowrap">
+    <div class="relative flex items-center justify-center">
+      <div class="relative">
+        <ImageCarousel client:load images={carouselImages} />
+        <small id="shot-on-film-mobile" class="sm:hidden absolute top-full right-0 mt-2 font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-500">
+          Shot on Film
+        </small>
+      </div>
+      
+      <div class="absolute z-10 flex flex-col items-center text-center">
+        <span 
+          id="corey-damocles" 
+          class="block text-5xl sm:text-7xl md:text-8xl lg:text-8xl text-center font-bold text-red-600 uppercase whitespace-nowrap anton-regular tracking-wide cursor-pointer transition-opacity duration-1000"
+        >
+          Corey Damocles
+        </span>
+        <small id="shot-on-film-desktop" class="hidden sm:block self-end font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-1000">
+          Shot on Film
+        </small>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
+
+<script>
+  const coreyDamocles = document.getElementById("corey-damocles");
+  const shotOnFilmMobile = document.getElementById("shot-on-film-mobile");
+  const shotOnFilmDesktop = document.getElementById("shot-on-film-desktop");
+  
+  let isVisible = true;
+
+  const toggleVisibility = () => {
+    isVisible = !isVisible;
+    const opacity = isVisible ? "1" : "0";
+    
+    if (coreyDamocles) {
+      coreyDamocles.style.opacity = opacity;
+    }
+    if (shotOnFilmMobile) {
+      shotOnFilmMobile.style.opacity = opacity;
+    }
+    if (shotOnFilmDesktop) {
+      shotOnFilmDesktop.style.opacity = opacity;
+    }
+  };
+
+  coreyDamocles?.addEventListener("click", toggleVisibility);
+</script>

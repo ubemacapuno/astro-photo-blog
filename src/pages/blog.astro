@@ -24,5 +24,8 @@ const sortedPosts = allPosts.sort((a, b) =>
       image: post.data.image,
       tags: post.data.tags,
     },
-  }))} />
+  }))} /> 
+  <!-- some sort of non-intrusive divider using tailwind -->
+  <div class="border-t border-gray-200 my-4"></div>
+  <a href="/tags"># Tags</a>
 </BaseLayout>

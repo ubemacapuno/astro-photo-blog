@@ -1,9 +1,10 @@
 ---
+import ThemeIcon from "./ThemeIcon.astro";
+
 const pages = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about/" },
   { label: "Blog", href: "/blog/" },
-  { label: "Tags", href: "/tags/" },
 ];
 
 const pathname = Astro.url.pathname;
@@ -41,4 +42,8 @@ const isActive = (href: string) => {
       </a>
     ))
   }
+  <!-- Theme switcher at bottom of mobile menu -->
+  <div class="md:hidden flex justify-center py-4">
+    <ThemeIcon />
+  </div>
 </div>

@@ -12,3 +12,8 @@ export type Post = {
   };
   url: string;
 };
+
+export type CarouselImage = {
+  src: string;
+  alt: string;
+};

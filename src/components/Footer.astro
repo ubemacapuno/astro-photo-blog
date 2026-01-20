@@ -6,11 +6,13 @@ const socialLinks = [
   { platform: "github", username: "ubemacapuno" },
 ];
 ---
-
-<footer class="flex gap-4 mt-auto">
-  {
-    socialLinks.map((link) => (
-      <Social platform={link.platform} username={link.username} />
-    ))
-  }
+<footer class="mt-8 flex flex-col justify-center items-center gap-4">
+  <div class="flex flex-row justify-center items-center gap-4 mt-auto">
+    {
+      socialLinks.map((link) => (
+        <Social platform={link.platform} username={link.username} />
+      ))
+    }
+  </div>
+  <p class="text-sm text-gray-500">© {new Date().getFullYear()}</p>
 </footer>

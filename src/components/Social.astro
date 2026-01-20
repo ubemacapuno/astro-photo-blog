@@ -1,10 +1,14 @@
 ---
+import { Icon } from 'astro-icon/components'
 const { platform, username } = Astro.props;
 ---
-
+<!-- Refactor to use Icon like <Icon name="mdi:linkedin" /> -->
 <a
   href={`https://www.${platform}.com/${platform === "linkedin" ? "in/" : ""}${username}`}
-  class="px-4 py-2 text-white dark:text-black bg-black dark:bg-white no-underline hover:underline"
+
 >
-  {platform}
+  <Icon 
+  name={`mdi:${platform}`}
+  size={24}
+   />
 </a>

@@ -2,12 +2,28 @@
 import Navigation from "./Navigation.astro";
 import Menu from "./Menu.astro";
 import ThemeIcon from "./ThemeIcon.astro";
+
+const pathname = Astro.url.pathname;
+const isHomepage = pathname === "/";
 ---
 
 <header>
   <nav>
-    <div class="flex justify-between">
-      <ThemeIcon />
+    <div class="flex justify-between items-center">
+      <div class="hidden md:block">
+        <ThemeIcon />
+      </div>
+      <div class="md:hidden flex items-center">
+        {!isHomepage && (
+          <a
+            href="/"
+            data-astro-prefetch
+            class="text-2xl tracking-wide font-bold uppercase anton-regular no-underline"
+          >
+            Corey Damocles
+          </a>
+        )}
+      </div>
       <Menu />
     </div>
     <Navigation />
