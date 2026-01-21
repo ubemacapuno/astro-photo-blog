@@ -14,15 +14,15 @@ const sortedPosts = allPosts.sort((a, b) =>
 
 <BaseLayout pageTitle={pageTitle}>
   <p>This is where I will post about my journey learning Astro.</p>
-  <BlogPost allPosts={sortedPosts.map((post) => ({
-    url: `/posts/${post.id}/`,
+  <BlogPost allPosts={sortedPosts.map((blog) => ({
+    url: `/blogs/${blog.id}/`,
     frontmatter: {
-      title: post.data.title,
-      author: post.data.author,
-      description: post.data.description,
-      pubDate: post.data.pubDate,
-      image: post.data.image,
-      tags: post.data.tags,
+      title: blog.data.title,
+      author: blog.data.author,
+      description: blog.data.description,
+      pubDate: blog.data.pubDate,
+      image: blog.data.image,
+      tags: blog.data.tags,
     },
   }))} /> 
   <!-- some sort of non-intrusive divider using tailwind -->

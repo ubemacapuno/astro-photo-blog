@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ImageCarousel from "../components/ImageCarousel.vue";
+import ImageCarousel from "../components/vue/ImageCarousel.vue";
 import type { CarouselImage } from "../types";
 
 const pageTitle = "";
@@ -30,23 +30,34 @@ const carouselImages = shuffleArray(baseCarouselImages);
 ---
 
 <BaseLayout {pageTitle}>
-  <section class="flex justify-center items-start min-h-[50vh] md:min-h-[60vh] whitespace-nowrap">
+  <section
+    class="flex justify-center items-start min-h-[50vh] md:min-h-[60vh] whitespace-nowrap"
+  >
     <div class="relative flex items-center justify-center">
       <div class="relative">
         <ImageCarousel client:load images={carouselImages} />
-        <small id="shot-on-film-mobile" class="sm:hidden absolute top-full right-0 mt-2 font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-500">
+        <small
+          id="shot-on-film-mobile"
+          data-fade-group="hero-title"
+          class="sm:hidden absolute top-full right-0 mt-2 font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-500"
+        >
           Shot on Film
         </small>
       </div>
-      
+
       <div class="absolute z-10 flex flex-col items-center text-center">
-        <span 
-          id="corey-damocles" 
+        <span
+          id="corey-damocles"
+          data-fade-group="hero-title"
           class="block text-5xl sm:text-7xl md:text-8xl lg:text-8xl text-center font-bold text-red-600 uppercase whitespace-nowrap anton-regular tracking-wide cursor-pointer transition-opacity duration-1000"
         >
           Corey Damocles
         </span>
-        <small id="shot-on-film-desktop" class="hidden sm:block self-end font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-1000">
+        <small
+          id="shot-on-film-desktop"
+          data-fade-group="hero-title"
+          class="hidden sm:block self-end font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-1000"
+        >
           Shot on Film
         </small>
       </div>
@@ -55,26 +66,43 @@ const carouselImages = shuffleArray(baseCarouselImages);
 </BaseLayout>
 
 <script>
-  const coreyDamocles = document.getElementById("corey-damocles");
-  const shotOnFilmMobile = document.getElementById("shot-on-film-mobile");
-  const shotOnFilmDesktop = document.getElementById("shot-on-film-desktop");
-  
-  let isVisible = true;
+  const FADE_DURATION_MS = 6000;
+  const FADE_GROUP = "hero-title";
 
-  const toggleVisibility = () => {
-    isVisible = !isVisible;
-    const opacity = isVisible ? "1" : "0";
-    
-    if (coreyDamocles) {
-      coreyDamocles.style.opacity = opacity;
-    }
-    if (shotOnFilmMobile) {
-      shotOnFilmMobile.style.opacity = opacity;
-    }
-    if (shotOnFilmDesktop) {
-      shotOnFilmDesktop.style.opacity = opacity;
-    }
+  let isHidden = false;
+  let restoreTimeout: string | number | NodeJS.Timeout | null | undefined = null;
+
+  const elements = Array.from(
+    document.querySelectorAll(`[data-fade-group="${FADE_GROUP}"]`),
+  );
+
+  const setOpacity = (value: string) => {
+    const hidden = value === "0";
+    elements.forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      htmlEl.style.opacity = value;
+      htmlEl.style.pointerEvents = hidden ? "none" : "auto";
+      htmlEl.setAttribute("aria-hidden", String(hidden));
+    });
   };
 
-  coreyDamocles?.addEventListener("click", toggleVisibility);
+  const hideTemporarily = () => {
+    if (isHidden) return;
+
+    if (restoreTimeout !== null) {
+      clearTimeout(restoreTimeout);
+    }
+
+    isHidden = true;
+    setOpacity("0");
+
+    restoreTimeout = setTimeout(() => {
+      setOpacity("1");
+      isHidden = false;
+      restoreTimeout = null;
+    }, FADE_DURATION_MS);
+  };
+
+  const trigger = document.getElementById("corey-damocles");
+  trigger?.addEventListener("click", hideTemporarily);
 </script>

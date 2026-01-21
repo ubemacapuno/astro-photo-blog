@@ -8,23 +8,25 @@ const isHomepage = pathname === "/";
 ---
 
 <header>
-  <nav>
+  <nav class="relative">
     <div class="flex justify-between items-center">
-      <div class="hidden md:block">
-        <ThemeIcon />
-      </div>
       <div class="md:hidden flex items-center">
-        {!isHomepage && (
-          <a
-            href="/"
-            data-astro-prefetch
-            class="text-2xl tracking-wide font-bold uppercase anton-regular no-underline"
-          >
-            Corey Damocles
-          </a>
-        )}
+        {
+          !isHomepage && (
+            <a
+              href="/"
+              data-astro-prefetch
+              class="text-2xl tracking-wide font-bold uppercase anton-regular no-underline"
+            >
+              Corey Damocles
+            </a>
+          )
+        }
       </div>
       <Menu />
+      <div class="hidden md:block md:ml-auto">
+        <ThemeIcon />
+      </div>
     </div>
     <Navigation />
   </nav>
