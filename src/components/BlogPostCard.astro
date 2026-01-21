@@ -1,0 +1,41 @@
+---
+import type { Post } from "../types";
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props as Props;
+---
+
+<!-- Title, date, description on left side of card, image to the right side in card-->
+<a href={post.url} data-astro-prefetch class="blog-card-link block">
+  <div
+    class="border border-gray-200 p-4 flex flex-col md:flex-row hover:border-gray-400 transition-colors"
+  >
+    <div class="flex-1">
+      <h2 class="text-lg font-bold">{post.frontmatter.title}</h2>
+      <p class="text-sm">{post.frontmatter.pub_date.toDateString()}</p>
+      <p class="text-sm text-gray-500">{post.frontmatter.type}</p>
+      <p class="text-sm text-gray-500">{post.frontmatter.description}</p>
+    </div>
+    <div class="flex-1">
+      <img
+        src={post.frontmatter.image.url}
+        alt={post.frontmatter.image.alt}
+        class="w-full h-auto"
+      />
+    </div>
+  </div>
+</a>
+
+<style>
+  .blog-card-link {
+    text-decoration: none;
+    font-weight: normal;
+  }
+
+  .blog-card-link:hover {
+    text-decoration: none;
+  }
+</style>

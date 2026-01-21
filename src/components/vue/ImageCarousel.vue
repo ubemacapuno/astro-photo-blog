@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { AUTO_PLAY_INTERVAL, TRANSITION_DURATION, DELAY_AFTER_TRANSITION } from '../../globals';
 
   interface Props {
     images: CarouselImage[];
@@ -12,7 +13,7 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
   }
   
   const props = withDefaults(defineProps<Props>(), {
-    autoPlayInterval: 2150,
+    autoPlayInterval: AUTO_PLAY_INTERVAL,
   });
   
   const currentIndex = ref(0);
@@ -45,13 +46,13 @@ import { computed, onMounted, onUnmounted, ref } from 'vue';
         // re-enable transitions after brief moment for next slide
         setTimeout(() => {
           isTransitioning.value = false;
-        }, 50);
-      }, 800); // match the transition duration
+        }, DELAY_AFTER_TRANSITION);
+      }, TRANSITION_DURATION); // match the transition duration
     } else {
       // normal case: wait for transition to complete, then allow next slide
       setTimeout(() => {
         isTransitioning.value = false;
-      }, 800);
+      }, TRANSITION_DURATION);
     }
   };
   

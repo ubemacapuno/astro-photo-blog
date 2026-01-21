@@ -66,11 +66,12 @@ const carouselImages = shuffleArray(baseCarouselImages);
 </BaseLayout>
 
 <script>
-  const FADE_DURATION_MS = 6000;
+  const FADE_DURATION_MS = 9 * 3450; // can't import globals.ts here, so hardcode the value
   const FADE_GROUP = "hero-title";
 
   let isHidden = false;
-  let restoreTimeout: string | number | NodeJS.Timeout | null | undefined = null;
+  let restoreTimeout: string | number | NodeJS.Timeout | null | undefined =
+    null;
 
   const elements = Array.from(
     document.querySelectorAll(`[data-fade-group="${FADE_GROUP}"]`),
