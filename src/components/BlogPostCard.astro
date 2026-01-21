@@ -8,7 +8,6 @@ interface Props {
 const { post } = Astro.props as Props;
 ---
 
-<!-- Title, date, description on left side of card, image to the right side in card-->
 <a href={post.url} data-astro-prefetch class="blog-card-link block">
   <div
     class="border border-gray-200 p-4 flex flex-col md:flex-row hover:border-gray-400 transition-colors"
