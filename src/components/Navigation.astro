@@ -17,39 +17,60 @@ const normalizePath = (path: string) => {
 };
 
 const isActive = (href: string) => {
-  const normalizedPathname = normalizePath(pathname); 
+  const normalizedPathname = normalizePath(pathname);
   const normalizedHref = normalizePath(href);
-  
+
   if (normalizedPathname === normalizedHref) return true;
-  if (href !== "/" && normalizedPathname.startsWith(normalizedHref + "/")) return true;
+  if (normalizedHref === "/blog" && normalizedPathname.startsWith("/blogs"))
+    return true;
+
+  if (href !== "/" && normalizedPathname.startsWith(normalizedHref + "/"))
+    return true;
   return false;
 };
 ---
 
-<div id="menu-backdrop" class="hidden fixed inset-0 bg-black/50 z-40 md:hidden"></div>
+<div id="menu-backdrop" class="hidden fixed inset-0 bg-black/50 z-40 md:hidden">
+</div>
 
 <!-- Drawer -->
-<div id="main-menu" class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-black z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:w-auto md:h-auto md:block md:mx-auto md:text-center">
+<div
+  id="main-menu"
+  class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-black z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:w-auto md:h-auto md:block md:mx-auto md:text-center"
+>
   <!-- Close button -->
   <button
     id="close-menu-button"
     class="md:hidden absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-black dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
     aria-label="Close menu"
   >
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    <svg
+      class="w-6 h-6"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"></path>
     </svg>
   </button>
-  <div class="mt-16 md:mt-0 flex flex-col h-full md:flex-row md:h-auto md:items-center md:justify-center">
+  <div
+    class="mt-16 md:mt-0 flex flex-col h-full md:flex-row md:h-auto md:items-center md:justify-center"
+  >
     {
       pages.map((page) => (
         <a
           href={page.href}
           data-astro-prefetch
           class={`anton-nav block text-center py-2.5 text-xl md:inline-block md:px-5 md:py-4 text-black dark:text-white
-          ${isActive(page.href)
-            ? "underline"
-            : "hover:text-gray-600 dark:hover:text-gray-300"
+          ${
+            isActive(page.href)
+              ? "underline"
+              : "hover:text-gray-600 dark:hover:text-gray-300"
           }`}
         >
           {page.label}

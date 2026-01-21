@@ -1,5 +1,6 @@
 ---
 import type { Post } from "../types";
+import BlogPostCard from "./BlogPostCard.astro";
 
 interface Props {
   allPosts: Post[];
@@ -11,10 +12,8 @@ const { allPosts } = Astro.props as Props;
 <ul>
   {
     allPosts.map((post) => (
-      <li>
-        <a href={post.url} data-astro-prefetch>
-          {post.frontmatter.title}
-        </a>
+      <li class="my-4">
+        <BlogPostCard post={post} />
       </li>
     ))
   }

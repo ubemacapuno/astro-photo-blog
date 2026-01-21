@@ -1,15 +1,10 @@
+import type { z } from "astro/zod";
+import type { blogSchema } from "./content/config";
+
+export type BlogFrontmatter = z.infer<typeof blogSchema>;
+
 export type Post = {
-  frontmatter: {
-    title: string;
-    author: string;
-    description: string;
-    pubDate: Date;
-    image: {
-      url: string;
-      alt: string;
-    };
-    tags?: string[];
-  };
+  frontmatter: BlogFrontmatter;
   url: string;
 };
 

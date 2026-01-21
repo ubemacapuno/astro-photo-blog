@@ -3,29 +3,32 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 
-const pageTitle = "My Astro Learning Blog";
+const pageTitle = "Blog Posts";
 const allPosts = await getCollection("blog");
 
-// Sort posts by pubDate (newest first)
-const sortedPosts = allPosts.sort((a, b) => 
-  b.data.pubDate.getTime() - a.data.pubDate.getTime()
+// Sort posts by pub_date (newest first)
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pub_date.getTime() - a.data.pub_date.getTime(),
 );
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <p>This is where I will post about my journey learning Astro.</p>
-  <BlogPost allPosts={sortedPosts.map((blog) => ({
-    url: `/blogs/${blog.id}/`,
-    frontmatter: {
-      title: blog.data.title,
-      author: blog.data.author,
-      description: blog.data.description,
-      pubDate: blog.data.pubDate,
-      image: blog.data.image,
-      tags: blog.data.tags,
-    },
-  }))} /> 
-  <!-- some sort of non-intrusive divider using tailwind -->
+  <BlogPost
+    allPosts={sortedPosts.map((blog) => ({
+      url: `/blogs/${blog.id}/`,
+      frontmatter: {
+        title: blog.data.title,
+        author: blog.data.author,
+        description: blog.data.description,
+        pub_date: blog.data.pub_date,
+        image: blog.data.image,
+        tags: blog.data.tags,
+      },
+    }))}
+  />
+
   <div class="border-t border-gray-200 my-4"></div>
+
   <a href="/tags"># Tags</a>
 </BaseLayout>
