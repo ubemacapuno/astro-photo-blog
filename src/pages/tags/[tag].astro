@@ -15,8 +15,10 @@ export async function getStaticPaths() {
       author: post.data.author,
       description: post.data.description,
       pub_date: post.data.pub_date,
+      type: post.data.type,
       image: post.data.image,
       tags: post.data.tags,
+      photo_date: post.data.photo_date,
     },
   }));
 
