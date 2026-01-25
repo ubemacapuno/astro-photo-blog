@@ -2,14 +2,18 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogPost from "../../components/BlogPost.astro";
+import Tag from "../../components/Tag.astro";
+
 import type { Post } from "../../types";
+
+export const prerender = true;
 
 export async function getStaticPaths() {
   const allPosts = await getCollection("blog");
 
   // Convert content collection entries to Post format
   const posts: Post[] = allPosts.map((post) => ({
-    url: `/posts/${post.id}/`,
+    url: `/blogs/${post.id}/`,
     frontmatter: {
       title: post.data.title,
       author: post.data.author,
@@ -52,6 +56,6 @@ const filteredPosts: Post[] = posts.filter((post) =>
 ---
 
 <BaseLayout pageTitle={`#${tag}`}>
-  <p>Posts tagged with #{tag}</p>
+  <p>Posts tagged with <Tag {tag} /></p>
   <BlogPost allPosts={filteredPosts} />
 </BaseLayout>

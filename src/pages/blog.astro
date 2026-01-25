@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
+import Tag from "../components/Tag.astro";
 
 const pageTitle = "Blog Posts";
 const allPosts = await getCollection("blog");
@@ -12,8 +13,7 @@ const sortedPosts = allPosts.sort(
 );
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <p>This is where I will post about my journey learning Astro.</p>
+<BaseLayout {pageTitle}>
   <BlogPost
     allPosts={sortedPosts.map((blog) => ({
       url: `/blogs/${blog.id}/`,
@@ -32,5 +32,5 @@ const sortedPosts = allPosts.sort(
 
   <div class="border-t border-gray-200 my-4"></div>
 
-  <a href="/tags"># Tags</a>
+  <Tag tag={"tag"} link="tags" />
 </BaseLayout>

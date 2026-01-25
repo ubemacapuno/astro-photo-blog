@@ -1,0 +1,20 @@
+---
+const { tag, link } = Astro.props;
+---
+
+<a
+  href={link ? `/${link}` : `/tags/${tag}`}
+  data-astro-prefetch
+  class="h-5 gap-1 rounded-4xl border px-2 py-0.5 text-xs font-medium tag-link bg-gray-300 text-black! no-underline! m-1"
+>
+  #{tag}
+</a>
+
+<style>
+  .tag-link {
+    color: white;
+  }
+  .dark .tag-link {
+    color: black;
+  }
+</style>
