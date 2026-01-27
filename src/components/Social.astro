@@ -1,6 +1,6 @@
 ---
 import { Icon } from 'astro-icon/components'
-const { platform, username } = Astro.props;
+const { platform, username, size, color } = Astro.props;
 ---
 <!-- Refactor to use Icon like <Icon name="mdi:linkedin" /> -->
 <a
@@ -9,6 +9,7 @@ const { platform, username } = Astro.props;
 >
   <Icon 
   name={`mdi:${platform}`}
-  size={24}
+  size={size ? size : 24}
+  color={color ? color : "currentColor"}
    />
 </a>

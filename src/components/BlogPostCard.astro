@@ -15,8 +15,8 @@ const { post } = Astro.props as Props;
     <div class="flex-1">
       <h2 class="text-lg font-bold">{post.frontmatter.title}</h2>
       <p class="text-sm">{post.frontmatter.pub_date.toDateString()}</p>
-      <p class="text-sm text-gray-500">{post.frontmatter.type}</p>
-      <p class="text-sm text-gray-500">{post.frontmatter.description}</p>
+      <p class="text-xs text-gray-500">{post.frontmatter.type}</p>
+      <p class="text-sm">{post.frontmatter.description}</p>
     </div>
     <div class="flex-1">
       <img

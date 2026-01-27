@@ -101,7 +101,7 @@ async function handleSubmit(event: Event) {
     <button
       type="submit"
       :disabled="status === 'submitting' || status === 'success'"
-      class="border-2 border-black p-2 w-full"
+      class="border-2 dark:border-black border-white text-white p-2 w-full bg-red-500"
     >
       {{ status === "submitting" ? "Sending..." : status === "success" ? "Sent!" : "Send" }}
     </button>

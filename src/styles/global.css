@@ -16,6 +16,7 @@
   --color-nav-text: #ffffff;
   --color-nav-hover: #333333;
   --color-nav-active: #000000;
+  --color-line-primary: #757575;
 
   /* neo-brutalism theme colors  */
   --color-accent: #ff9776;
@@ -68,6 +69,7 @@
   --color-nav-text: #000000;
   --color-nav-hover: #cccccc;
   --color-nav-active: #ffffff;
+  --color-line-primary: #757575;
 }
 
 /* Base styles */
@@ -99,6 +101,12 @@ main a {
 
 main a:hover {
   text-decoration: italic;
+}
+
+input, textarea {
+  border: 2px solid var(--color-line-primary);
+  padding: 0.5rem;
+  width: 100%;
 }
 
 .anton-regular {
