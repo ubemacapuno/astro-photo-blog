@@ -12,3 +12,29 @@ export type CarouselImage = {
   src: string;
   alt: string;
 };
+
+export type TechStack =
+  | "TypeScript"
+  | "JavaScript"
+  | "React"
+  | "Svelte"
+  | "Vue"
+  | "Astro"
+  | "TailwindCSS"
+  | "PostCSS"
+  | "MongoDB"
+  | "Python"
+  | "CSS"
+  | "Three.js"
+  | "PocketBase";
+
+export type GitHubCard = {
+  name: string;
+  description: string;
+  stars: number;
+  forks: number;
+  stack: TechStack[];
+  url: string;
+  image?: string;
+  image_alt?: string;
+};

@@ -22,41 +22,59 @@
   --color-accent: #ff9776;
 
   /* Neo-brutalism colors - Violet */
-  --color-violet-100: #A5B4FB;
-  --color-violet-200: #A8A6FF;
+  --color-violet-100: #a5b4fb;
+  --color-violet-200: #a8a6ff;
   --color-violet-300: #918efa;
   --color-violet-400: #807dfa;
 
   /* Neo-brutalism colors - Pink */
-  --color-pink-200: #FFA6F6;
+  --color-pink-200: #ffa6f6;
   --color-pink-300: #fa8cef;
   --color-pink-400: #fa7fee;
 
   /* Neo-brutalism colors - Red */
-  --color-red-200: #FF9F9F;
+  --color-red-200: #ff9f9f;
   --color-red-300: #fa7a7a;
   --color-red-400: #f76363;
 
   /* Neo-brutalism colors - Orange */
-  --color-orange-200: #FFC29F;
-  --color-orange-300: #FF965B;
+  --color-orange-200: #ffc29f;
+  --color-orange-300: #ff965b;
   --color-orange-400: #fa8543;
 
   /* Neo-brutalism colors - Yellow */
-  --color-yellow-200: #FFF59F;
-  --color-yellow-300: #FFF066;
-  --color-yellow-400: #FFE500;
+  --color-yellow-200: #fff59f;
+  --color-yellow-300: #fff066;
+  --color-yellow-400: #ffe500;
 
   /* Neo-brutalism colors - Lime */
   --color-lime-100: #c6fab4;
-  --color-lime-200: #B8FF9F;
+  --color-lime-200: #b8ff9f;
   --color-lime-300: #9dfc7c;
   --color-lime-400: #7df752;
 
   /* Neo-brutalism colors - Cyan */
-  --color-cyan-200: #A6FAFF;
-  --color-cyan-300: #79F7FF;
+  --color-cyan-200: #a6faff;
+  --color-cyan-300: #79f7ff;
   --color-cyan-400: #53f2fc;
+}
+
+/* GitHub Language Colors */
+:root {
+  --javascript: #f1e05a;
+  --typescript: #3178c6;
+  --react: #61dafb;
+  --svelte: #ff3e00;
+  --python: #3572a5;
+  --astro: #f75a00;
+  --css: #563d7c;
+  --scss: #c6538c;
+  --postcss: #dd3a0a;
+  --tailwindcss: #06b6d4;
+  --mongodb: #13aa52;
+  --vue: #3fb27e;
+  --pocketbase: #ecbdb7;
+  --threejs: #049ef4;
 }
 
 /* Dark mode colors */
@@ -76,9 +94,16 @@
 html {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
-  font-family: "Overpass", "Inter", "SF Pro Display", -apple-system,
-  BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  }
+  font-family:
+    "Overpass",
+    "Inter",
+    "SF Pro Display",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+}
 
 body {
   margin: 0 auto;
@@ -103,7 +128,8 @@ main a:hover {
   text-decoration: italic;
 }
 
-input, textarea {
+input,
+textarea {
   border: 2px solid var(--color-line-primary);
   padding: 0.5rem;
   width: 100%;

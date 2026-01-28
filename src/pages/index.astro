@@ -1,6 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ImageCarousel from "../components/vue/ImageCarousel.vue";
+import GitHubCard from "../components/GitHubCard.astro";
+import { projects } from "../consts";
 import type { CarouselImage } from "../types";
 
 const pageTitle = "";
@@ -71,6 +73,16 @@ const carouselImages = shuffleArray(baseCarouselImages);
         </small>
       </div>
     </div>
+  </section>
+  <section class="flex flex-col mt-12">
+    <h2 class="text-3xl font-bold">Projects 🧑🏾‍💻</h2>
+    {
+      projects.map((project) => (
+        <div class="my-2">
+          <GitHubCard gitHubCard={project} />
+        </div>
+      ))
+    }
   </section>
 </BaseLayout>
 

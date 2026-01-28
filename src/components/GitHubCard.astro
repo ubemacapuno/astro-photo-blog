@@ -1,0 +1,73 @@
+---
+import { Icon } from "astro-icon/components";
+import type { GitHubCard } from "../types";
+import { languageColors } from "../consts";
+
+interface Props {
+  gitHubCard: GitHubCard;
+}
+
+const { gitHubCard } = Astro.props as Props;
+const DEFAULT_LANGUAGE_COLOR = "var(--color-line-primary)";
+const languages = gitHubCard.stack.map((language) => ({
+  language,
+  color: languageColors[language] ?? DEFAULT_LANGUAGE_COLOR,
+}));
+const showStars = gitHubCard.stars > 0;
+const showForks = gitHubCard.forks > 1;
+---
+
+<a href={gitHubCard.url} data-astro-prefetch class="blog-card-link block">
+  <div
+    class="border border-gray-200 p-4 flex flex-col md:flex-row hover:border-red-600 transition-colors"
+  >
+    <div class="flex-1">
+      <h2 class="text-lg font-bold">{gitHubCard.name}</h2>
+      <p class="text-sm">{gitHubCard.description}</p>
+      <div class="flex justify-between">
+        <div class="flex flex-wrap gap-1.5 mt-2">
+          {
+            languages.map(({ language, color }) => (
+              <div class="flex gap-1.5 px-1">
+                <span
+                  class="rounded-full px-2 py-0.5 text-xs font-medium"
+                  style={`background-color: ${color}`}
+                />
+                <p class="text-xs text-gray-500">{language}</p>
+              </div>
+            ))
+          }
+        </div>
+        {
+          (showStars || showForks) && (
+            <p class="text-xs text-gray-500 flex items-center gap-2">
+              {showStars && (
+                <span class="flex items-center gap-0.5">
+                  <Icon name="mdi:star" size={14} />
+                  {gitHubCard.stars}
+                </span>
+              )}
+              {showForks && (
+                <span class="flex items-center gap-0.5">
+                  <Icon name="mdi:source-fork" size={14} />
+                  {gitHubCard.forks}
+                </span>
+              )}
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</a>
+
+<style>
+  .blog-card-link {
+    text-decoration: none;
+    font-weight: normal;
+  }
+
+  .blog-card-link:hover {
+    text-decoration: none;
+  }
+</style>
