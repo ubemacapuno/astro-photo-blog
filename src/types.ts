@@ -26,7 +26,8 @@ export type TechStack =
   | "Python"
   | "CSS"
   | "Three.js"
-  | "PocketBase";
+  | "PocketBase"
+  | "Vite";
 
 export type GitHubCard = {
   name: string;

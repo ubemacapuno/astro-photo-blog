@@ -1,0 +1,50 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  robots?: string;
+  structuredData?: Record<string, any>;
+}
+
+// Defaults
+const {
+  title,
+  description,
+  url,
+  image,
+  robots = "index, follow",
+  structuredData,
+} = Astro.props;
+
+const hasJsonLd = structuredData && Object.keys(structuredData).length > 0;
+---
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="robots" content={robots} />
+
+<!-- Canonical -->
+<link rel="canonical" href={url} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={url} />
+{image && <meta property="og:image" content={image} />}
+
+<!-- Twitter -->
+<meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+{image && <meta name="twitter:image" content={image} />}
+
+<!-- Structured Data (JSON-LD) -->
+{hasJsonLd && (
+  <script type="application/ld+json" is:inline>
+    {JSON.stringify(structuredData, null, 2)}
+  </script>
+)}

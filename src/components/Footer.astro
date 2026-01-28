@@ -16,6 +16,10 @@ const socialLinks = [
     }
   </div>
   <p class="text-sm text-gray-500">
-    © {`2025 - ${new Date().getFullYear()}`}
+    © {
+      new Date().getFullYear() === 2026
+        ? "2026"
+        : `2026 - ${new Date().getFullYear()}`
+    }
   </p>
 </footer>

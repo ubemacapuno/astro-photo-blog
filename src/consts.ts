@@ -15,13 +15,14 @@ export const languageColors: Partial<Record<TechStack, string>> = {
   CSS: "var(--css)",
   "Three.js": "var(--threejs)",
   PocketBase: "var(--pocketbase)",
+  Vite: "var(--vite)",
 };
 
 export const projects: GitHubCard[] = [
   {
     name: "this-blog!",
     description:
-      "An Astro blog site with Vue components to show off my projects, photos, and thoughts.",
+      "This site you're currently on, utilizing Astro with Vue to show off my projects, photos, and thoughts.",
     stars: 0,
     forks: 0,
     stack: ["Astro", "Vue", "TailwindCSS"],
@@ -42,7 +43,7 @@ export const projects: GitHubCard[] = [
       "A simple STEP viewer for CAD users and 3D modelers, built with Svelte / TypeScript / Three.js / occt-import-js.",
     stars: 6,
     forks: 3,
-    stack: ["Svelte","TypeScript", "Three.js"],
+    stack: ["Three.js", "Svelte", "TypeScript", "PostCSS"],
     url: "https://github.com/ubemacapuno/svelte-step-bro",
   },
   {
@@ -60,7 +61,7 @@ export const projects: GitHubCard[] = [
       "Pokémon weather UI dashboard to display on my Raspberry Pi. Powered by React, Vite, and OpenWeather API ⚡️.",
     stars: 0,
     forks: 0,
-    stack: ["React"],
+    stack: ["React", "Vite"],
     url: "https://github.com/ubemacapuno/pokemon-pi-dashboard?tab=readme-ov-file",
   },
   {

@@ -1,11 +1,20 @@
 ---
+import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import BlogPost from "../components/BlogPost.astro";
 import ImageCarousel from "../components/vue/ImageCarousel.vue";
 import GitHubCard from "../components/GitHubCard.astro";
+import SEO from "../components/SEO.astro";
 import { projects } from "../consts";
 import type { CarouselImage } from "../types";
+import { Icon } from "astro-icon/components";
+
+// SEO
+const SITE_URL = "https://testblogblogblog.com";
+const image = "public/images/hero-1.jpg";
 
 const pageTitle = "";
+const allPosts = await getCollection("blog");
 
 function shuffleArray<T>(array: T[]): T[] {
   const shuffled = [...array];
@@ -29,7 +38,26 @@ const baseCarouselImages: CarouselImage[] = [
 ];
 
 const carouselImages = shuffleArray(baseCarouselImages);
+
+// Sort posts by pub_date (newest first)
+const sortedPosts = allPosts.sort(
+  (a, b) => b.data.pub_date.getTime() - a.data.pub_date.getTime(),
+);
 ---
+
+<SEO
+  title="Corey Damocles - Developer and Photographer"
+  description="Corey Damocles is a software developer and photographer who specializes in building web applications and film photography."
+  url={`${SITE_URL}${Astro.url.pathname}`}
+  image={image}
+  structuredData={{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Corey Damocles",
+    url: SITE_URL,
+    logo: `${SITE_URL}/favicon.svg`,
+  }}
+/>
 
 <BaseLayout {pageTitle}>
   <section
@@ -74,8 +102,40 @@ const carouselImages = shuffleArray(baseCarouselImages);
       </div>
     </div>
   </section>
-  <section class="flex flex-col mt-12">
-    <h2 class="text-3xl font-bold">Projects 🧑🏾‍💻</h2>
+
+  <section class="flex flex-col mt-36">
+    <div class="flex justify-between">
+      <h2 class="text-3xl font-bold">Featured Articles</h2>
+      <a href="/blog" data-astro-prefetch aria-label="Link to Blogs"></a>
+      <Icon name="mdi:newspaper-variant" size={36} />
+    </div>
+    <BlogPost
+      allPosts={sortedPosts.slice(0, 2).map((blog) => ({
+        url: `/blogs/${blog.id}/`,
+        frontmatter: {
+          title: blog.data.title,
+          author: blog.data.author,
+          description: blog.data.description,
+          pub_date: blog.data.pub_date,
+          type: blog.data.type,
+          image: blog.data.image,
+          tags: blog.data.tags,
+          photo_date: blog.data.photo_date,
+        },
+      }))}
+    />
+  </section>
+
+  <section class="flex flex-col mt-36">
+    <div class="flex justify-between">
+      <h2 class="text-3xl font-bold">Projects on GitHub</h2>
+      <a
+        href="https://www.github.com/ubemacapuno"
+        aria-label="Link to GitHub profile"
+      >
+        <Icon name="mdi:github" size={36} />
+      </a>
+    </div>
     {
       projects.map((project) => (
         <div class="my-2">
@@ -84,68 +144,68 @@ const carouselImages = shuffleArray(baseCarouselImages);
       ))
     }
   </section>
-</BaseLayout>
 
-<script>
-  const FADE_DURATION_MS = 9 * 3450; // can't import globals.ts here, so hardcode the value
-  const FADE_GROUP = "hero-title";
+  <script>
+    const FADE_DURATION_MS = 9 * 3450; // can't import globals.ts here, so hardcode the value
+    const FADE_GROUP = "hero-title";
 
-  let isHidden = false;
-  let restoreTimeout: ReturnType<typeof setTimeout> | null = null;
+    let isHidden = false;
+    let restoreTimeout: ReturnType<typeof setTimeout> | null = null;
 
-  const titleElements = document.querySelectorAll<HTMLElement>(
-    `[data-fade-group="${FADE_GROUP}"]`,
-  );
-  const bar = document.getElementById("fade-progress-bar");
+    const titleElements = document.querySelectorAll<HTMLElement>(
+      `[data-fade-group="${FADE_GROUP}"]`,
+    );
+    const bar = document.getElementById("fade-progress-bar");
 
-  const setTitleOpacity = (value: string) => {
-    const hidden = value === "0";
-    titleElements.forEach((el) => {
-      el.style.opacity = value;
-      el.style.pointerEvents = hidden ? "none" : "auto";
-      el.setAttribute("aria-hidden", String(hidden));
-    });
-  };
-
-  document.getElementById("corey-damocles")?.addEventListener("click", () => {
-    if (isHidden || bar === null) return;
-    if (restoreTimeout !== null) clearTimeout(restoreTimeout);
-
-    isHidden = true;
-    setTitleOpacity("0");
-
-    bar.hidden = false;
-    bar.setAttribute("aria-hidden", "false");
-    bar.style.transitionDuration = `${FADE_DURATION_MS}ms`;
-    bar.style.transform = "scaleX(1)";
-
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bar.style.transform = "scaleX(0)";
+    const setTitleOpacity = (value: string) => {
+      const hidden = value === "0";
+      titleElements.forEach((el) => {
+        el.style.opacity = value;
+        el.style.pointerEvents = hidden ? "none" : "auto";
+        el.setAttribute("aria-hidden", String(hidden));
       });
-    });
+    };
 
-    restoreTimeout = setTimeout(() => {
-      setTitleOpacity("1");
-      isHidden = false;
-      bar.hidden = true;
-      bar.setAttribute("aria-hidden", "true");
+    document.getElementById("corey-damocles")?.addEventListener("click", () => {
+      if (isHidden || bar === null) return;
+      if (restoreTimeout !== null) clearTimeout(restoreTimeout);
+
+      isHidden = true;
+      setTitleOpacity("0");
+
+      bar.hidden = false;
+      bar.setAttribute("aria-hidden", "false");
+      bar.style.transitionDuration = `${FADE_DURATION_MS}ms`;
       bar.style.transform = "scaleX(1)";
-      restoreTimeout = null;
-    }, FADE_DURATION_MS);
-  });
-</script>
 
-<style>
-  .fade-progress-bar {
-    position: absolute;
-    top: 100%;
-    inset-inline: 0;
-    height: 4px;
-    background-color: #dc2626;
-    transform-origin: center;
-    transform: scaleX(1);
-    transition: transform linear;
-    pointer-events: none;
-  }
-</style>
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          bar.style.transform = "scaleX(0)";
+        });
+      });
+
+      restoreTimeout = setTimeout(() => {
+        setTitleOpacity("1");
+        isHidden = false;
+        bar.hidden = true;
+        bar.setAttribute("aria-hidden", "true");
+        bar.style.transform = "scaleX(1)";
+        restoreTimeout = null;
+      }, FADE_DURATION_MS);
+    });
+  </script>
+
+  <style>
+    .fade-progress-bar {
+      position: absolute;
+      top: 100%;
+      inset-inline: 0;
+      height: 4px;
+      background-color: #dc2626;
+      transform-origin: center;
+      transform: scaleX(1);
+      transition: transform linear;
+      pointer-events: none;
+    }
+  </style>
+</BaseLayout>

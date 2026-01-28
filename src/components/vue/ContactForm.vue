@@ -9,7 +9,7 @@ const form = reactive({
 
 const status = ref<"idle" | "submitting" | "success" | "error">("idle");
 const errorMessage = ref("");
-const maxTextAreaLength = 1000;
+const maxTextAreaLength = 500;
 
 async function handleSubmit(event: Event) {
   event.preventDefault();
@@ -23,9 +23,9 @@ async function handleSubmit(event: Event) {
     return false;
   }
 
-  if (form.message.trim().length > 1000) {
+  if (form.message.trim().length > maxTextAreaLength) {
     status.value = "error";
-    errorMessage.value = "Message must be 1000 characters or less";
+    errorMessage.value = `Message must be ${maxTextAreaLength} characters or less`;
     return false;
   }
 
@@ -105,14 +105,19 @@ async function handleSubmit(event: Event) {
         :maxlength="maxTextAreaLength"
       />
       <p class="text-sm text-gray-500">
-        {{ form.message.length }}/1000 Characters
+        {{ form.message.length }}/{{ maxTextAreaLength }} Characters
       </p>
     </div>
 
     <button
       type="submit"
       :disabled="status === 'submitting' || status === 'success'"
-      class="border-2 dark:border-black border-white text-white p-2 w-full bg-red-500 cursor-pointer hover:bg-red-800"
+      :class="[
+        'border-2 dark:border-black border-white text-white p-2 w-full bg-red-500',
+        status === 'submitting' || status === 'success'
+          ? 'cursor-not-allowed opacity-60'
+          : 'cursor-pointer hover:bg-red-800',
+      ]"
     >
       {{
         status === "submitting"
