@@ -19,7 +19,7 @@ const closeMenu = () => {
 
 menuButton?.addEventListener("click", () => {
   const isExpanded = menuButton.getAttribute("aria-expanded") === "true";
-  
+
   if (isExpanded) {
     closeMenu();
   } else {
@@ -37,9 +37,23 @@ closeMenuButton?.addEventListener("click", () => {
   closeMenu();
 });
 
+// Close menu when clicking menu buttons
+mainMenu?.addEventListener("click", (e) => {
+  const target = e.target.closest("a");
+
+  if (!target) return;
+
+  if (menuButton?.getAttribute("aria-expanded") === "true") {
+    closeMenu();
+  }
+});
+
 // Close menu on escape key
 document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape" && menuButton?.getAttribute("aria-expanded") === "true") {
+  if (
+    e.key === "Escape" &&
+    menuButton?.getAttribute("aria-expanded") === "true"
+  ) {
     closeMenu();
   }
 });
