@@ -9,16 +9,23 @@ const form = reactive({
 
 const status = ref<"idle" | "submitting" | "success" | "error">("idle");
 const errorMessage = ref("");
+const maxTextAreaLength = 1000;
 
 async function handleSubmit(event: Event) {
   event.preventDefault();
   event.stopPropagation();
-  
+
   if (status.value === "submitting") return false;
 
   if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
     status.value = "error";
     errorMessage.value = "Please fill in all fields";
+    return false;
+  }
+
+  if (form.message.trim().length > 1000) {
+    status.value = "error";
+    errorMessage.value = "Message must be 1000 characters or less";
     return false;
   }
 
@@ -95,20 +102,28 @@ async function handleSubmit(event: Event) {
         required
         rows="5"
         class="border-2 border-black p-2 w-full"
+        :maxlength="maxTextAreaLength"
       />
+      <p class="text-sm text-gray-500">
+        {{ form.message.length }}/1000 Characters
+      </p>
     </div>
 
     <button
       type="submit"
       :disabled="status === 'submitting' || status === 'success'"
-      class="border-2 dark:border-black border-white text-white p-2 w-full bg-red-500"
+      class="border-2 dark:border-black border-white text-white p-2 w-full bg-red-500 cursor-pointer hover:bg-red-800"
     >
-      {{ status === "submitting" ? "Sending..." : status === "success" ? "Sent!" : "Send" }}
+      {{
+        status === "submitting"
+          ? "Sending..."
+          : status === "success"
+            ? "Sent!"
+            : "Send"
+      }}
     </button>
 
-    <p v-if="status === 'success'" class="text-green-600">
-      Sent successfully!
-    </p>
+    <p v-if="status === 'success'" class="text-green-600">Sent successfully!</p>
 
     <p v-if="status === 'error'" class="text-red-600">
       {{ errorMessage || "Failed to send message" }}
