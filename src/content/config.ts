@@ -9,6 +9,7 @@ export const blogSchema = z.object({
   description: z.string(),
   type: z.enum(["photography", "dev"]),
   author: z.string(),
+  location: z.string().optional(),
   image: z.object({
     url: z.string(),
     alt: z.string(),

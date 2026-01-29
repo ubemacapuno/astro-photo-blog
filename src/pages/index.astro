@@ -103,11 +103,12 @@ const sortedPosts = allPosts.sort(
     </div>
   </section>
 
-  <section class="flex flex-col mt-36">
+  <section class="flex flex-col mt-24">
     <div class="flex justify-between">
       <h2 class="text-3xl font-bold">Featured Articles</h2>
-      <a href="/blog" data-astro-prefetch aria-label="Link to Blogs"></a>
-      <Icon name="mdi:newspaper-variant" size={36} />
+      <a href="/blog" data-astro-prefetch aria-label="Link to Blogs">
+        <Icon name="mdi:newspaper-variant" size={36} />
+      </a>
     </div>
     <BlogPost
       allPosts={sortedPosts.slice(0, 2).map((blog) => ({
@@ -126,7 +127,7 @@ const sortedPosts = allPosts.sort(
     />
   </section>
 
-  <section class="flex flex-col mt-36">
+  <section class="flex flex-col mt-12">
     <div class="flex justify-between">
       <h2 class="text-3xl font-bold">Projects on GitHub</h2>
       <a
