@@ -1,6 +1,6 @@
 {
 	"main": "dist/_worker.js/index.js",
-	"name": "my-blog",
+	"name": "astro-photo-blog",
 	"routes": [
 		{ "pattern": "coreydamocles.com/*", "zone_name": "coreydamocles.com" },
 		{ "pattern": "www.coreydamocles.com/*", "zone_name": "coreydamocles.com" }
