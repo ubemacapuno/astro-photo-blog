@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "build:cloudflare": "CLOUDFLARE=true astro build",
-    "preview": "astro preview",
+    "preview": "wrangler dev",
     "astro": "astro",
     "check": "astro check"
   },
