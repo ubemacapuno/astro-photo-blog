@@ -1,3 +1,3 @@
-export const AUTO_PLAY_INTERVAL = 3450;
+export const AUTO_PLAY_INTERVAL = 3050;
 export const TRANSITION_DURATION = 800;
 export const DELAY_AFTER_TRANSITION = 50;
