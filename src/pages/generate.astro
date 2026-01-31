@@ -1,0 +1,15 @@
+---
+import CloudinaryFormatter from "../components/vue/CloudinaryFormatter.vue";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const pageTitle = "Cloudinary Formatter";
+---
+
+<BaseLayout {pageTitle}>
+  <CloudinaryFormatter client:load />
+
+  <p class="my-4">
+    See my blog post <a href="/blog/post-1" class="link">here</a> for my breakdown
+    of this tool!
+  </p>
+</BaseLayout>

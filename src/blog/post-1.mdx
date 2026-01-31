@@ -1,33 +1,76 @@
 ---
-title: "My First Blog Post"
-pub_date: 2022-07-01
-description: "This is the first post of my new Astro blog."
+title: "A Formatter Tool for My Markdown Images"
+pub_date: 2026-01-31
+description: "My first dev blog post. A formatter I made for this site!"
 type: "dev"
-author: "Astro Learner"
+author: "Corey Damocles"
 image:
   url: "https://docs.astro.build/assets/rose.webp"
   alt: "The Astro logo on a dark background with a pink glow."
-tags: ["astro", "blogging", "learning in public"]
+tags: ["learning in public"]
 ---
 
-import Greeting from "../components/vue/Greeting.vue";
-import Button from "../components/Button.astro";
+import CloudinaryFormatter from "../components/vue/CloudinaryFormatter.vue";
 
-# My First Blog Post
+### How I use Cloudinary for my photos - and the issues I ran into
 
-Welcome to my _new blog_ about learning Astro! Here, I will share my learning journey as I build a new website.
+Cloudinary is a popular image-hosting site that I decided to use for my photos. For my current workflow, I upload my photos to Cloudinary, then grab the URLs from Cloudinary and reference them on my pages and blogs throughout this site.
 
-## What I've accomplished
+<br />
 
-1. **Installing Astro**: First, I created a new Astro project and set up my online accounts.
+The reason I made this formatter is because it's kind of a pain to copy a single URL off Cloudinary, paste it into my markdown file, then manually add the transformations and add `[](url)`, add `<br />` tags, etc. I intend to paste several images in a row, so I made this tool to help me out. With this tool, I can just copy and paste a bunch of URLs, and it will generate the markdown for me, with the transformations and `<br />` tags already added.
 
-2. **Making Pages**: I then learned how to make pages by creating new `.astro` files and placing them in the `src/pages/` folder.
+<br />
 
-3. **Making Blog Posts**: This is my first blog post! I now have Astro pages and Markdown posts!
+**Example of raw Cloudinary URLs:**
 
-## What's next
+```
+https://res.cloudinary.com/dntiqucwf/image/upload/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8c.jpg
+https://res.cloudinary.com/dntiqucwf/image/upload/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8d.jpg
+```
 
-I will finish the Astro tutorial, and then keep adding more posts. Watch this space for more to come.
+<br />
+<br />
 
-<Greeting client:load messages={["Hej", "Hallo", "Hola", "Habari"]} />
-<Button />
+**Example of formatted Cloudinary URLs:**
+
+```
+![Image - update this text](https://res.cloudinary.com/dntiqucwf/image/upload/f_auto,q_auto,w_1200,c_limit/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8c.jpg)<br />
+![Image - update this text](https://res.cloudinary.com/dntiqucwf/image/upload/f_auto,q_auto,w_1200,c_limit/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8d.jpg)<br />
+
+```
+
+<br />
+**Why Cloudinary instead of dropping everything within this app in the `public/`
+folder?**{" "}
+
+<br />
+
+I didn't want to bloat the repo with big assets, and I wanted a CDN so images
+load fast everywhere. Plus Cloudinary can resize and re-encode on the fly. One upload,
+many sizes and formats without me doing the work.
+
+<br />
+
+I plan to build out an image component in the future, in which case I could probably just paste in the URLs and have the parser logic in that component, but for now, I'm okay just pasting markdown images with `<br />` tags.
+
+<br />
+
+For transformations, I use `f_auto` (best format per browser), `q_auto` (auto quality), `w_1200` (max width), and `c_limit` (scale down, never up). That means smaller payloads, better layout control, and no manual resizing!
+
+<br />
+
+The parser is pretty dumb but gets the job done. I'm essentially just splitting the input on newlines, then applying the transformations to each line, and then joining the lines back together. You can see the Vue component code [here](https://github.com/ubemacapuno/astro-photo-blog/blob/main/src/components/vue/CloudinaryFormatter.vue). I used [refs](https://vuejs.org/guide/essentials/template-refs) to store the input and output, and a boolean to track if any lines were skipped.
+
+<br />
+
+Anyways, I hope to write more posts like this in the future. Maybe the next one will be about the image component . . . until next time!
+
+<br />
+<br />
+### Demo (you can also see at the [/generate](/generate) page):
+
+<br />
+<br />
+<CloudinaryFormatter client:load />
+```
