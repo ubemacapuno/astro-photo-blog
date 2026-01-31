@@ -1,102 +1,106 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { AUTO_PLAY_INTERVAL, TRANSITION_DURATION, DELAY_AFTER_TRANSITION } from '../../globals';
+import { computed, onMounted, onUnmounted, ref } from "vue";
+import {
+  AUTO_PLAY_INTERVAL,
+  TRANSITION_DURATION,
+  DELAY_AFTER_TRANSITION,
+} from "../../globals";
 
-  interface Props {
-    images: CarouselImage[];
-    autoPlayInterval?: number;
-  }
-  
-  interface CarouselImage {
-    src: string;
-    alt: string;
-  }
-  
-  const props = withDefaults(defineProps<Props>(), {
-    autoPlayInterval: AUTO_PLAY_INTERVAL,
-  });
-  
-  const currentIndex = ref(0);
-  let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
-  const isTransitioning = ref(false);
-  
-  // extended array with duplicates for seamless infinite scroll
-  const extendedImages = computed(() => {
-    if (props.images.length === 0) return [];
-    // Add the first image at the end for seamless transition
-    return [...props.images, props.images[0]];
-  });
-  
-  const nextSlide = () => {
-    // prevent overlapping transitions
-    if (isTransitioning.value) return;
-  
-    isTransitioning.value = true;
+interface Props {
+  images: CarouselImage[];
+  autoPlayInterval?: number;
+}
 
-    // move to next image
-    currentIndex.value++;
-  
-    // loop back when we reach the duplicate image at the end
-    if (currentIndex.value >= props.images.length) {
-      setTimeout(() => {
-        // disable transition and jump back to index 0 (no animation)
-        isTransitioning.value = false;
-        currentIndex.value = 0;
-  
-        // re-enable transitions after brief moment for next slide
-        setTimeout(() => {
-          isTransitioning.value = false;
-        }, DELAY_AFTER_TRANSITION);
-      }, TRANSITION_DURATION); // match the transition duration
-    } else {
-      // normal case: wait for transition to complete, then allow next slide
+interface CarouselImage {
+  src: string;
+  alt: string;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  autoPlayInterval: AUTO_PLAY_INTERVAL,
+});
+
+const currentIndex = ref(0);
+let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
+const isTransitioning = ref(false);
+
+// extended array with duplicates for seamless infinite scroll
+const extendedImages = computed(() => {
+  if (props.images.length === 0) return [];
+  // Add the first image at the end for seamless transition
+  return [...props.images, props.images[0]];
+});
+
+const nextSlide = () => {
+  // prevent overlapping transitions
+  if (isTransitioning.value) return;
+
+  isTransitioning.value = true;
+
+  // move to next image
+  currentIndex.value++;
+
+  // loop back when we reach the duplicate image at the end
+  if (currentIndex.value >= props.images.length) {
+    setTimeout(() => {
+      // disable transition and jump back to index 0 (no animation)
+      isTransitioning.value = false;
+      currentIndex.value = 0;
+
+      // re-enable transitions after brief moment for next slide
       setTimeout(() => {
         isTransitioning.value = false;
-      }, TRANSITION_DURATION);
-    }
-  };
-  
-  const startAutoPlay = () => {
-    if (autoPlayTimer) clearInterval(autoPlayTimer);
-    autoPlayTimer = setInterval(nextSlide, props.autoPlayInterval);
-  };
-  
-  onMounted(() => {
-    if (props.images.length > 1) {
-      startAutoPlay();
-    }
-  });
-  
-  onUnmounted(() => {
-    if (autoPlayTimer) {
-      clearInterval(autoPlayTimer);
-    }
-  });
-  </script>
-  
-  <template>
-    <div class="relative w-[352px] h-[500px] md:w-[415px] md:h-[590px] overflow-hidden">
+      }, DELAY_AFTER_TRANSITION);
+    }, TRANSITION_DURATION); // match the transition duration
+  } else {
+    // normal case: wait for transition to complete, then allow next slide
+    setTimeout(() => {
+      isTransitioning.value = false;
+    }, TRANSITION_DURATION);
+  }
+};
+
+const startAutoPlay = () => {
+  if (autoPlayTimer) clearInterval(autoPlayTimer);
+  autoPlayTimer = setInterval(nextSlide, props.autoPlayInterval);
+};
+
+onMounted(() => {
+  if (props.images.length > 1) {
+    startAutoPlay();
+  }
+});
+
+onUnmounted(() => {
+  if (autoPlayTimer) {
+    clearInterval(autoPlayTimer);
+  }
+});
+</script>
+
+<template>
+  <div class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden">
+    <div
+      class="flex w-full h-full"
+      :style="{
+        transform: `translateX(-${currentIndex * 100}%)`,
+        transition: isTransitioning
+          ? 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
+          : 'none',
+      }"
+    >
       <div
-        class="flex w-full h-full"
-        :style="{
-          transform: `translateX(-${currentIndex * 100}%)`,
-          transition: isTransitioning
-            ? 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)'
-            : 'none',
-        }"
+        v-for="(image, index) in extendedImages"
+        :key="`${index}-${image.src}`"
+        class="min-w-full h-full flex items-center justify-center"
       >
-        <div
-          v-for="(image, index) in extendedImages"
-          :key="`${index}-${image.src}`"
-          class="min-w-full h-full flex items-center justify-center"
-        >
-          <img
-            :src="image.src"
-            :alt="image.alt"
-            class="w-full h-full object-cover object-center"
-            loading="lazy"
-          />
-        </div>
+        <img
+          :src="image.src"
+          :alt="image.alt"
+          class="w-full h-full object-cover object-center"
+          loading="lazy"
+        />
       </div>
     </div>
-  </template>
+  </div>
+</template>
