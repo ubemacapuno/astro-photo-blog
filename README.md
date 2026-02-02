@@ -1,46 +1,63 @@
-# Astro Starter Kit: Basics
+# My Astro Photo Blog
 
-```sh
-pnpm create astro@latest -- --template basics
+A photo blog built with Astro and Vue to learn more about web technologies, share my film photography, and learn in public. Posts are written in MDX so I can drop Vue components straight into the content when I need them. View the website [here](https://www.coreydamocles.com).
+
+## How It's Made
+
+**Tech used:**
+
+- Astro
+- Vue
+- TypeScript
+- TailwindCSS
+- MDX
+- Cloudinary (image hosting)
+- Cloudflare (deploy and edge)
+- Resend (contact form emails)
+
+## Run Locally
+
+Using pnpm:
+
+Install dependencies:
+
+```bash
+pnpm i
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Start the dev server:
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+pnpm run dev
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+Build for production:
 
-## 🧞 Commands
+```bash
+pnpm run build
+```
 
-All commands are run from the root of the project, from a terminal:
+Build for Cloudflare (static + worker):
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+```bash
+pnpm run build:cloudflare
+```
 
-## 👀 Want to learn more?
+Preview the Cloudflare build locally with Wrangler:
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+```bash
+pnpm run preview
+```
+
+To deploy to Cloudflare Pages/Workers, use Wrangler from the project root (e.g. `npx wrangler deploy`). See [wrangler.jsonc](./wrangler.jsonc) for config.
+
+## Things to Add
+
+Create a `.dev.vars` file at the root (copy from [.example.dev.vars](./.example.dev.vars)) and add your Resend keys for the contact form:
+
+```
+RESEND_API_KEY=re_xxxxx
+RESEND_EMAIL_ADDRESS=your@email.com
+```
+
+For production on Cloudflare, set `RESEND_API_KEY` as a secret (`npx wrangler secret put RESEND_API_KEY`) and add `RESEND_EMAIL_ADDRESS` to `vars` in [wrangler.jsonc](./wrangler.jsonc) if you use it there.
