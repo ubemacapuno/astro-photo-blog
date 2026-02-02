@@ -74,3 +74,8 @@ export const projects: GitHubCard[] = [
     url: "https://github.com/ubemacapuno/chrono-core",
   },
 ];
+
+// strip the time and timezone,
+// then rehydrate the date as local midnight (prevents timezone discrepancies)
+export const formatDate = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate()).toDateString();

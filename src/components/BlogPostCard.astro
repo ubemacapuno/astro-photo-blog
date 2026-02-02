@@ -1,4 +1,5 @@
 ---
+import { formatDate } from "../consts";
 import type { Post } from "../types";
 
 interface Props {
@@ -6,11 +7,6 @@ interface Props {
 }
 
 const { post } = Astro.props as Props;
-
-// strip the time and timezone,
-// then rehydrate the date as local midnight (prevents timezone discrepancies)
-const formatDate = (date: Date) =>
-  new Date(date.getFullYear(), date.getMonth(), date.getDate()).toDateString();
 ---
 
 <a href={post.url} data-astro-prefetch class="blog-card-link block">
@@ -18,8 +14,8 @@ const formatDate = (date: Date) =>
     class="border border-gray-200 p-4 flex flex-col md:flex-row hover:border-red-600 transition-colors"
   >
     <div class="flex-1 mb-1">
-      <h2 class="text-lg font-bold">{post.frontmatter.title}</h2>
-      <p class="text-sm">{formatDate(post.frontmatter.pub_date)}</p>
+      <h2 class="text-lg font-bold text-red-600">{post.frontmatter.title}</h2>
+      <p class="text-xs">{formatDate(post.frontmatter.pub_date)}</p>
       <p class="text-sm">{post.frontmatter.description}</p>
       <p class="text-xs text-gray-500">{post.frontmatter.type}</p>
     </div>

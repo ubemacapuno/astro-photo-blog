@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import { Icon } from "@iconify/vue";
 
 /**
  * This component formats Cloudinary URLs into markdown images.
@@ -9,8 +10,8 @@ import { ref } from "vue";
  * https://res.cloudinary.com/dntiqucwf/image/upload/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8d.jpg
  *
  * Example formatted Cloudinary URLs:
- * ![Image - update this text](https://res.cloudinary.com/dntiqucwf/image/upload/f_auto,q_auto,w_1200,c_limit/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8c.jpg)<br />
- * ![Image - update this text](https://res.cloudinary.com/dntiqucwf/image/upload/f_auto,q_auto,w_1200,c_limit/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8d.jpg)<br />
+ * ![UpdateThisText](https://res.cloudinary.com/dntiqucwf/image/upload/f_auto,q_auto,w_1200,c_limit/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8c.jpg)<br />
+ * ![UpdateThisText](https://res.cloudinary.com/dntiqucwf/image/upload/f_auto,q_auto,w_1200,c_limit/v1769666733/20250426%20Justin%20and%20Kim%20Wedding%20NYC/002426-R1-E021_zfpg8d.jpg)<br />
  */
 
 const rawCloudinaryUrlInput = ref("");
@@ -29,14 +30,14 @@ const generateFormattedOutput = () => {
         hasSkippedLines.value = true;
         return null;
       }
-      return `![Image - update this text](${transformedUrl})`;
+      return `![UpdateThisText](${transformedUrl})`;
     })
     .filter((line): line is string => line !== null);
   formattedCloudinaryUrl.value = formattedLines.join("\n");
 };
 
 const applyCloudinaryTransformations = (
-  cloudinaryUrl: string
+  cloudinaryUrl: string,
 ): string | null => {
   const trimmed = cloudinaryUrl.trim();
   if (trimmed === "") return null;
@@ -58,7 +59,7 @@ const copyToClipboard = () => {
 
 <template>
   <div class="flex flex-col gap-2">
-    <label for="rawCloudinaryUrlInput"
+    <label for="rawCloudinaryUrlInput" class="font-bold"
       >Raw Cloudinary URL(s) (one per line)</label
     >
     <textarea
@@ -83,14 +84,16 @@ const copyToClipboard = () => {
       Some lines may have been skipped due to empty or invalid URLS!
       Double-check the input.
     </p>
-    <div class="flex flex-row gap-2 justify-between">
-      <label for="formattedOutput" class="mt-4">Markdown output</label>
+    <div class="mt-4 flex flex-row gap-2 justify-between">
+      <label for="formattedOutput" class="mt-4 font-bold"
+        >Markdown output</label
+      >
       <button
         type="button"
         @click="copyToClipboard"
         class="border-2 text-white p-2 bg-gray-500 hover:bg-green-600 rounded font-medium"
       >
-        Copy to clipboard
+        <Icon icon="mdi:content-copy" class="w-4 h-4" />
       </button>
     </div>
     <textarea
@@ -98,7 +101,7 @@ const copyToClipboard = () => {
       :value="formattedCloudinaryUrl"
       readonly
       rows="6"
-      class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-gray-50 dark:bg-gray-800 text-inherit"
+      class="w-full p-2 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-900 text-inherit"
       placeholder="Generated markdown will appear here..."
     />
   </div>
