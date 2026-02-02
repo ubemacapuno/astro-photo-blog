@@ -13,7 +13,9 @@ export const server = {
     }),
 
     handler: async ({ name, email, message }, { locals }) => {
+      // @ts-ignore
       const apiKey = locals.runtime?.env?.RESEND_API_KEY;
+      // @ts-ignore
       const toEmail = locals.runtime?.env?.RESEND_EMAIL_ADDRESS;
 
       if (apiKey === undefined || apiKey === "") {

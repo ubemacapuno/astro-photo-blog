@@ -2,6 +2,7 @@
 import { getCollection, render } from "astro:content";
 import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
 import "../../styles/markdown.css";
+import MdxImage from "../../components/MdxImage.astro";
 
 export const prerender = true;
 
@@ -24,5 +25,5 @@ const { Content } = await render(blog);
 ---
 
 <MarkdownPostLayout frontmatter={blog.data}>
-  <Content />
+  <Content components={{ img: MdxImage }} />
 </MarkdownPostLayout>

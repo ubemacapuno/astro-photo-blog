@@ -24,6 +24,8 @@ const { post } = Astro.props as Props;
         src={post.frontmatter.image.url}
         alt={post.frontmatter.image.alt}
         class="w-full h-auto"
+        loading="lazy"
+        decoding="async"
       />
     </div>
   </div>
