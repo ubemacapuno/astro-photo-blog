@@ -37,7 +37,7 @@ const isActiveNavLink = (href: string) => {
 <!-- Drawer -->
 <div
   id="main-menu"
-  class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-black z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:relative md:translate-x-0 md:w-auto md:h-auto md:block md:mx-auto md:text-center"
+  class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-black z-50 transform translate-x-full transition-[transform,background-color] duration-150 ease-in-out md:relative md:translate-x-0 md:w-auto md:h-auto md:block md:mx-auto md:text-center"
 >
   <button
     id="close-menu-button"
@@ -66,7 +66,7 @@ const isActiveNavLink = (href: string) => {
         <a
           href={page.href}
           data-astro-prefetch={page.prefetch}
-          class={`anton-nav block text-center py-2.5 text-xl md:inline-block md:px-5 md:py-4 text-black dark:text-white
+          class={`anton-nav block text-center py-2.5 text-xl md:inline-block md:px-5 md:py-4 text-black dark:text-white transition-colors
           ${
             isActiveNavLink(page.href)
               ? "underline text-red-600!"

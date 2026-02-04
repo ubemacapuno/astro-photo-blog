@@ -3,16 +3,16 @@
 ---
 
 <button
-  class="menu-button group relative flex items-center justify-center w-12 h-12 bg-white dark:bg-black border-0 p-0 md:hidden"
+  class="menu-button group relative flex items-center justify-center w-12 h-12 bg-white dark:bg-black border-0 p-0 md:hidden transition-colors"
   aria-expanded="false"
   aria-controls="main-menu"
   aria-label="Toggle menu"
 >
-  <div class="absolute flex flex-col justify-center items-center gap-1.5 transition-opacity duration-300 ease-in-out group-aria-expanded:opacity-0">
-    <span class="block h-0.5 w-5 bg-black dark:bg-white"></span>
-    <span class="block h-0.5 w-5 bg-black dark:bg-white"></span>
-    <span class="block h-0.5 w-5 bg-black dark:bg-white"></span>
+  <div class="absolute flex flex-col justify-center items-center gap-1.5 transition-opacity ease-in-out group-aria-expanded:opacity-0">
+    <span class="block h-0.5 w-5 bg-black dark:bg-white transition-colors"></span>
+    <span class="block h-0.5 w-5 bg-black dark:bg-white transition-colors"></span>
+    <span class="block h-0.5 w-5 bg-black dark:bg-white transition-colors"></span>
   </div>
   
-  <span class="absolute text-black dark:text-white text-xl transition-opacity duration-300 ease-in-out opacity-0 group-aria-expanded:opacity-100">X</span>
+  <span class="absolute text-black dark:text-white text-xl transition-[opacity,color] duration-150 ease-in-out opacity-0 group-aria-expanded:opacity-100">X</span>
 </button>
