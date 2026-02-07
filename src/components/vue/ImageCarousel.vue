@@ -6,65 +6,133 @@ import {
   DELAY_AFTER_TRANSITION,
 } from "../../globals";
 
-interface Props {
-  images: CarouselImage[];
-  autoPlayInterval?: number;
-}
-
 interface CarouselImage {
   src: string;
   alt: string;
 }
 
+interface Props {
+  images: CarouselImage[];
+  autoPlayInterval?: number;
+}
+
+
 const props = withDefaults(defineProps<Props>(), {
   autoPlayInterval: AUTO_PLAY_INTERVAL,
 });
 
-const currentIndex = ref(0);
-let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
-const isTransitioning = ref(false);
 
-// extended array with duplicates for seamless infinite scroll
+const MIN_SWIPE_DISTANCE = 50;
+const MIN_SWIPE_PREVENT_SCROLL = 10;
+
+// state
+const currentIndex = ref(1);
+const isTransitioning = ref(false);
+let isJumpingBack = false;
+let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
+
+const touchStartX = ref<number | null>(null);
+const touchEndX = ref<number | null>(null);
+
+// computed
 const extendedImages = computed(() => {
   if (props.images.length === 0) return [];
-  // Add the first image at the end for seamless transition
-  return [...props.images, props.images[0]];
+  const last = props.images[props.images.length - 1];
+  const first = props.images[0];
+  return [last, ...props.images, first];
 });
 
+
+// slide navigation
+const jumpToPosition = (index: number) => {
+  isJumpingBack = true;
+  touchStartX.value = null;
+  touchEndX.value = null;
+  isTransitioning.value = false;
+  currentIndex.value = index;
+  setTimeout(() => {
+    isJumpingBack = false;
+  }, DELAY_AFTER_TRANSITION);
+};
+
 const nextSlide = () => {
-  // prevent overlapping transitions
   if (isTransitioning.value) return;
 
   isTransitioning.value = true;
-
-  // move to next image
   currentIndex.value++;
 
-  // loop back when we reach the duplicate image at the end
-  if (currentIndex.value >= props.images.length) {
-    setTimeout(() => {
-      // disable transition and jump back to index 0 (no animation)
-      isTransitioning.value = false;
-      currentIndex.value = 0;
-
-      // re-enable transitions after brief moment for next slide
-      setTimeout(() => {
-        isTransitioning.value = false;
-      }, DELAY_AFTER_TRANSITION);
-    }, TRANSITION_DURATION); // match the transition duration
+  // Reached duplicate of first at end → jump back to real first (index 1)
+  if (currentIndex.value === extendedImages.value.length - 1) {
+    setTimeout(() => jumpToPosition(1), TRANSITION_DURATION);
   } else {
-    // normal case: wait for transition to complete, then allow next slide
-    setTimeout(() => {
-      isTransitioning.value = false;
-    }, TRANSITION_DURATION);
+    setTimeout(() => (isTransitioning.value = false), TRANSITION_DURATION);
   }
 };
 
+const prevSlide = () => {
+  if (isTransitioning.value) return;
+
+  isTransitioning.value = true;
+  currentIndex.value--;
+
+  if (currentIndex.value === 0) { // if at first image, jump to last
+    setTimeout(() => jumpToPosition(props.images.length), TRANSITION_DURATION);
+  } else {
+    setTimeout(() => (isTransitioning.value = false), TRANSITION_DURATION);
+  }
+};
+
+// auto-play
 const startAutoPlay = () => {
   if (autoPlayTimer) clearInterval(autoPlayTimer);
   autoPlayTimer = setInterval(nextSlide, props.autoPlayInterval);
 };
 
+const resetAutoPlay = () => {
+  if (props.images.length <= 1) return;
+  if (autoPlayTimer) {
+    clearInterval(autoPlayTimer);
+    autoPlayTimer = null;
+  }
+  startAutoPlay();
+};
+
+// touch handlers
+const onTouchStart = (event: TouchEvent) => {
+  touchStartX.value = event.touches[0].clientX;
+};
+
+const onTouchMove = (event: TouchEvent) => {
+  const currentX = event.touches[0].clientX;
+  const deltaX = Math.abs((touchStartX.value ?? 0) - currentX);
+
+  if (deltaX > MIN_SWIPE_PREVENT_SCROLL) {
+    event.preventDefault();
+  }
+
+  touchEndX.value = currentX;
+};
+
+const onTouchEnd = () => {
+  if (touchStartX.value === null || touchEndX.value === null) return;
+  if (isJumpingBack) return;
+
+  const deltaX = touchStartX.value - touchEndX.value;
+
+  if (Math.abs(deltaX) > MIN_SWIPE_DISTANCE) {
+    if (deltaX > 0) {
+      nextSlide();
+    } else {
+      prevSlide();
+    }
+    resetAutoPlay();
+  }
+
+  touchStartX.value = null;
+  touchEndX.value = null;
+};
+
+// lifecycle methods
 onMounted(() => {
   if (props.images.length > 1) {
     startAutoPlay();
@@ -79,7 +147,12 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden">
+  <div
+    class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden"
+    @touchstart="onTouchStart"
+    @touchmove="onTouchMove"
+    @touchend="onTouchEnd"
+  >
     <div
       class="flex w-full h-full"
       :style="{
