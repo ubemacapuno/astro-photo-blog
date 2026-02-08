@@ -12,6 +12,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+bun-debug.log*
 
 # environment variables
 .env
@@ -26,3 +27,6 @@ pnpm-debug.log*
 
 # wrangler
 .wrangler/
+
+# bun
+bun.lockb   # I'm the only one working on this blog . . . don't need lock files
