@@ -2,10 +2,18 @@
 import ContactForm from "../components/vue/ContactForm.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Social from "../components/Social.astro";
+import { SITE_URL } from "../consts";
 
 export const prerender = false;
 
 const pageTitle = "hello world!";
+const seo = {
+  title: "Corey Damocles - Bio",
+  description:
+    "Phoenix-based photographer and software developer. Film photography, web development, and rock climbing.",
+  url: new URL(Astro.url.pathname, SITE_URL).href,
+  image: new URL("/images/hero-1.jpg", SITE_URL).href,
+};
 
 const socialLinks = [
   { platform: "linkedin", username: "corey-damocles" },
@@ -13,7 +21,7 @@ const socialLinks = [
 ];
 ---
 
-<BaseLayout {pageTitle}>
+<BaseLayout {pageTitle} seo={seo}>
   <img src="/images/hero-1.jpg" alt="Corey Damocles" class="portrait" />
   <div class="my-4">
     <p class="mb-4">

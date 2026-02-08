@@ -3,7 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import BlogPost from "../../components/BlogPost.astro";
 import Tag from "../../components/Tag.astro";
-
+import { SITE_URL } from "../../consts";
 import type { Post } from "../../types";
 
 export const prerender = true;
@@ -53,9 +53,15 @@ const { posts } = Astro.props as { posts: Post[] };
 const filteredPosts: Post[] = posts.filter((post) =>
   post.frontmatter.tags?.includes(tag),
 );
+
+const seo = {
+  title: `#${tag} - Corey Damocles`,
+  description: `Blog posts tagged with ${tag}.`,
+  url: new URL(Astro.url.pathname, SITE_URL).href,
+};
 ---
 
-<BaseLayout pageTitle={`#${tag}`}>
+<BaseLayout pageTitle={`#${tag}`} seo={seo}>
   <p>Posts tagged with <Tag {tag} /></p>
   <BlogPost allPosts={filteredPosts} />
 </BaseLayout>

@@ -1,12 +1,37 @@
 ---
 import Tag from "../components/Tag.astro";
-import { formatDate } from "../consts";
+import { formatDate, SITE_URL } from "../consts";
 import BaseLayout from "./BaseLayout.astro";
 
 const { frontmatter } = Astro.props;
+
+const canonicalUrl = new URL(Astro.url.pathname, SITE_URL).href;
+const imageUrl =
+  frontmatter.image.url.startsWith("http")
+    ? frontmatter.image.url
+    : new URL(frontmatter.image.url, SITE_URL).href;
+
+const seo = {
+  title: frontmatter.title,
+  description: frontmatter.description,
+  url: canonicalUrl,
+  image: imageUrl,
+  structuredData: {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: frontmatter.title,
+    description: frontmatter.description,
+    datePublished: frontmatter.pub_date.toISOString(),
+    author: {
+      "@type": "Person",
+      name: frontmatter.author,
+    },
+    image: imageUrl,
+  },
+};
 ---
 
-<BaseLayout pageTitle={frontmatter.title} layout="post">
+<BaseLayout pageTitle={frontmatter.title} layout="post" seo={seo}>
   <header class="post-header">
     <div class="post-meta">
       <span class="post-meta-label">Published</span>

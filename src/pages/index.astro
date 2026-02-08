@@ -4,16 +4,25 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 import ImageCarousel from "../components/vue/ImageCarousel.vue";
 import GitHubCard from "../components/GitHubCard.astro";
-import SEO from "../components/SEO.astro";
-import { projects } from "../consts";
+import { projects, SITE_URL } from "../consts";
 import type { CarouselImage } from "../types";
 import { Icon } from "astro-icon/components";
 
-// SEO
-const SITE_URL = "https://coreydamocles.com/";
-const image = "public/images/hero-1.jpg";
-
 const pageTitle = "";
+const seo = {
+  title: "Corey Damocles - Developer and Photographer",
+  description:
+    "Corey Damocles is a software developer and photographer who specializes in building web applications and film photography.",
+  url: new URL(Astro.url.pathname, SITE_URL).href,
+  image: new URL("/images/hero-1.jpg", SITE_URL).href,
+  structuredData: {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Corey Damocles",
+    url: SITE_URL,
+    logo: "🧑🏾‍💻",
+  },
+};
 const allPosts = await getCollection("blog");
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -44,21 +53,7 @@ const sortedPosts = allPosts.sort(
 );
 ---
 
-<SEO
-  title="Corey Damocles - Developer and Photographer"
-  description="Corey Damocles is a software developer and photographer who specializes in building web applications and film photography."
-  url={`${SITE_URL}${Astro.url.pathname}`}
-  image={image}
-  structuredData={{
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Corey Damocles",
-    url: SITE_URL,
-    logo: "🧑🏾‍💻",
-  }}
-/>
-
-<BaseLayout {pageTitle}>
+<BaseLayout {pageTitle} seo={seo}>
   <section
     class="flex justify-center items-start min-h-[50vh] md:min-h-[60vh] whitespace-nowrap"
   >

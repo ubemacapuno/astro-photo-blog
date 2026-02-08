@@ -2,13 +2,24 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import SEO from "../components/SEO.astro";
+
+interface SeoProps {
+  title: string;
+  description: string;
+  url: string;
+  image?: string;
+  robots?: string;
+  structuredData?: Record<string, unknown>;
+}
 
 interface Props {
   pageTitle: string;
   layout?: "default" | "post";
+  seo?: SeoProps;
 }
 
-const { pageTitle, layout = "default" } = Astro.props;
+const { pageTitle, layout = "default", seo } = Astro.props;
 ---
 
 <html lang="en">
@@ -37,7 +48,18 @@ const { pageTitle, layout = "default" } = Astro.props;
       href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
       rel="stylesheet"
     />
-    <title>{pageTitle}</title>
+    {seo ? (
+      <SEO
+        title={seo.title}
+        description={seo.description}
+        url={seo.url}
+        image={seo.image}
+        robots={seo.robots}
+        structuredData={seo.structuredData}
+      />
+    ) : (
+      <title>{pageTitle}</title>
+    )}
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />

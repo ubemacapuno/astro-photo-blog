@@ -3,8 +3,15 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 import Tag from "../components/Tag.astro";
+import { SITE_URL } from "../consts";
 
 const pageTitle = "Blog Posts";
+const seo = {
+  title: "Blog - Corey Damocles",
+  description:
+    "Articles on software development, film photography, and personal projects.",
+  url: new URL(Astro.url.pathname, SITE_URL).href,
+};
 const allPosts = await getCollection("blog");
 
 // Sort posts by pub_date (newest first)
@@ -13,7 +20,7 @@ const sortedPosts = allPosts.sort(
 );
 ---
 
-<BaseLayout {pageTitle}>
+<BaseLayout {pageTitle} seo={seo}>
   <BlogPost
     allPosts={sortedPosts.map((blog) => ({
       url: `/blogs/${blog.id}/`,
