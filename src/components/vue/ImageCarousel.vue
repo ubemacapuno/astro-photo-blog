@@ -16,11 +16,9 @@ interface Props {
   autoPlayInterval?: number;
 }
 
-
 const props = withDefaults(defineProps<Props>(), {
   autoPlayInterval: AUTO_PLAY_INTERVAL,
 });
-
 
 const MIN_SWIPE_DISTANCE = 50;
 const MIN_SWIPE_PREVENT_SCROLL = 10;
@@ -35,13 +33,14 @@ const touchStartX = ref<number | null>(null);
 const touchEndX = ref<number | null>(null);
 
 // computed
+// Infinite loop: [last, ...images, first]. After animating to the clone, we jump
+// back to the real slide without transition. Same image both positions = no flicker.
 const extendedImages = computed(() => {
   if (props.images.length === 0) return [];
   const last = props.images[props.images.length - 1];
   const first = props.images[0];
   return [last, ...props.images, first];
 });
-
 
 // slide navigation
 const jumpToPosition = (index: number) => {
@@ -61,7 +60,6 @@ const nextSlide = () => {
   isTransitioning.value = true;
   currentIndex.value++;
 
-  // Reached duplicate of first at end → jump back to real first (index 1)
   if (currentIndex.value === extendedImages.value.length - 1) {
     setTimeout(() => jumpToPosition(1), TRANSITION_DURATION);
   } else {
@@ -75,7 +73,8 @@ const prevSlide = () => {
   isTransitioning.value = true;
   currentIndex.value--;
 
-  if (currentIndex.value === 0) { // if at first image, jump to last
+  if (currentIndex.value === 0) {
+    // if at first image, jump to last
     setTimeout(() => jumpToPosition(props.images.length), TRANSITION_DURATION);
   } else {
     setTimeout(() => (isTransitioning.value = false), TRANSITION_DURATION);
