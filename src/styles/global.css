@@ -142,3 +142,67 @@ textarea {
   font-style: normal;
   letter-spacing: 0.05em;
 }
+
+/* Post layout: title + metadata block */
+.post-layout h1 {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.post-header {
+  padding: 1rem 0 1.5rem;
+  border-bottom: 1px solid var(--color-line-primary);
+  margin-bottom: 1.5rem;
+}
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.post-meta-label {
+  color: var(--color-line-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.post-meta-value {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+.post-meta-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0 0.5rem;
+}
+
+.post-meta-sep {
+  color: var(--color-line-primary);
+  font-weight: 300;
+}
+
+.post-description {
+  font-size: 1.125rem;
+  font-style: italic;
+  margin: 0.75rem 0 0.5rem;
+  opacity: 0.9;
+}
+
+.post-byline {
+  font-size: 0.875rem;
+  color: var(--color-line-primary);
+  margin: 0;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}

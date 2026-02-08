@@ -6,14 +6,27 @@ import BaseLayout from "./BaseLayout.astro";
 const { frontmatter } = Astro.props;
 ---
 
-<BaseLayout pageTitle={frontmatter.title}>
-  <p>Published on {formatDate(frontmatter.pub_date)}</p>
-  <p><em>{frontmatter.description}</em></p>
-  <p>Written by: {frontmatter.author}</p>
-
-  <div class="flex flex-wrap my-4 p-4">
-    {frontmatter.tags?.map((tag: string) => <Tag {tag} />)}
-  </div>
+<BaseLayout pageTitle={frontmatter.title} layout="post">
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-meta-label">Published</span>
+      <span class="post-meta-value">{formatDate(frontmatter.pub_date)}</span>
+      {frontmatter.photo_date && (
+        <span class="post-meta-group">
+          <span class="post-meta-sep" aria-hidden="true">·</span>
+          <span class="post-meta-label">Photos</span>
+          <span class="post-meta-value">{formatDate(frontmatter.photo_date)}</span>
+        </span>
+      )}
+    </div>
+    <p class="post-description">{frontmatter.description}</p>
+    <p class="post-byline">By {frontmatter.author}</p>
+    {frontmatter.tags && frontmatter.tags.length > 0 && (
+      <div class="post-tags">
+        {frontmatter.tags.map((tag: string) => <Tag tag={tag} />)}
+      </div>
+    )}
+  </header>
 
   <slot />
 </BaseLayout>
