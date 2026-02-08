@@ -2,15 +2,21 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Tag from "../../components/Tag.astro";
+import { SITE_URL } from "../../consts";
 
 const pageTitle = "Tags";
+const seo = {
+  title: "Tags - Corey Damocles",
+  description: "Browse blog posts by tag.",
+  url: new URL(Astro.url.pathname, SITE_URL).href,
+};
 const allPosts = await getCollection("blog");
 
 // Get unique tags from all posts
 const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
 ---
 
-<BaseLayout {pageTitle}>
+<BaseLayout {pageTitle} seo={seo}>
   <h2>Blog posts by Tag</h2>
 
   <div class="my-2">

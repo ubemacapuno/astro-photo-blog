@@ -1,11 +1,18 @@
 ---
 import CloudinaryFormatter from "../components/vue/CloudinaryFormatter.vue";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { SITE_URL } from "../consts";
 
 const pageTitle = "Cloudinary Formatter";
+const seo = {
+  title: "Cloudinary Formatter - Corey Damocles",
+  description: "Tool to format Cloudinary URLs for markdown.",
+  url: new URL(Astro.url.pathname, SITE_URL).href,
+  robots: "noindex, follow",
+};
 ---
 
-<BaseLayout {pageTitle}>
+<BaseLayout {pageTitle} seo={seo}>
   <CloudinaryFormatter client:load />
 
   <p class="my-4">

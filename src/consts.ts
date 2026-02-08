@@ -1,5 +1,7 @@
 import type { GitHubCard, TechStack } from "./types";
 
+export const SITE_URL = "https://coreydamocles.com";
+
 /** CSS variable for language pill colors. Keys match TechStack; fallback used for unmapped. */
 export const languageColors: Partial<Record<TechStack, string>> = {
   TypeScript: "var(--typescript)",
