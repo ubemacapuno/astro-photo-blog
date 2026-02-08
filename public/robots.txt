@@ -1,0 +1,73 @@
+# Block AI crawlers from scraping this site for training.
+# Regular search engines (Googlebot, Bingbot, etc.) are not blocked.
+#
+# see:
+# - https://platform.openai.com/docs/gptbot
+# - https://darkvisitors.com/agents (list of AI user agents)
+# - https://tenacity.io/snippets/code-to-block-models-with-ai-robots-txt-rules/
+
+# OpenAI
+User-agent: GPTBot
+Disallow: /
+User-agent: ChatGPT-User
+Disallow: /
+
+# Google (Gemini)
+User-agent: Google-Extended
+Disallow: /
+
+# Anthropic (Claude)
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+User-agent: Claudebot
+Disallow: /
+
+# CommonCrawl
+User-agent: CCBot
+Disallow: /
+
+# Diffbot
+User-agent: Diffbot
+Disallow: /
+
+# Meta
+User-agent: FacebookBot
+Disallow: /
+
+# ByteDance
+User-agent: Bytespider
+Disallow: /
+
+# Perplexity
+User-agent: PerplexityBot
+Disallow: /
+
+# Amazon
+User-agent: Amazonbot
+Disallow: /
+
+# Apple
+User-agent: Applebot
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# You.com
+User-agent: YouBot
+Disallow: /
+
+# Other scrapers
+User-agent: Omgilibot
+Disallow: /
+User-agent: Omgili
+Disallow: /
+User-agent: ImagesiftBot
+Disallow: /
+User-agent: Meltwater
+Disallow: /
+User-agent: Seekr
+Disallow: /
