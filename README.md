@@ -13,40 +13,35 @@ A photo blog built with Astro and Vue to learn more about web technologies, shar
 - MDX
 - Cloudinary (image hosting)
 - Cloudflare (deploy and edge)
+- Wrangler (Cloudflare worker/deployment tool)
 - Resend (contact form emails)
 
 ## Run Locally
 
-Using pnpm:
+Using bun:
 
 Install dependencies:
 
 ```bash
-pnpm i
+bun i
 ```
 
 Start the dev server:
 
 ```bash
-pnpm run dev
-```
-
-Build for production:
-
-```bash
-pnpm run build
+bun dev
 ```
 
 Build for Cloudflare (static + worker):
 
 ```bash
-pnpm run build:cloudflare
+bun build:cloudflare
 ```
 
 Preview the Cloudflare build locally with Wrangler:
 
 ```bash
-pnpm run preview
+bun preview
 ```
 
 To deploy to Cloudflare Pages/Workers, use Wrangler from the project root (e.g. `npx wrangler deploy`). See [wrangler.jsonc](./wrangler.jsonc) for config.
