@@ -20,6 +20,19 @@ const props = withDefaults(defineProps<Props>(), {
   autoPlayInterval: AUTO_PLAY_INTERVAL,
 });
 
+function shuffleArray(array: CarouselImage[]): CarouselImage[] {
+  const shuffled = [...array];
+  // Fisher-Yates shuffle
+  // start from the last element
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); // then pick a random element from 0 to i
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // then swap the two elements
+  }
+  return shuffled;
+}
+
+const carouselImages = computed(() => shuffleArray(props.images));
+
 const MIN_SWIPE_DISTANCE = 50;
 const MIN_SWIPE_PREVENT_SCROLL = 10;
 
@@ -36,10 +49,11 @@ const touchEndX = ref<number | null>(null);
 // Infinite loop: [last, ...images, first]. After animating to the clone, we jump
 // back to the real slide without transition. Same image both positions = no flicker.
 const extendedImages = computed(() => {
-  if (props.images.length === 0) return [];
-  const last = props.images[props.images.length - 1];
-  const first = props.images[0];
-  return [last, ...props.images, first];
+  const images = carouselImages.value;
+  if (images.length === 0) return [];
+  const last = images[images.length - 1];
+  const first = images[0];
+  return [last, ...images, first];
 });
 
 // slide navigation
@@ -75,7 +89,10 @@ const prevSlide = () => {
 
   if (currentIndex.value === 0) {
     // if at first image, jump to last
-    setTimeout(() => jumpToPosition(props.images.length), TRANSITION_DURATION);
+    setTimeout(
+      () => jumpToPosition(carouselImages.value.length),
+      TRANSITION_DURATION
+    );
   } else {
     setTimeout(() => (isTransitioning.value = false), TRANSITION_DURATION);
   }
