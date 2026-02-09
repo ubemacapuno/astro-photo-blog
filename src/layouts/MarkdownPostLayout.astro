@@ -32,29 +32,30 @@ const seo = {
 ---
 
 <BaseLayout pageTitle={frontmatter.title} layout="post" seo={seo}>
-  <header class="post-header">
-    <div class="post-meta">
-      <span class="post-meta-label">Published</span>
-      <span class="post-meta-value">{formatDate(frontmatter.pub_date)}</span>
+  <header class="pt-4 pb-6 border-b border-line-primary mb-6">
+    <div class="flex flex-col gap-1 text-sm">
+      <div class="flex items-baseline gap-2">
+        <span class="text-line-primary tracking-widest">Published</span>
+        <span class="text-accent font-medium"
+          >{formatDate(frontmatter.pub_date)}</span
+        >
+      </div>
       {
         frontmatter.photo_date && (
-          <span class="post-meta-group">
-            <span class="post-meta-sep" aria-hidden="true">
-              ·
-            </span>
-            <span class="post-meta-label">Photos</span>
-            <span class="post-meta-value">
+          <div class="flex items-baseline gap-2">
+            <span class="text-line-primary tracking-widest">Photos</span>
+            <span class="text-accent font-medium">
               {formatDate(frontmatter.photo_date)}
             </span>
-          </span>
+          </div>
         )
       }
     </div>
-    <p class="post-description">{frontmatter.description}</p>
-    <p class="post-byline">By {frontmatter.author}</p>
+    <p class="text-lg italic mt-3 mb-2 opacity-90">{frontmatter.description}</p>
+    <p class="text-sm text-line-primary m-0">By {frontmatter.author}</p>
     {
       frontmatter.tags && frontmatter.tags.length > 0 && (
-        <div class="post-tags">
+        <div class="flex flex-wrap gap-2 mt-4">
           {frontmatter.tags.map((tag: string) => (
             <Tag tag={tag} />
           ))}
