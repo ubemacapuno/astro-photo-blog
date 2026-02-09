@@ -44,5 +44,5 @@ const hasJsonLd = structuredData && Object.keys(structuredData).length > 0;
 
 <!-- Structured Data (JSON-LD) -->
 {hasJsonLd && (
-  <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(structuredData)} />
 )}
