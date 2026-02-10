@@ -164,21 +164,17 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden bg-neutral-200 dark:bg-neutral-700"
+    class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
   >
-    <!-- Skeleton to prevent layout shift while the images are shuffling -->
+    <!-- Blank placeholder to prevent layout shift until carousel is ready -->
     <div
       v-if="shuffledImages.length === 0"
-      class="absolute inset-0 flex items-center justify-center"
+      class="absolute inset-0"
       aria-hidden="true"
-    >
-      <div
-        class="w-full h-full animate-pulse bg-neutral-300 dark:bg-neutral-600 rounded-none"
-      />
-    </div>
+    />
 
     <div
       v-else
