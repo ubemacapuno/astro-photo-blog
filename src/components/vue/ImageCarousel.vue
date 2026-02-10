@@ -31,7 +31,6 @@ function shuffleArray(array: CarouselImage[]): CarouselImage[] {
   return shuffled;
 }
 
-// Shuffle once on the client so order is random per visit (not baked in at build)
 const shuffledImages = ref<CarouselImage[]>([]);
 
 const MIN_SWIPE_DISTANCE = 50;
