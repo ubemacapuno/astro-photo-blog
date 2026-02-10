@@ -20,12 +20,13 @@ const props = withDefaults(defineProps<Props>(), {
   autoPlayInterval: AUTO_PLAY_INTERVAL,
 });
 
-/** Fisher–Yates shuffle: uniform random permutation in O(n). */
 function shuffleArray(array: CarouselImage[]): CarouselImage[] {
   const shuffled = [...array];
+  // Fisher-Yates shuffle
+  // start from the last element
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); // j in [0, i] inclusive
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    const j = Math.floor(Math.random() * (i + 1)); // then pick a random element from 0 to i
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // then swap the two elements
   }
   return shuffled;
 }
