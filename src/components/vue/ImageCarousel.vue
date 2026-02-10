@@ -31,7 +31,8 @@ function shuffleArray(array: CarouselImage[]): CarouselImage[] {
   return shuffled;
 }
 
-const carouselImages = computed(() => shuffleArray(props.images));
+// Shuffle once on the client so order is random per visit (not baked in at build)
+const shuffledImages = ref<CarouselImage[]>([]);
 
 const MIN_SWIPE_DISTANCE = 50;
 const MIN_SWIPE_PREVENT_SCROLL = 10;
@@ -49,7 +50,7 @@ const touchEndX = ref<number | null>(null);
 // Infinite loop: [last, ...images, first]. After animating to the clone, we jump
 // back to the real slide without transition. Same image both positions = no flicker.
 const extendedImages = computed(() => {
-  const images = carouselImages.value;
+  const images = shuffledImages.value;
   if (images.length === 0) return [];
   const last = images[images.length - 1];
   const first = images[0];
@@ -88,9 +89,8 @@ const prevSlide = () => {
   currentIndex.value--;
 
   if (currentIndex.value === 0) {
-    // if at first image, jump to last
     setTimeout(
-      () => jumpToPosition(carouselImages.value.length),
+      () => jumpToPosition(shuffledImages.value.length),
       TRANSITION_DURATION
     );
   } else {
@@ -150,7 +150,8 @@ const onTouchEnd = () => {
 
 // lifecycle methods
 onMounted(() => {
-  if (props.images.length > 1) {
+  shuffledImages.value = shuffleArray(props.images);
+  if (shuffledImages.value.length > 1) {
     startAutoPlay();
   }
 });
@@ -164,12 +165,24 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden"
+    class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden bg-neutral-200 dark:bg-neutral-700"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
   >
+    <!-- Skeleton to prevent layout shift while the images are shuffling -->
     <div
+      v-if="shuffledImages.length === 0"
+      class="absolute inset-0 flex items-center justify-center"
+      aria-hidden="true"
+    >
+      <div
+        class="w-full h-full animate-pulse bg-neutral-300 dark:bg-neutral-600 rounded-none"
+      />
+    </div>
+
+    <div
+      v-else
       class="flex w-full h-full"
       :style="{
         transform: `translateX(-${currentIndex * 100}%)`,

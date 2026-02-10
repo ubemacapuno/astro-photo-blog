@@ -25,27 +25,16 @@ const seo = {
 };
 const allPosts = await getCollection("blog");
 
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-const baseCarouselImages: CarouselImage[] = [
-  { src: "/images/hero-2.jpg", alt: "Hero image 2" },
-  { src: "/images/hero-3.jpg", alt: "Hero image 3" },
-  { src: "/images/hero-4.jpg", alt: "Hero image 4" },
-  { src: "/images/hero-5.jpg", alt: "Hero image 5" },
-  { src: "/images/hero-6.jpg", alt: "Hero image 6" },
-  { src: "/images/hero-7.jpg", alt: "Hero image 7" },
-  { src: "/images/hero-8.jpg", alt: "Hero image 8" },
-  { src: "/images/hero-9.jpg", alt: "Hero image 9" },
+const carouselImages: CarouselImage[] = [
+  { src: "/images/hero-1.webp", alt: "Hero image 1" },
+  { src: "/images/hero-2.webp", alt: "Hero image 2" },
+  { src: "/images/hero-3.webp", alt: "Hero image 3" },
+  { src: "/images/hero-4.webp", alt: "Hero image 4" },
+  { src: "/images/hero-5.webp", alt: "Hero image 5" },
+  { src: "/images/hero-6.webp", alt: "Hero image 6" },
+  { src: "/images/hero-7.webp", alt: "Hero image 7" },
+  { src: "/images/hero-8.webp", alt: "Hero image 8" },
 ];
-
-const carouselImages = shuffleArray(baseCarouselImages);
 
 // Sort posts by pub_date (newest first)
 const sortedPosts = allPosts.sort(
@@ -141,7 +130,7 @@ const sortedPosts = allPosts.sort(
   </section>
 
   <script>
-    const FADE_DURATION_MS = 9 * 3450; // can't import globals.ts here, so hardcode the value
+    const FADE_DURATION_MS = 10000; // 10 seconds
     const FADE_GROUP = "hero-title";
 
     let isHidden = false;
