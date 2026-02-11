@@ -22,15 +22,26 @@ const socialLinks = [
 ---
 
 <BaseLayout {pageTitle} seo={seo}>
-  <img src="/images/hero-1.jpg" alt="Corey Damocles" class="portrait" />
+  <div
+    class="relative w-full overflow-hidden rounded-sm bg-gray-200 dark:bg-gray-700"
+  >
+    <img
+      src="/images/hero-1.jpg"
+      alt="Corey Damocles"
+      class="portrait block w-full h-auto"
+      width="768"
+      height="514"
+      fetchpriority="high"
+    />
+  </div>
   <div class="my-4">
     <p class="mb-4">
-      I'm Corey, a Phoenix-based photographer and software developer. I was
-      inspired to shoot film photos with a manual SLR by a friend in October
-      2024 during a rock climbing trip in Priest Draw, Arizona. Having to slow
-      down and think through each shot was a refreshing shift from the speed of
-      digital photography. I'm currently focused on shooting film, but I'll also
-      be sharing digital photography from time to time.
+      I’m a Phoenix-based photographer and software developer. During a climbing
+      trip to Priest Draw in October 2024, a friend brought along his Canon
+      AE-1. I was still shooting digital, but it inspired me to try film myself.
+      Soon after, I bought an old Pentax ME and started shooting film. The
+      slower pace and limited frames forced me to be more intentional with each
+      shot. I was hooked, and I’ve focused on film since.
     </p>
 
     <p class="mb-4">
@@ -52,8 +63,8 @@ const socialLinks = [
         target="_blank"
         rel="noopener noreferrer">Vue.js</a
       >, combining my passions for software development and photography. Having
-      been a photo enthusiast since circa 2009, software dev is a hobby I picked
-      up more recently in 2022 during the pandemic.
+      been a photo enthusiast since 2009, software dev is a hobby I picked up
+      more recently in 2022 during the pandemic.
     </p>
 
     <p class="mb-4">

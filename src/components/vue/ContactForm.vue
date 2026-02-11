@@ -105,7 +105,7 @@ async function handleSubmit(event: Event) {
         :maxlength="maxTextAreaLength"
       />
       <p class="text-sm text-gray-500">
-        {{ form.message.length }}/{{ maxTextAreaLength }} Characters
+        {{ form.message.length }}/{{ maxTextAreaLength }}
       </p>
     </div>
 
