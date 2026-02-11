@@ -28,7 +28,8 @@ const { pageTitle, layout = "default", seo } = Astro.props;
       const theme = (() => {
         const stored = localStorage?.getItem("theme") ?? "";
         if (["dark", "light"].includes(stored)) return stored;
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) return "dark";
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+          return "dark";
         return "dark";
       })();
 
@@ -44,22 +45,33 @@ const { pageTitle, layout = "default", seo } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Load fonts async to avoid blocking FCP/LCP-->
     <link
       href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
-    {seo ? (
-      <SEO
-        title={seo.title}
-        description={seo.description}
-        url={seo.url}
-        image={seo.image}
-        robots={seo.robots}
-        structuredData={seo.structuredData}
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Anton&display=swap"
+        rel="stylesheet"
       />
-    ) : (
-      <title>{pageTitle}</title>
-    )}
+    </noscript>
+    {
+      seo ? (
+        <SEO
+          title={seo.title}
+          description={seo.description}
+          url={seo.url}
+          image={seo.image}
+          robots={seo.robots}
+          structuredData={seo.structuredData}
+        />
+      ) : (
+        <title>{pageTitle}</title>
+      )
+    }
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
@@ -76,7 +88,12 @@ const { pageTitle, layout = "default", seo } = Astro.props;
       document.addEventListener("click", function (e) {
         if (e.target instanceof Element && e.target.closest(".theme-toggle")) {
           document.documentElement.classList.toggle("dark");
-          localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
+          localStorage.setItem(
+            "theme",
+            document.documentElement.classList.contains("dark")
+              ? "dark"
+              : "light",
+          );
         }
       });
     </script>

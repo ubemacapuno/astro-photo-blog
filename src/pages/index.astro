@@ -47,9 +47,19 @@ const sortedPosts = allPosts.sort(
     class="flex justify-center items-start min-h-[50vh] md:min-h-[60vh] whitespace-nowrap"
   >
     <div class="relative flex items-center justify-center">
-      <div class="relative">
-        <div id="carousel-wrapper" class="relative flex flex-col">
-          <ImageCarousel client:load images={carouselImages} />
+      <div class="relative w-88 h-125 md:w-103.75 md:h-147.5">
+        <div id="carousel-wrapper" class="relative flex flex-col w-full h-full">
+          <!-- Static LCP image in initial HTML so the browser discovers it immediately -->
+          <img
+            src="/images/hero-5.webp"
+            alt="Hero image 5"
+            width="415"
+            height="590"
+            fetchpriority="high"
+            class="absolute inset-0 w-full h-full object-cover object-center"
+            aria-hidden="true"
+          />
+          <ImageCarousel client:visible images={carouselImages} />
           <div
             id="fade-progress-bar"
             class="fade-progress-bar"
