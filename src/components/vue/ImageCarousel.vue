@@ -195,7 +195,8 @@ onUnmounted(() => {
           :src="image.src"
           :alt="image.alt"
           class="w-full h-full object-cover object-center"
-          loading="lazy"
+          :loading="index === 1 ? 'eager' : 'lazy'"
+          :fetchpriority="index === 1 ? 'high' : undefined"
         />
       </div>
     </div>
