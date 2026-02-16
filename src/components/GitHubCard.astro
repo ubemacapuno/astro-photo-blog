@@ -17,13 +17,21 @@ const showStars = gitHubCard.stars > 0;
 const showForks = gitHubCard.forks > 1;
 ---
 
-<a href={gitHubCard.url} data-astro-prefetch class="blog-card-link block">
+<a
+  href={gitHubCard.url}
+  data-astro-prefetch
+  class="blog-card-link group block text-inherit font-normal"
+>
   <div
-    class="border border-gray-200 p-4 flex flex-col md:flex-row hover:border-red-600 transition-colors"
+    class="flex flex-col overflow-hidden rounded-xl border border-gray-200 bg-white px-5 py-4 transition-[border-color] duration-200 group-hover:border-gray-400 dark:border-[#333] dark:bg-[#1a1a1a] dark:group-hover:border-[#555]"
   >
     <div class="flex-1">
-      <h2 class="text-lg font-bold">{gitHubCard.name}</h2>
-      <p class="text-sm">{gitHubCard.description}</p>
+      <h2 class="text-lg font-bold mb-3 text-gray-900 dark:text-white">
+        {gitHubCard.name}
+      </h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400">
+        {gitHubCard.description}
+      </p>
       <div class="flex justify-between">
         <div class="flex flex-wrap gap-1.5 mt-2">
           {
@@ -33,23 +41,25 @@ const showForks = gitHubCard.forks > 1;
                   class="rounded-full px-2 py-0.5 text-xs font-medium"
                   style={`background-color: ${color}`}
                 />
-                <p class="text-xs text-gray-500">{language}</p>
+                <p class="text-xs text-gray-600 dark:text-gray-500">
+                  {language}
+                </p>
               </div>
             ))
           }
         </div>
         {
           (showStars || showForks) && (
-            <p class="text-xs text-gray-500 flex items-center gap-2">
+            <p class="text-xs text-gray-600 dark:text-gray-500 flex items-center gap-2">
               {showStars && (
                 <span class="flex items-center gap-0.5">
-                  <Icon name="mdi:star" size={14} />
+                  <Icon name="mdi:star" size={18} />
                   {gitHubCard.stars}
                 </span>
               )}
               {showForks && (
                 <span class="flex items-center gap-0.5">
-                  <Icon name="mdi:source-fork" size={14} />
+                  <Icon name="mdi:source-fork" size={18} />
                   {gitHubCard.forks}
                 </span>
               )}
@@ -60,14 +70,3 @@ const showForks = gitHubCard.forks > 1;
     </div>
   </div>
 </a>
-
-<style>
-  .blog-card-link {
-    text-decoration: none;
-    font-weight: normal;
-  }
-
-  .blog-card-link:hover {
-    text-decoration: none;
-  }
-</style>
