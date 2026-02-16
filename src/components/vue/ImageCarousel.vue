@@ -14,6 +14,8 @@ interface CarouselImage {
 interface Props {
   images: CarouselImage[];
   autoPlayInterval?: number;
+  /** If set, firstImageSrc is always first in the shuffle for a seamless LCP transition. */
+  firstImageSrc?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -23,12 +25,26 @@ const props = withDefaults(defineProps<Props>(), {
 function shuffleArray(array: CarouselImage[]): CarouselImage[] {
   const shuffled = [...array];
   // Fisher-Yates shuffle
-  // start from the last element
   for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); // then pick a random element from 0 to i
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]; // then swap the two elements
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
   return shuffled;
+}
+
+function shuffleWithFirst(
+  array: CarouselImage[],
+  firstImageSrc: string | undefined
+): CarouselImage[] {
+  if (firstImageSrc === undefined || array.length === 0) {
+    return shuffleArray(array);
+  }
+  const first = array.find((img) => img.src === firstImageSrc);
+  if (first === undefined) {
+    return shuffleArray(array);
+  }
+  const rest = array.filter((img) => img.src !== firstImageSrc);
+  return [first, ...shuffleArray(rest)];
 }
 
 const shuffledImages = ref<CarouselImage[]>([]);
@@ -149,7 +165,7 @@ const onTouchEnd = () => {
 
 // lifecycle methods
 onMounted(() => {
-  shuffledImages.value = shuffleArray(props.images);
+  shuffledImages.value = shuffleWithFirst(props.images, props.firstImageSrc);
   if (shuffledImages.value.length > 1) {
     startAutoPlay();
   }
