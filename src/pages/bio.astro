@@ -36,12 +36,12 @@ const socialLinks = [
   </div>
   <div class="my-4">
     <p class="mb-4">
-      I’m a Phoenix-based photographer and software developer. During a climbing
-      trip to Priest Draw in October 2024, a friend brought along his Canon
-      AE-1. I was still shooting digital, but it inspired me to try film myself.
-      Soon after, I bought an old Pentax ME and started shooting film. The
-      slower pace and limited frames forced me to be more intentional with each
-      shot. I was hooked, and I’ve focused on film since.
+      I’m a photographer and software developer based in Phoenix, Arizona.
+      During a climbing trip to Priest Draw in October 2024, a friend brought
+      along his Canon AE-1. I was still shooting digital, but it inspired me to
+      try film myself. Soon after, I bought an old Pentax ME and started
+      shooting film. The slower pace and limited frames forced me to be more
+      intentional with each shot. I was hooked, and I’ve focused on film since.
     </p>
 
     <p class="mb-4">
@@ -63,43 +63,51 @@ const socialLinks = [
         target="_blank"
         rel="noopener noreferrer">Vue.js</a
       >, combining my passions for software development and photography. Having
-      been a photo enthusiast since 2009, software dev is a hobby I picked up
+      been a photo enthusiast since 2009, software/webdev is a hobby I picked up
       more recently in 2022 during the pandemic.
     </p>
 
     <p class="mb-4">
       When I'm not behind the camera or computer screen, you'll find me at
       climbing gyms or crags around Arizona, hiking throughout the Phoenix
-      valleys, or tinkering with personal projects. Originally from Michigan,
-      I've called Phoenix home since 2018.
+      valleys, attending <a
+        href="https://www.meetup.com/phoenix-javascript/"
+        class="link"
+        target="_blank"
+        rel="noopener noreferrer">tech meetups</a
+      >, or tinkering with personal projects at <a
+        href="https://www.heatsynclabs.org/"
+        class="link"
+        target="_blank"
+        rel="noopener noreferrer">HeatSync Labs</a
+      >.
+    </p>
+    <p class="mb-4">
+      Originally from Michigan, I've called Arizona home since 2018.
+    </p>
+  </div>
+
+  <div>
+    <p>Welcome to my website!</p>
+    <p class="text-2xl font-bold">- Corey</p>
+  </div>
+
+  <div class="border-t border-gray-200 my-8"></div>
+
+  <div class="flex flex-col gap-4 my-2">
+    <h2 class="text-3xl font-bold" id="contact">Contact</h2>
+    <p>
+      Project ideas? Whether it’s a photoshoot, a website, or an app, I’d love
+      to hear from you!
     </p>
 
-    <div>
-      <p>Welcome to my website!</p>
-      <p class="text-2xl font-bold">- Corey</p>
+    <div class="flex flex-row gap-4 mt-4">
+      {
+        socialLinks.map((link) => (
+          <Social platform={link.platform} username={link.username} size={48} />
+        ))
+      }
     </div>
-
-    <div class="border-t border-gray-200 my-8"></div>
-
-    <div class="flex flex-col gap-4 my-2">
-      <h2 class="text-3xl font-bold" id="contact">Contact</h2>
-      <p>
-        Project ideas? Whether it’s a photoshoot, a website, or an app, I’d love
-        to hear from you!
-      </p>
-
-      <div class="flex flex-row gap-4 mt-4">
-        {
-          socialLinks.map((link) => (
-            <Social
-              platform={link.platform}
-              username={link.username}
-              size={48}
-            />
-          ))
-        }
-      </div>
-    </div>
-    <ContactForm client:load />
   </div>
+  <ContactForm client:load />
 </BaseLayout>

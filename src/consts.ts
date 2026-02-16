@@ -81,3 +81,13 @@ export const projects: GitHubCard[] = [
 // then rehydrate the date as local midnight (prevents timezone discrepancies)
 export const formatDate = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate()).toDateString();
+
+// Short date for cards, e.g. "Mar 09, 2024"
+export const formatDateShort = (date: Date) => {
+  const d = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+  return d.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+};

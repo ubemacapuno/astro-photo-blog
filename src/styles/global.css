@@ -120,8 +120,8 @@ body {
   box-sizing: border-box;
 }
 
-/* Global link styles - only apply to links in main content */
-main a {
+/* Global link styles - only apply to links in main content (exclude blog card links) */
+main a:not(.blog-card-link) {
   color: inherit;
   text-decoration: underline;
   font-weight: bold;
