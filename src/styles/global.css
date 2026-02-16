@@ -127,10 +127,6 @@ main a {
   font-weight: bold;
 }
 
-main a:hover {
-  font-style: italic;
-}
-
 input,
 textarea {
   border: 2px solid var(--color-line-primary);

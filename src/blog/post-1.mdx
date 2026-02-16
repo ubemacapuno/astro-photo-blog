@@ -57,7 +57,31 @@ For [Cloudinary image transformations](https://cloudinary.com/documentation/imag
 
 <br />
 
-The parser is pretty dumb (almost no validation and it assumes you pasted in the URLs correctly) but it gets the job done. I'm essentially just splitting the input on newlines, then applying the transformations to each line, and then joining the lines back together. You can see the Vue component code [here](https://github.com/ubemacapuno/astro-photo-blog/blob/main/src/components/vue/CloudinaryFormatter.vue). I used [refs](https://vuejs.org/guide/essentials/template-refs) to store the input and output, and a boolean to track if any lines were skipped for a simple validation check.
+The parser is pretty dumb (almost no validation and it assumes you pasted in the URLs correctly) but it gets the job done. I'm essentially just splitting the input on newlines, then applying the transformations to each line, and then joining the lines back together.
+
+<br />
+
+For the transformation step, I split the string at the `/upload/` portion of the link and then insert the transformations after it when putting it back together:
+
+<br />
+
+```ts
+const applyCloudinaryTransformations = (cloudinaryUrl: string): string | null => {
+  const trimmed = cloudinaryUrl.trim();
+  if (trimmed === "") return null;
+
+  const uploadSplit = trimmed.split("/upload/");
+  if (uploadSplit.length !== 2) return null;
+
+  const baseUrl = uploadSplit[0];
+  const assetPath = uploadSplit[1];
+  return `${baseUrl}/upload/${CLOUDINARY_TRANSFORMATIONS}/${assetPath}`;
+};
+```
+
+<br />
+
+You can [see the full Vue component code here](https://github.com/ubemacapuno/astro-photo-blog/blob/main/src/components/vue/CloudinaryFormatter.vue). I used [refs](https://vuejs.org/guide/essentials/template-refs) to store the input and output, and a boolean to track if any lines were skipped for a simple validation check.
 
 <br />
 

@@ -11,6 +11,11 @@ export default defineConfig({
   integrations: [vue(), mdx(), icon()],
   prefetch: true,
 
+  markdown: {
+    shikiConfig: {
+      theme: 'dracula',
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },
