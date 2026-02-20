@@ -94,7 +94,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
       <slot />
     </main>
     <Footer />
-    <script is:inline data-astro-rerun set:html={menuScript} />
+    <script is:inline data-astro-rerun set:html={menuScript}></script>
     <!-- use is:inline directive to emit script here (don't hoist to page head) -->
     <script is:inline>
       document.addEventListener("click", function (e) {
