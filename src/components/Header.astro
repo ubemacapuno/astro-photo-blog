@@ -22,11 +22,7 @@ const isHomepage = pathname === "/";
           )
         }
       </div>
-      <NavMenu client:load pathname={pathname}>
-        <template #drawer-footer>
-          <ThemeIcon />
-        </template>
-      </NavMenu>
+      <NavMenu client:load pathname={pathname} />
       <div class="hidden md:block md:ml-auto">
         <ThemeIcon />
       </div>
