@@ -1,4 +1,5 @@
 ---
+import { ClientRouter, fade } from "astro:transitions";
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -25,16 +26,23 @@ const { pageTitle, layout = "default", seo } = Astro.props;
 <html lang="en">
   <head>
     <script is:inline>
-      const theme = (() => {
-        const stored = localStorage?.getItem("theme") ?? "";
-        if (["dark", "light"].includes(stored)) return stored;
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+      (function () {
+        function getTheme() {
+          const stored = localStorage?.getItem("theme") ?? "";
+          if (["dark", "light"].includes(stored)) return stored;
+          if (window.matchMedia("(prefers-color-scheme: dark)").matches)
+            return "dark";
           return "dark";
-        return "dark";
+        }
+        function applyTheme() {
+          const theme = getTheme();
+          document.documentElement.classList.toggle("dark", theme !== "light");
+          return theme;
+        }
+        const theme = applyTheme();
+        localStorage?.setItem("theme", theme);
+        document.addEventListener("astro:after-swap", applyTheme);
       })();
-
-      document.documentElement.classList.toggle("dark", theme !== "light");
-      localStorage?.setItem("theme", theme);
     </script>
     <meta charset="utf-8" />
     <link
@@ -72,10 +80,11 @@ const { pageTitle, layout = "default", seo } = Astro.props;
         <title>{pageTitle}</title>
       )
     }
+    <ClientRouter />
   </head>
   <body class="min-h-screen flex flex-col">
     <Header />
-    <main class={`grow ${layout === "post" ? "post-layout" : ""}`}>
+    <main class={`grow ${layout === "post" ? "post-layout" : ""}`} transition:animate={fade({ duration: 300 })}>
       <h1 class="my-4 text-4xl">{pageTitle}</h1>
       <slot />
     </main>
