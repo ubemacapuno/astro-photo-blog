@@ -50,7 +50,6 @@ function shuffleWithFirst(
 const shuffledImages = ref<CarouselImage[]>([]);
 
 const MIN_SWIPE_DISTANCE = 50;
-const MIN_SWIPE_PREVENT_SCROLL = 10;
 
 // state
 const currentIndex = ref(1);
@@ -135,12 +134,6 @@ const onTouchStart = (event: TouchEvent) => {
 
 const onTouchMove = (event: TouchEvent) => {
   const currentX = event.touches[0].clientX;
-  const deltaX = Math.abs((touchStartX.value ?? 0) - currentX);
-
-  if (deltaX > MIN_SWIPE_PREVENT_SCROLL) {
-    event.preventDefault();
-  }
-
   touchEndX.value = currentX;
 };
 
@@ -180,7 +173,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden"
+    class="touch-pan-y relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
