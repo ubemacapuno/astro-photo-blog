@@ -25,6 +25,26 @@ const { pageTitle, layout = "default", seo } = Astro.props;
 <html lang="en">
   <head>
     <script is:inline>
+      // Workaround for iOS Chrome/Edge/Firefox back button exiting site: https://github.com/withastro/astro/issues/11919
+      (function () {
+        var ua = navigator.userAgent;
+        if (/CriOS|EdgiOS|FxiOS/.test(ua)) {
+          document.addEventListener(
+            "click",
+            function (e) {
+              var link = e.target instanceof Element ? e.target.closest("a") : null;
+              if (link === null || link.href === undefined) return;
+              if (!link.href.startsWith(window.location.origin)) return;
+              if (link.href.indexOf("#") !== -1) return;
+              history.pushState(null, "", link.href);
+              window.dispatchEvent(new PopStateEvent("popstate"));
+            },
+            true
+          );
+        }
+      })();
+    </script>
+    <script is:inline>
       (function () {
         function getTheme() {
           const stored = localStorage?.getItem("theme") ?? "";
