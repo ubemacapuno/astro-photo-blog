@@ -14,40 +14,11 @@ interface CarouselImage {
 interface Props {
   images: CarouselImage[];
   autoPlayInterval?: number;
-  /** If set, firstImageSrc is always first in the shuffle for a seamless LCP transition. */
-  firstImageSrc?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
   autoPlayInterval: AUTO_PLAY_INTERVAL,
 });
-
-function shuffleArray(array: CarouselImage[]): CarouselImage[] {
-  const shuffled = [...array];
-  // Fisher-Yates shuffle
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-}
-
-function shuffleWithFirst(
-  array: CarouselImage[],
-  firstImageSrc: string | undefined
-): CarouselImage[] {
-  if (firstImageSrc === undefined || array.length === 0) {
-    return shuffleArray(array);
-  }
-  const first = array.find((img) => img.src === firstImageSrc);
-  if (first === undefined) {
-    return shuffleArray(array);
-  }
-  const rest = array.filter((img) => img.src !== firstImageSrc);
-  return [first, ...shuffleArray(rest)];
-}
-
-const shuffledImages = ref<CarouselImage[]>([]);
 
 const MIN_SWIPE_DISTANCE = 50;
 
@@ -64,7 +35,7 @@ const touchEndX = ref<number | null>(null);
 // Infinite loop: [last, ...images, first]. After animating to the clone, we jump
 // back to the real slide without transition. Same image both positions = no flicker.
 const extendedImages = computed(() => {
-  const images = shuffledImages.value;
+  const images = props.images;
   if (images.length === 0) return [];
   const last = images[images.length - 1];
   const first = images[0];
@@ -104,7 +75,7 @@ const prevSlide = () => {
 
   if (currentIndex.value === 0) {
     setTimeout(
-      () => jumpToPosition(shuffledImages.value.length),
+      () => jumpToPosition(props.images.length),
       TRANSITION_DURATION
     );
   } else {
@@ -158,8 +129,7 @@ const onTouchEnd = () => {
 
 // lifecycle methods
 onMounted(() => {
-  shuffledImages.value = shuffleWithFirst(props.images, props.firstImageSrc);
-  if (shuffledImages.value.length > 1) {
+  if (props.images.length > 1) {
     startAutoPlay();
   }
 });
@@ -180,7 +150,7 @@ onUnmounted(() => {
   >
     <!-- Blank placeholder to prevent layout shift until carousel is ready -->
     <div
-      v-if="shuffledImages.length === 0"
+      v-if="images.length === 0"
       class="absolute inset-0"
       aria-hidden="true"
     />
