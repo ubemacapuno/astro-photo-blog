@@ -38,13 +38,19 @@ Build for Cloudflare (static + worker):
 bun build:cloudflare
 ```
 
-Preview the Cloudflare build locally with Wrangler:
+Preview the build locally. This runs on Cloudflare's `workerd` runtime, so it
+closely mirrors production:
 
 ```bash
 bun preview
 ```
 
-To deploy to Cloudflare Pages/Workers, use Wrangler from the project root (e.g. `npx wrangler deploy`). See [wrangler.jsonc](./wrangler.jsonc) for config.
+To deploy to Cloudflare Workers, build first, then run Wrangler from the project
+root (`npx wrangler deploy`). The build writes the deployable Wrangler config to
+`dist/server/wrangler.json` and points Wrangler at it, so a deploy always needs a
+preceding build. See [wrangler.jsonc](./wrangler.jsonc) for the settings you own
+(name, routes, compatibility flags); the adapter fills in `main` and the assets
+binding automatically.
 
 ## Things to Add
 
