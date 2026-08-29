@@ -1,5 +1,6 @@
 import { ActionError, defineAction } from "astro:actions";
-import { z } from "astro:schema";
+import { z } from "astro/zod";
+import { env } from "cloudflare:workers";
 import { Resend } from "resend";
 
 export const server = {
@@ -8,15 +9,13 @@ export const server = {
 
     input: z.object({
       name: z.string().min(1, "Name is required"),
-      email: z.string().email("Valid email required"),
+      email: z.email("Valid email required"),
       message: z.string().min(1, "Message is required"),
     }),
 
-    handler: async ({ name, email, message }, { locals }) => {
-      // @ts-ignore
-      const apiKey = locals.runtime?.env?.RESEND_API_KEY;
-      // @ts-ignore
-      const toEmail = locals.runtime?.env?.RESEND_EMAIL_ADDRESS;
+    handler: async ({ name, email, message }) => {
+      const apiKey = env.RESEND_API_KEY;
+      const toEmail = env.RESEND_EMAIL_ADDRESS;
 
       if (apiKey === undefined || apiKey === "") {
         throw new ActionError({
