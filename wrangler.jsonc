@@ -1,5 +1,5 @@
 {
-	"main": "dist/_worker.js/index.js",
+	"main": "@astrojs/cloudflare/entrypoints/server",
 	"name": "astro-photo-blog",
 	// Add "vars": { "RESEND_EMAIL_ADDRESS": "your@email.com" } for contact form.
 	// Run: npx wrangler secret put RESEND_API_KEY
@@ -7,15 +7,11 @@
 		{ "pattern": "coreydamocles.com/*", "zone_name": "coreydamocles.com" },
 		{ "pattern": "www.coreydamocles.com/*", "zone_name": "coreydamocles.com" }
 	],
-	"compatibility_date": "2026-01-22",
+	"compatibility_date": "2026-08-28",
   "compatibility_flags": [
     "nodejs_compat",
     "global_fetch_strictly_public"
   ],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": "./dist"
-	},
 	"observability": {
     "enabled": true
   }

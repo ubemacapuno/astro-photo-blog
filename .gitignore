@@ -30,3 +30,6 @@ bun-debug.log*
 
 # bun
 bun.lockb   # I'm the only one working on this blog . . . don't need lock files
+
+# wrangler generated types
+worker-configuration.d.ts
