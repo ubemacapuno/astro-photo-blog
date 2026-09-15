@@ -20,5 +20,10 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   output: "static",
+  // Nothing here uses Astro.session. Left enabled, the Cloudflare adapter
+  // injects a `SESSION` KV binding with no id, so `wrangler versions upload`
+  // tries to create the namespace on every deploy and fails once it exists
+  // (Cloudflare API error 10014).
+  session: false,
   adapter: cloudflare({ imageService: "compile" }),
 });
