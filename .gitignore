@@ -29,4 +29,10 @@ bun-debug.log*
 .wrangler/
 
 # bun
-bun.lockb   # I'm the only one working on this blog . . . don't need lock files
+# I'm the only one working on this blog . . . don't need lock files
+bun.lockb
+
+# pnpm - this project uses bun; a pnpm-workspace.yaml here breaks the
+# Cloudflare build, which runs `pnpm run build` on an older pnpm
+pnpm-lock.yaml
+pnpm-workspace.yaml
