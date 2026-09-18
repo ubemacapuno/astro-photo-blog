@@ -70,7 +70,6 @@
   --color-input-bg: #ffffff;
   --color-input-border: #e7e2dc;
 
-  /* Deeper than the dark-mode salmon, which fails contrast on a light ground. */
   --color-accent: #b3431f;
 }
 
@@ -84,6 +83,8 @@
   --astro: #f75a00;
   --css: #563d7c;
   --scss: #c6538c;
+  --laravel: #ff2d20;
+  --php: #4f5d95;
   --postcss: #dd3a0a;
   --tailwindcss: #06b6d4;
   --mongodb: #13aa52;
@@ -147,7 +148,11 @@ main a:not(.blog-card-link):not(.plain-link) {
   /* inherit so a link inside a heading stays bold */
   font-weight: inherit;
   text-decoration: underline;
-  text-decoration-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
+  text-decoration-color: color-mix(
+    in oklab,
+    var(--color-accent) 40%,
+    transparent
+  );
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
   transition: text-decoration-color 150ms ease;
