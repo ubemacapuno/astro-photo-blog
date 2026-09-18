@@ -19,6 +19,7 @@ export const languageColors: Partial<Record<TechStack, string>> = {
   CSS: "var(--css)",
   "Three.js": "var(--threejs)",
   PocketBase: "var(--pocketbase)",
+  SQLite: "var(--sqlite)",
   Vite: "var(--vite)",
 };
 
@@ -38,7 +39,7 @@ export const projects: GitHubCard[] = [
       "Self-hosted Laravel food journal on a Raspberry Pi 4B + Tailscale for logging recipes, restaurants, and dishes.",
     stars: 0,
     forks: 0,
-    stack: ["Laravel", "PHP", "Vue"],
+    stack: ["Laravel", "PHP", "Vue", "SQLite"],
     url: "https://github.com/ubemacapuno/svelte-step-bro",
   },
   {

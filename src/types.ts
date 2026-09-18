@@ -26,6 +26,7 @@ export type TechStack =
   | "MongoDB"
   | "PHP"
   | "Python"
+  | "SQLite"
   | "CSS"
   | "Three.js"
   | "PocketBase"
