@@ -44,7 +44,7 @@ const sortedPosts = allPosts.sort(
 
 <BaseLayout {pageTitle} seo={seo}>
   <section
-    class="flex justify-center items-start min-h-[50vh] md:min-h-[60vh] whitespace-nowrap"
+    class="flex justify-center items-start whitespace-nowrap"
   >
     <div class="relative flex items-center justify-center">
       <div class="relative w-88 h-125 md:w-103.75 md:h-147.5">
@@ -99,7 +99,12 @@ const sortedPosts = allPosts.sort(
   <section class="flex flex-col mt-24">
     <div class="flex justify-between">
       <h2 class="text-3xl font-bold">Recent Posts</h2>
-      <a href="/blog" data-astro-prefetch aria-label="Link to Blogs">
+      <a
+        href="/blog"
+        data-astro-prefetch
+        class="plain-link"
+        aria-label="Link to Blogs"
+      >
         <Icon name="mdi:newspaper-variant" size={36} />
       </a>
     </div>
@@ -125,6 +130,9 @@ const sortedPosts = allPosts.sort(
       <h2 class="text-3xl font-bold">Projects on GitHub</h2>
       <a
         href="https://www.github.com/ubemacapuno"
+        class="plain-link"
+        target="_blank"
+        rel="noopener noreferrer"
         aria-label="Link to GitHub profile"
       >
         <Icon name="mdi:github" size={36} />
