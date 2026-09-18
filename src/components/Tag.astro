@@ -5,7 +5,7 @@ const { tag, link } = Astro.props;
 <!-- TODO: figure out how to get data-astro-prefetch working here. It will need to be dynamic -->
 <a
   href={link ? `/${link}` : `/tags/${tag}`}
-  class="inline-flex items-center justify-center h-6 gap-1 rounded-md border border-border bg-bg-secondary px-2.5 text-xs font-medium text-text-muted no-underline! transition-colors hover:text-text-primary my-2 mx-0.5"
+  class="plain-link inline-flex items-center justify-center h-6 gap-1 rounded-md border border-border bg-bg-secondary px-2.5 text-xs font-medium text-text-muted transition-colors hover:text-text-primary my-2 mx-0.5"
 >
   #{tag}
 </a>
