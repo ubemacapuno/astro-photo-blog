@@ -18,31 +18,19 @@ As part of my stretch goal to learn more about Laravel, I decided to build a sma
 2. an invoice gets generated
 3. and (eventually) emails and reorder alerts go out (I didn't implement this, but this can be easily added with these eventing/listener patterns)
 
-<br />
-
 One way to do this is to place all these things into the controller. For this small app that is probably fine, but if we're thinking scalability, it makes sense to contain the eventing logic in separate files. Otherwise, every new side-effect means editing the same method. I used this as an excuse to learn **Events**, **Listeners**, and **Jobs/Queues**. You can find the demo [here on GitHub](https://github.com/ubemacapuno/miniERP).
-
-<br />
 
 ### The mental model
 
 These were the three main features I wanted to explore and demo:
 
-<br />
-
 - **Events**: An announcement when an order is placed. The event I made carries order data, but alone does nothing itself.
 - **Listeners**: These listen for the announcement when the order is placed and react. Multiple listeners can react to the same event, independently.
 - **Jobs**: These are like "To-dos" that are queued up to be done _later_, by some worker. In this demo, the worker can be started up with `php artisan queue:work`
 
-<br />
-
 So my whole flow in the demo is just one announcement (Events), some reactions (from Listeners), and a couple of to-dos (Jobs).
 
-<br />
-
 Folder structure:
-
-<br />
 
 ```
 app/
@@ -58,17 +46,11 @@ app/
     └── GenerateInvoiceJob.php           // create the invoice (queued)
 ```
 
-<br />
-
 Laravel gives you artisan commands to scaffold each of these (`make:event`, `make:listener`, `make:job`), so they land in the right folder automatically.
-
-<br />
 
 ### The event
 
 `OrderPlaced` announces the order and nothing else:
-
-<br />
 
 ```php
 class OrderPlaced
@@ -79,17 +61,11 @@ class OrderPlaced
 }
 ```
 
-<br />
-
 This looks surprisingly simple (don't we need some logic in here??), but events don't need logic. They just need to announce "this happened, here's the data", and that's enough for a listener to act on. Note that the `SerializesModels` trait matters once you queue things, because it stores the model's ID and re-fetches a fresh copy later instead of trying to serialize the whole object.
-
-<br />
 
 ### Dispatching
 
 In the controller, after I create the order inside a database transaction, I dispatch the event:
-
-<br />
 
 ```php
 $order = DB::transaction(function () use ($validated): Order {
@@ -107,19 +83,13 @@ OrderPlaced::dispatch($order);
 return redirect()->route('orders.show', $order);
 ```
 
-<br />
-
 The dispatch is **after** the database transaction. If you fire the event inside the transaction and something rolls back, your listeners will have acted on data that no longer exists. Dispatching after the commit keeps things consistent.
-
-<br />
 
 ### The two listeners
 
 `OrderPlaced` has two listeners, `DeductStock` and `DispatchInvoiceGeneration`:
 
 The first, `DeductStock`, does the decrementing within the listener:
-
-<br />
 
 ```php
 class DeductStock
@@ -142,11 +112,7 @@ class DeductStock
 }
 ```
 
-<br />
-
 The second, `DispatchInvoiceGeneration`, doesn't do anything itself, it just forwards to a queued job:
-
-<br />
 
 ```php
 class DispatchInvoiceGeneration
@@ -158,17 +124,11 @@ class DispatchInvoiceGeneration
 }
 ```
 
-<br />
-
 In Laravel 11+, listeners in `app/Listeners` are auto-discovered by the type-hint on their `handle()` method, e.g. `handle(OrderPlaced $event)`.
-
-<br />
 
 ### The job, and sync vs. queue
 
 The actual invoice gets created by a queued job:
-
-<br />
 
 ```php
 class GenerateInvoiceJob implements ShouldQueue
@@ -191,15 +151,9 @@ class GenerateInvoiceJob implements ShouldQueue
 }
 ```
 
-<br />
-
 The `implements ShouldQueue` is what decides when this job runs, and that's controlled by your `QUEUE_CONNECTION` in `.env`:
-
-<br />
 
 - `QUEUE_CONNECTION=sync` -> jobs run immediately inline in the same request. No worker needed. Great for local dev.
 - `QUEUE_CONNECTION=database` -> jobs are saved to the databse (`jobs` table) and run later by a worker you start with `php artisan queue:work`.
-
-<br />
 
 If you want to poke at the whole thing, the repo is on GitHub [here](https://github.com/ubemacapuno/miniERP). Peace!

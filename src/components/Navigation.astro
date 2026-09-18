@@ -1,4 +1,5 @@
 ---
+import Menu from "./Menu.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 
 const pages = [
@@ -31,55 +32,99 @@ const isActiveNavLink = (href: string) => {
 };
 ---
 
-<div id="menu-backdrop" class="hidden fixed inset-0 bg-black/50 z-40 md:hidden">
-</div>
+<div class="relative md:flex-1 md:flex md:justify-center">
+  <Menu />
 
-<!-- Drawer -->
-<div
-  id="main-menu"
-  class="fixed top-0 right-0 h-full w-64 bg-white dark:bg-black z-50 transform translate-x-full transition-[transform,background-color] duration-150 ease-in-out md:relative md:translate-x-0 md:w-auto md:h-auto md:block md:mx-auto md:text-center"
->
-  <button
-    id="close-menu-button"
-    class="md:hidden absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-black dark:text-white hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-    aria-label="Close menu"
-  >
-    <svg
-      class="w-6 h-6"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M6 18L18 6M6 6l12 12"></path>
-    </svg>
-  </button>
+  <div id="menu-backdrop" class="hidden fixed inset-0 bg-black/50 z-40 md:hidden" aria-hidden="true">
+  </div>
+
   <div
-    class="mt-16 md:mt-0 flex flex-col h-full md:flex-row md:h-auto md:items-center md:justify-center"
+    id="main-menu"
+    class="fixed top-0 right-0 h-full w-64 bg-bg-primary z-50 transform translate-x-full md:translate-x-0 transition duration-150 ease-in-out md:relative md:w-auto md:h-auto md:block md:mx-auto md:text-center"
   >
-    {
-      pages.map((page) => (
-        <a
-          href={page.href}
-          data-astro-prefetch={page.prefetch}
-          class={`anton-nav block text-center py-2.5 text-xl md:inline-block md:px-5 md:py-4 text-black dark:text-white transition-colors
-          ${
-            isActiveNavLink(page.href)
-              ? "underline text-red-600!"
-              : "hover:text-gray-600 dark:hover:text-gray-300"
-          }`}
-        >
-          {page.label}
-        </a>
-      ))
-    }
+    <button
+      id="close-menu-button"
+      type="button"
+      class="md:hidden absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-text-primary hover:text-text-muted transition-colors"
+      aria-label="Close menu"
+    >
+      <svg
+        class="w-6 h-6"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M6 18L18 6M6 6l12 12"></path>
+      </svg>
+    </button>
 
-    <div class="md:hidden flex justify-center py-4">
-      <ThemeIcon />
+    <div
+      class="mt-16 md:mt-0 flex flex-col h-full md:flex-row md:h-auto md:items-center md:justify-center"
+    >
+      {
+        pages.map((page) => (
+          <a
+            href={page.href}
+            data-astro-prefetch={page.prefetch}
+            class:list={[
+              "anton-nav block text-center py-2.5 text-xl md:inline-block md:px-5 md:py-4 transition-colors",
+              isActiveNavLink(page.href)
+                ? "underline text-red-600"
+                : "text-text-primary hover:text-text-muted",
+            ]}
+          >
+            {page.label}
+          </a>
+        ))
+      }
+
+      <div class="md:hidden flex justify-center py-4">
+        <ThemeIcon />
+      </div>
     </div>
   </div>
 </div>
+
+<script>
+  const BUTTON = ".menu-button";
+  const DRAWER = "#main-menu";
+  const BACKDROP = "#menu-backdrop";
+  const CLOSE = "#close-menu-button";
+
+  const isOpen = () =>
+    document.querySelector(BUTTON)?.getAttribute("aria-expanded") === "true";
+
+  const setOpen = (open: boolean) => {
+    const button = document.querySelector<HTMLButtonElement>(BUTTON);
+    const drawer = document.querySelector<HTMLElement>(DRAWER);
+    const backdrop = document.querySelector<HTMLElement>(BACKDROP);
+    if (!button || !drawer || !backdrop) return;
+
+    button.setAttribute("aria-expanded", String(open));
+    drawer.classList.toggle("translate-x-0", open);
+    drawer.classList.toggle("translate-x-full", !open);
+    backdrop.classList.toggle("hidden", !open);
+    document.body.style.overflow = open ? "hidden" : "";
+  };
+
+  document.addEventListener("click", ({ target }) => {
+    if (!(target instanceof Element)) return;
+
+    if (target.closest(BUTTON)) {
+      setOpen(!isOpen());
+    } else if (target.closest(CLOSE) || target.closest(BACKDROP)) {
+      setOpen(false);
+    } else if (target.closest(`${DRAWER} a`)) {
+      setOpen(false);
+    }
+  });
+
+  document.addEventListener("keydown", ({ key }) => {
+    if (key === "Escape" && isOpen()) setOpen(false);
+  });
+</script>

@@ -6,26 +6,60 @@ h3 {
 pre code {
   /* Box properties */
   display: block;
-  padding: 0.5rem;
-  margin: 0.3rem 0;
+  padding: 0;
+  margin: 0;
 
-  /* Typography */
-  font-family: monospace; /* Common font for code */
+  /* `monospace` is doubled on purpose: with a single `monospace` keyword,
+     browsers size relative units off their ~13px monospace default. */
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace, monospace;
+  font-size: 0.875rem;
+  line-height: 1.7;
   white-space: pre-wrap;
   overflow-x: auto;
+  background: none;
+}
+
+/* Tailwind's preflight zeroes margins on p/ul/ol/headings; prose restores them. */
+
+.post-layout p,
+.post-layout li {
+  line-height: 1.75;
+}
+
+.post-layout p {
+  margin: 0 0 1.25em;
+}
+
+.post-layout h2,
+.post-layout h3,
+.post-layout h4 {
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  margin: 2.75rem 0 0.75rem;
 }
 
 .post-layout h3 {
-  margin-top: 2.5rem;
-  margin-bottom: 0.75rem;
-  padding-bottom: 0.35rem;
-  border-bottom: 2px solid var(--color-line-primary);
+  font-size: 1.5rem;
+}
+
+.post-layout h2 {
+  font-size: 1.75rem;
+}
+
+.post-layout h4 {
+  font-size: 1.125rem;
+}
+
+.post-layout > :is(h2, h3, h4):first-child {
+  margin-top: 0;
 }
 
 .post-layout ul,
 .post-layout ol {
-  margin: 0.5rem 0 1rem;
-  padding-left: 1.75rem;
+  margin: 0 0 1.25em;
+  padding-left: 1.5rem;
 }
 
 .post-layout ul {
@@ -37,25 +71,54 @@ pre code {
 }
 
 .post-layout li {
-  margin: 0.4rem 0;
+  margin: 0.35em 0;
   padding-left: 0.25rem;
 }
 
 .post-layout li::marker {
-  color: var(--color-accent);
-  font-weight: bold;
+  color: var(--color-text-muted);
+}
+
+.post-layout blockquote {
+  margin: 0 0 1.25em;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-border);
+  color: var(--color-text-muted);
 }
 
 .post-layout :not(pre) > code {
   background-color: var(--color-bg-secondary);
-  border-radius: 4px;
-  padding: 0.1rem 0.4rem;
-  font-size: 0.9em;
-  font-family: monospace;
+  border: 1px solid var(--color-border);
+  border-radius: 0.375rem;
+  padding: 0.1rem 0.35rem;
+  /* rem, not em -- see the monospace note above. */
+  font-size: 0.8125rem;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace, monospace;
 }
 
+/* Code blocks keep Shiki's own dark background in both themes -- the token
+   colours are built for a dark ground, so a light one makes them unreadable.
+   The border is fixed rather than tokenised for the same reason. */
 .post-layout pre {
-  border-radius: 8px;
-  margin: 0.5rem 0 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 0.625rem;
+  padding: 1rem;
+  margin: 0 0 1.5em;
   overflow-x: auto;
+}
+
+/* Consecutive image lines share one <p>; block keeps them stacked. */
+.post-layout img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.625rem;
+  margin: 0 0 1.5em;
+}
+
+.post-layout hr {
+  border: 0;
+  border-top: 1px solid var(--color-border);
+  margin: 2.5rem 0;
 }

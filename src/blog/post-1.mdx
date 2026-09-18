@@ -16,11 +16,7 @@ import CloudinaryFormatter from "../components/vue/CloudinaryFormatter.vue";
 
 Cloudinary is a popular image-hosting site that I decided to use for my photos. For my current workflow, I upload my photos to Cloudinary, then grab the URLs from Cloudinary and reference them on my pages and blogs throughout this site.
 
-<br />
-
 The reason I made this formatter is because it's a pain to copy a single URL off Cloudinary, paste it into my markdown file, then manually add the transformations and add `[](url)`, add `<br />` tags, etc. I intend to paste several images back-to-back, so I made this tool to help me out. With this tool, I can just copy and paste a bunch of URLs, and it will generate the markdown for me, with the transformations and `<br />` tags already added.
-
-<br />
 
 **Example of raw Cloudinary URLs:**
 
@@ -28,8 +24,6 @@ The reason I made this formatter is because it's a pain to copy a single URL off
 https://res.cloudinary.com/dntiqucwf/image/upload/v1769647575/20251217%20Oak%20Flat%20and%20Carmy/031363-R1-E024_ycbvil.jpg
 https://res.cloudinary.com/dntiqucwf/image/upload/v1769647572/20251217%20Oak%20Flat%20and%20Carmy/031363-R1-E020_wtyxji.jpg
 ```
-
-<br />
 
 **Example of formatted Cloudinary URLs:**
 
@@ -39,7 +33,6 @@ https://res.cloudinary.com/dntiqucwf/image/upload/v1769647572/20251217%20Oak%20F
 
 ```
 
-<br />
 **Why Cloudinary instead of dropping everything within this app in the `public/`
 folder?**
 
@@ -47,23 +40,13 @@ I didn't want to bloat the repo with big assets, and I wanted a CDN so images
 load fast everywhere. Plus Cloudinary can resize and re-encode on the fly. One upload,
 many sizes and formats without me doing the work.
 
-<br />
-
 I plan to build out an image component in the future, in which case I could probably just paste in the URLs and have the parser logic in that component, but for now, I'm okay just pasting markdown images with `<br />` tags.
-
-<br />
 
 For [Cloudinary image transformations](https://cloudinary.com/documentation/image_transformations), I currently use `f_auto` (best format per browser), `q_auto` (auto quality), `w_1200` (max width), and `c_limit` (scale down, never up). That means smaller payloads, better layout control, and no manual resizing!
 
-<br />
-
 The parser is pretty dumb (almost no validation and it assumes you pasted in the URLs correctly) but it gets the job done. I'm essentially just splitting the input on newlines, then applying the transformations to each line, and then joining the lines back together.
 
-<br />
-
 For the transformation step, I split the string at the `/upload/` portion of the link and then insert the transformations after it when putting it back together:
-
-<br />
 
 ```ts
 const applyCloudinaryTransformations = (cloudinaryUrl: string): string | null => {
@@ -79,15 +62,10 @@ const applyCloudinaryTransformations = (cloudinaryUrl: string): string | null =>
 };
 ```
 
-<br />
-
 You can [see the full Vue component code here](https://github.com/ubemacapuno/astro-photo-blog/blob/main/src/components/vue/CloudinaryFormatter.vue). I used [refs](https://vuejs.org/guide/essentials/template-refs) to store the input and output, and a boolean to track if any lines were skipped for a simple validation check.
-
-<br />
 
 Anyways, I hope to write more posts like this in the future. Maybe the next one will be about the image component . . . until next time!
 
-<br />
 ### Demo (you can also see at the [/generate](/generate) page):
 
 Try pasting in these URLs and generating the markdown!
@@ -97,5 +75,4 @@ https://res.cloudinary.com/dntiqucwf/image/upload/v1769647575/20251217%20Oak%20F
 https://res.cloudinary.com/dntiqucwf/image/upload/v1769647572/20251217%20Oak%20Flat%20and%20Carmy/031363-R1-E020_wtyxji.jpg
 ```
 
-<br />
 <CloudinaryFormatter client:load />

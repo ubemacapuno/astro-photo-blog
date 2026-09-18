@@ -13,7 +13,7 @@ export default defineConfig({
 
   markdown: {
     shikiConfig: {
-      theme: "dracula",
+      theme: "synthwave-84",
     },
   },
   vite: {

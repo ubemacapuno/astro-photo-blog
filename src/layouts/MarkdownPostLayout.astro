@@ -32,27 +32,23 @@ const seo = {
 ---
 
 <BaseLayout pageTitle={frontmatter.title} layout="post" seo={seo}>
-  <header class="pt-4 pb-6 border-b border-line-primary mb-6">
+  <header class="pt-4 pb-6 border-b border-border mb-6">
     <div class="flex flex-col gap-1 text-sm">
       <div class="flex items-baseline gap-2">
-        <span class="text-line-primary tracking-widest">Published</span>
-        <span class="text-accent font-medium"
-          >{formatDate(frontmatter.pub_date)}</span
-        >
+        <span class="text-text-muted">Published</span>
+        <span class="font-medium">{formatDate(frontmatter.pub_date)}</span>
       </div>
       {
         frontmatter.photo_date && (
           <div class="flex items-baseline gap-2">
-            <span class="text-line-primary tracking-widest">Photos</span>
-            <span class="text-accent font-medium">
-              {formatDate(frontmatter.photo_date)}
-            </span>
+            <span class="text-text-muted">Photos</span>
+            <span class="font-medium">{formatDate(frontmatter.photo_date)}</span>
           </div>
         )
       }
     </div>
     <p class="text-lg italic mt-3 mb-2 opacity-90">{frontmatter.description}</p>
-    <p class="text-sm text-line-primary m-0">By {frontmatter.author}</p>
+    <p class="text-sm text-text-muted m-0">By {frontmatter.author}</p>
     {
       frontmatter.tags && frontmatter.tags.length > 0 && (
         <div class="flex flex-wrap gap-2 mt-4">

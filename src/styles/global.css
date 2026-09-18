@@ -57,61 +57,21 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-  /* Simple black/white theme colors */
-  --color-bg-primary: #ffffff;
-  --color-bg-secondary: #f5f5f5;
-  --color-text-primary: #000000;
-  --color-text-secondary: #ffffff;
-  --color-nav-bg: #000000;
-  --color-nav-text: #ffffff;
-  --color-nav-hover: #333333;
-  --color-nav-active: #000000;
-  --color-line-primary: #757575;
+  --color-bg-primary: #fbfaf9;
+  --color-bg-secondary: #f3f1ee;
+  --color-text-primary: #1c1917;
+  --color-text-secondary: #fbfaf9;
+  --color-text-muted: #78716c;
+  --color-border: #e7e2dc;
+  --color-ring: #1c1917;
+
   --color-card-bg: #ffffff;
-  --color-card-border: #e5e5e5;
+  --color-card-border: #e7e2dc;
   --color-input-bg: #ffffff;
-  --color-input-border: #dcdcdc;
-  --color-text-muted: #5f6368;
+  --color-input-border: #e7e2dc;
 
-  /* neo-brutalism theme colors  */
-  --color-accent: #ff9776;
-
-  /* Neo-brutalism colors - Violet */
-  --color-violet-100: #a5b4fb;
-  --color-violet-200: #a8a6ff;
-  --color-violet-300: #918efa;
-  --color-violet-400: #807dfa;
-
-  /* Neo-brutalism colors - Pink */
-  --color-pink-200: #ffa6f6;
-  --color-pink-300: #fa8cef;
-  --color-pink-400: #fa7fee;
-
-  /* Neo-brutalism colors - Red */
-  --color-red-200: #ff9f9f;
-  --color-red-300: #fa7a7a;
-  --color-red-400: #f76363;
-
-  /* Neo-brutalism colors - Orange */
-  --color-orange-200: #ffc29f;
-  --color-orange-300: #ff965b;
-  --color-orange-400: #fa8543;
-
-  /* Neo-brutalism colors - Yellow */
-  --color-yellow-200: #fff59f;
-  --color-yellow-300: #fff066;
-  --color-yellow-400: #ffe500;
-
-  /* Neo-brutalism colors - Lime */
-  --color-lime-100: #c6fab4;
-  --color-lime-200: #b8ff9f;
-  --color-lime-300: #9dfc7c;
-  --color-lime-400: #7df752;
-
-  /* Neo-brutalism colors - Cyan */
-  --color-cyan-200: #a6faff;
-  --color-cyan-300: #79f7ff;
-  --color-cyan-400: #53f2fc;
+  /* Deeper than the dark-mode salmon, which fails contrast on a light ground. */
+  --color-accent: #b3431f;
 }
 
 /* GitHub Language Colors */
@@ -135,21 +95,20 @@
 
 /* Dark mode colors */
 .dark {
-  --color-bg-primary: #000000;
-  --color-bg-secondary: #1a1a1a;
-  --color-text-primary: #ffffff;
-  --color-text-secondary: #000000;
-  --color-nav-bg: #ffffff;
-  --color-nav-text: #000000;
-  --color-nav-hover: #cccccc;
-  --color-nav-active: #ffffff;
-  --color-line-primary: #757575;
+  --color-bg-primary: #0e0d0c;
+  --color-bg-secondary: #1a1815;
+  --color-text-primary: #e9e6e1;
+  --color-text-secondary: #0e0d0c;
+  --color-text-muted: #a8a09a;
+  --color-border: #2e2a26;
+  --color-ring: #d6cfc6;
 
-  --color-card-bg: #0f0f0f;
-  --color-card-border: #2b2b2b;
-  --color-input-bg: #000000;
-  --color-input-border: #333333;
-  --color-text-muted: #a1a1a1;
+  --color-card-bg: #141210;
+  --color-card-border: #2e2a26;
+  --color-input-bg: #0e0d0c;
+  --color-input-border: #2e2a26;
+
+  --color-accent: #ff9776;
 }
 
 /* Base styles */
@@ -184,9 +143,18 @@ body {
 
 /* Global link styles - only apply to links in main content (exclude blog card links) */
 main a:not(.blog-card-link):not(.plain-link) {
-  color: inherit;
+  color: var(--color-accent);
+  /* inherit so a link inside a heading stays bold */
+  font-weight: inherit;
   text-decoration: underline;
-  font-weight: bold;
+  text-decoration-color: color-mix(in oklab, var(--color-accent) 40%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 150ms ease;
+}
+
+main a:not(.blog-card-link):not(.plain-link):hover {
+  text-decoration-color: var(--color-accent);
 }
 
 input,
@@ -206,7 +174,7 @@ textarea::placeholder {
 
 input:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid var(--color-text-primary);
+  outline: 2px solid var(--color-ring);
   outline-offset: 1px;
 }
 

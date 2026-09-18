@@ -1,5 +1,5 @@
 ---
-import NavMenu from "./vue/NavMenu.vue";
+import Navigation from "./Navigation.astro";
 import ThemeIcon from "./ThemeIcon.astro";
 
 const pathname = Astro.url.pathname;
@@ -22,7 +22,7 @@ const isHomepage = pathname === "/";
           )
         }
       </div>
-      <NavMenu client:load pathname={pathname} />
+      <Navigation />
       <div class="hidden md:block md:ml-auto">
         <ThemeIcon />
       </div>
