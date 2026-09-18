@@ -4,8 +4,11 @@ const { platform, username, size, color } = Astro.props;
 ---
 <!-- Refactor to use Icon like <Icon name="mdi:linkedin" /> -->
 <a
+  class="plain-link"
   href={`https://www.${platform}.com/${platform === "linkedin" ? "in/" : ""}${username}`}
-
+  aria-label={`${platform} profile`}
+  target="_blank"
+  rel="noopener noreferrer"
 >
   <Icon 
   name={`mdi:${platform}`}

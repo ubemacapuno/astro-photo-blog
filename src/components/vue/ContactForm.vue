@@ -71,40 +71,40 @@ async function handleSubmit(event: Event) {
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit" class="space-y-4">
-    <div>
-      <label for="name">Name</label>
+  <form @submit.prevent="handleSubmit" class="flex flex-col gap-5">
+    <div class="flex flex-col gap-2">
+      <label for="name" class="font-bold">Name</label>
       <input
         id="name"
         v-model="form.name"
         type="text"
         required
-        class="border-2 border-black p-2 w-full"
+        autocomplete="name"
       />
     </div>
 
-    <div>
-      <label for="email">Email</label>
+    <div class="flex flex-col gap-2">
+      <label for="email" class="font-bold">Email</label>
       <input
         id="email"
         v-model="form.email"
         type="email"
         required
-        class="border-2 border-black p-2 w-full"
+        autocomplete="email"
       />
     </div>
 
-    <div>
-      <label for="message">Message</label>
+    <div class="flex flex-col gap-2">
+      <label for="message" class="font-bold">Message</label>
       <textarea
         id="message"
         v-model="form.message"
         required
         rows="5"
-        class="border-2 border-black p-2 w-full"
+        class="resize-y"
         :maxlength="maxTextAreaLength"
       />
-      <p class="text-sm text-gray-500">
+      <p class="text-sm text-text-muted text-right">
         {{ form.message.length }}/{{ maxTextAreaLength }}
       </p>
     </div>
@@ -113,24 +113,44 @@ async function handleSubmit(event: Event) {
       type="submit"
       :disabled="status === 'submitting' || status === 'success'"
       :class="[
-        'border-2 dark:border-black border-white text-white p-2 w-full bg-red-500',
+        'flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 font-bold',
+        'bg-text-primary text-text-secondary transition-opacity',
         status === 'submitting' || status === 'success'
           ? 'cursor-not-allowed opacity-60'
-          : 'cursor-pointer hover:bg-red-800',
+          : 'cursor-pointer hover:opacity-80',
       ]"
     >
-      {{
-        status === "submitting"
-          ? "Sending..."
-          : status === "success"
-            ? "Sent!"
-            : "Send"
-      }}
+      <span>
+        {{
+          status === "submitting"
+            ? "Sending..."
+            : status === "success"
+              ? "Sent!"
+              : "Send Message"
+        }}
+      </span>
+      <svg
+        v-if="status === 'idle' || status === 'error'"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="h-4 w-4"
+        aria-hidden="true"
+      >
+        <path d="m22 2-7 20-4-9-9-4Z" />
+        <path d="M22 2 11 13" />
+      </svg>
     </button>
 
-    <p v-if="status === 'success'" class="text-green-600">Sent successfully!</p>
+    <p v-if="status === 'success'" role="status" class="text-green-600">
+      Sent successfully!
+    </p>
 
-    <p v-if="status === 'error'" class="text-red-600">
+    <p v-if="status === 'error'" role="alert" class="text-red-600">
       {{ errorMessage || "Failed to send message" }}
     </p>
   </form>

@@ -6,9 +6,10 @@
   font-weight: 400;
   font-display: swap;
   src: url("/fonts/anton-latin-400.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+    U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+    U+2215, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -17,9 +18,10 @@
   font-weight: 400;
   font-display: swap;
   src: url("/fonts/anton-latin-ext-400.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
-    U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
-    U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+    U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB,
+    U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
 @font-face {
@@ -65,6 +67,11 @@
   --color-nav-hover: #333333;
   --color-nav-active: #000000;
   --color-line-primary: #757575;
+  --color-card-bg: #ffffff;
+  --color-card-border: #e5e5e5;
+  --color-input-bg: #ffffff;
+  --color-input-border: #dcdcdc;
+  --color-text-muted: #5f6368;
 
   /* neo-brutalism theme colors  */
   --color-accent: #ff9776;
@@ -137,6 +144,12 @@
   --color-nav-hover: #cccccc;
   --color-nav-active: #ffffff;
   --color-line-primary: #757575;
+
+  --color-card-bg: #0f0f0f;
+  --color-card-border: #2b2b2b;
+  --color-input-bg: #000000;
+  --color-input-border: #333333;
+  --color-text-muted: #a1a1a1;
 }
 
 /* Base styles */
@@ -170,7 +183,7 @@ body {
 }
 
 /* Global link styles - only apply to links in main content (exclude blog card links) */
-main a:not(.blog-card-link) {
+main a:not(.blog-card-link):not(.plain-link) {
   color: inherit;
   text-decoration: underline;
   font-weight: bold;
@@ -178,9 +191,23 @@ main a:not(.blog-card-link) {
 
 input,
 textarea {
-  border: 2px solid var(--color-line-primary);
-  padding: 0.5rem;
+  border: 1px solid var(--color-input-border);
+  border-radius: 0.75rem;
+  background-color: var(--color-input-bg);
+  color: inherit;
+  padding: 0.75rem 0.875rem;
   width: 100%;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--color-text-primary);
+  outline-offset: 1px;
 }
 
 .anton-regular {
