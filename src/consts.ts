@@ -40,7 +40,7 @@ export const projects: GitHubCard[] = [
     stars: 0,
     forks: 0,
     stack: ["Laravel", "PHP", "Vue", "SQLite"],
-    url: "https://github.com/ubemacapuno/svelte-step-bro",
+    url: "https://github.com/ubemacapuno/lettuce-eat",
   },
   {
     name: "svelte-step",

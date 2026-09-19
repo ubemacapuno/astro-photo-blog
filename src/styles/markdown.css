@@ -9,18 +9,15 @@ pre code {
   padding: 0;
   margin: 0;
 
-  /* `monospace` is doubled on purpose: with a single `monospace` keyword,
-     browsers size relative units off their ~13px monospace default. */
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    monospace, monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace,
+    monospace;
   font-size: 0.875rem;
   line-height: 1.7;
   white-space: pre-wrap;
   overflow-x: auto;
   background: none;
 }
-
-/* Tailwind's preflight zeroes margins on p/ul/ol/headings; prose restores them. */
 
 .post-layout p,
 .post-layout li {
@@ -42,6 +39,8 @@ pre code {
 
 .post-layout h3 {
   font-size: 1.5rem;
+  border-bottom: 0;
+  padding-bottom: 0;
 }
 
 .post-layout h2 {
@@ -91,24 +90,21 @@ pre code {
   border: 1px solid var(--color-border);
   border-radius: 0.375rem;
   padding: 0.1rem 0.35rem;
-  /* rem, not em -- see the monospace note above. */
   font-size: 0.8125rem;
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
-    monospace, monospace;
+  font-family:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace,
+    monospace;
 }
 
-/* Code blocks keep Shiki's own dark background in both themes -- the token
-   colours are built for a dark ground, so a light one makes them unreadable.
-   The border is fixed rather than tokenised for the same reason. */
 .post-layout pre {
-  border: 1px solid rgb(255 255 255 / 0.1);
+  background-color: var(--color-bg-secondary) !important;
+  border: 1px solid var(--color-border);
   border-radius: 0.625rem;
   padding: 1rem;
   margin: 0 0 1.5em;
   overflow-x: auto;
 }
 
-/* Consecutive image lines share one <p>; block keeps them stacked. */
 .post-layout img {
   display: block;
   max-width: 100%;

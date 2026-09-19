@@ -32,14 +32,15 @@ const { pageTitle, layout = "default", seo } = Astro.props;
           document.addEventListener(
             "click",
             function (e) {
-              var link = e.target instanceof Element ? e.target.closest("a") : null;
+              var link =
+                e.target instanceof Element ? e.target.closest("a") : null;
               if (link === null || link.href === undefined) return;
               if (!link.href.startsWith(window.location.origin)) return;
               if (link.href.indexOf("#") !== -1) return;
               history.pushState(null, "", link.href);
               window.dispatchEvent(new PopStateEvent("popstate"));
             },
-            true
+            true,
           );
         }
       })();
