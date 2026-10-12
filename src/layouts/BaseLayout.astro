@@ -30,7 +30,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
       // see https://github.com/withastro/astro/issues/11919 for details
       (function () {
         if (!/CriOS|EdgiOS|FxiOS/.test(navigator.userAgent)) return;
-        var pushedHref = null;
+        let pushedHref = null;
 
         document.addEventListener(
           "click",
@@ -46,16 +46,16 @@ const { pageTitle, layout = "default", seo } = Astro.props;
               return;
             if (ev.defaultPrevented) return;
 
-            var el = ev.composed ? ev.composedPath()[0] : ev.target;
-            var link = el instanceof Element ? el.closest("a, area") : null;
+            const el = ev.composed ? ev.composedPath()[0] : ev.target;
+            const link = el instanceof Element ? el.closest("a, area") : null;
             if (!link) return;
 
-            var href =
+            const href =
               typeof link.href === "string"
                 ? link.href
                 : link.href && link.href.baseVal;
             if (!href) return;
-            var target =
+            const target =
               typeof link.target === "string"
                 ? link.target
                 : link.target && link.target.baseVal;
@@ -65,7 +65,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
             // 'replace' links intentionally must not add an entry
             if (link.dataset.astroHistory === "replace") return;
 
-            var url;
+            let url;
             try {
               url = new URL(href, location.href);
             } catch (e) {
@@ -76,7 +76,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
             if (url.hash) return;
             if (url.href === location.href) return;
 
-            var prev = history.state || {};
+            const prev = history.state || {};
             // the router saves the leaving page's scroll onto history.state, which after
             // our push is the new entry; save it on the old entry ourselves first
             history.replaceState(
