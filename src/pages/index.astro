@@ -43,11 +43,11 @@ const sortedPosts = allPosts.sort(
 ---
 
 <BaseLayout {pageTitle} seo={seo}>
-  <section
-    class="flex justify-center items-start whitespace-nowrap"
-  >
+  <section class="flex justify-center items-start whitespace-nowrap">
     <div class="relative flex items-center justify-center">
-      <div class="relative w-88 h-125 md:w-103.75 md:h-147.5">
+      <div
+        class="relative w-screen aspect-352/500 sm:w-88 sm:h-125 sm:aspect-auto md:w-103.75 md:h-147.5"
+      >
         <div id="carousel-wrapper" class="relative flex flex-col w-full h-full">
           <!-- Static LCP image in initial HTML so the browser discovers it immediately -->
           <img
@@ -60,17 +60,9 @@ const sortedPosts = allPosts.sort(
             aria-hidden="true"
           />
           <ImageCarousel client:visible images={carouselImages} />
-          <div
-            id="fade-progress-bar"
-            class="absolute top-full inset-x-0 h-1 bg-red-600 origin-center scale-x-100 transition-transform ease-linear pointer-events-none"
-            hidden
-            aria-hidden="true"
-          >
-          </div>
           <small
-            id="shot-on-film-mobile"
             data-fade-group="hero-title"
-            class="sm:hidden absolute top-full right-0 mt-2 font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-500"
+            class="sm:hidden absolute top-full right-0 mt-2 mr-4 font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-500"
           >
             Shot on Film
           </small>
@@ -165,10 +157,9 @@ const sortedPosts = allPosts.sort(
       const heroTitleElements = document.querySelectorAll(
         '[data-fade-group="' + heroTitleFadeGroup + '"]',
       );
-      const progressBar = document.getElementById("fade-progress-bar");
 
       const heroTitleElement = document.getElementById("corey-damocles");
-      if (heroTitleElement === null || progressBar === null) return;
+      if (heroTitleElement === null) return;
 
       function setTitleOpacity(opacityValue) {
         const shouldHide = opacityValue === "0";
@@ -187,23 +178,9 @@ const sortedPosts = allPosts.sort(
         isTitleHidden = true;
         setTitleOpacity("0");
 
-        progressBar.hidden = false;
-        progressBar.setAttribute("aria-hidden", "false");
-        progressBar.style.transitionDuration = fadeDurationMs + "ms";
-        progressBar.style.transform = "scaleX(1)";
-
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            progressBar.style.transform = "scaleX(0)";
-          });
-        });
-
         restoreTitleTimeout = setTimeout(function () {
           setTitleOpacity("1");
           isTitleHidden = false;
-          progressBar.hidden = true;
-          progressBar.setAttribute("aria-hidden", "true");
-          progressBar.style.transform = "scaleX(1)";
           restoreTitleTimeout = null;
         }, fadeDurationMs);
       });

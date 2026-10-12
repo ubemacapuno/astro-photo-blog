@@ -143,7 +143,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="touch-pan-y relative w-88 h-125 md:w-103.75 md:h-147.5 overflow-hidden"
+    class="touch-pan-y relative w-full h-full overflow-hidden"
     @touchstart="onTouchStart"
     @touchmove="onTouchMove"
     @touchend="onTouchEnd"
