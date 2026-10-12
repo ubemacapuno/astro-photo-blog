@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
+import { actions, isInputError } from "astro:actions";
+import { maxMessageLength, maxNameLength } from "../../consts";
 
 const form = reactive({
   name: "",
@@ -9,7 +11,6 @@ const form = reactive({
 
 const status = ref<"idle" | "submitting" | "success" | "error">("idle");
 const errorMessage = ref("");
-const maxTextAreaLength = 500;
 
 async function handleSubmit(event: Event) {
   event.preventDefault();
@@ -23,50 +24,38 @@ async function handleSubmit(event: Event) {
     return false;
   }
 
-  if (form.message.trim().length > maxTextAreaLength) {
+  if (form.message.trim().length > maxMessageLength) {
     status.value = "error";
-    errorMessage.value = `Message must be ${maxTextAreaLength} characters or less`;
+    errorMessage.value = `Message must be ${maxMessageLength} characters or less`;
     return false;
   }
 
   status.value = "submitting";
   errorMessage.value = "";
 
-  try {
-    const formData = new FormData();
-    formData.append("name", form.name.trim());
-    formData.append("email", form.email.trim());
-    formData.append("message", form.message.trim());
+  const formData = new FormData();
+  formData.append("name", form.name.trim());
+  formData.append("email", form.email.trim());
+  formData.append("message", form.message.trim());
 
-    const response = await fetch("/_actions/send", {
-      method: "POST",
-      body: formData,
-    });
+  const { error } = await actions.send(formData);
 
-    if (!response.ok) {
-      let errorMsg = "Something went wrong";
-      try {
-        const result = await response.json();
-        errorMsg = result?.message ?? result?.error ?? errorMsg;
-      } catch {
-        // If JSON parsing fails, use default message
-        errorMsg = "Something went wrong";
-      }
-      throw new Error(errorMsg);
-    }
-
-    await response.json();
-
-    status.value = "success";
-    form.name = "";
-    form.email = "";
-    form.message = "";
-    return false;
-  } catch (err: any) {
+  if (error) {
     status.value = "error";
-    errorMessage.value = err.message || "Failed to send message";
+    // input errors carry per-field messages; show the first instead of the raw JSON summary
+    const fieldMessage = isInputError(error)
+      ? Object.values(error.fields).flat()[0]
+      : undefined;
+    errorMessage.value =
+      fieldMessage ?? (error.message || "Failed to send message");
     return false;
   }
+
+  status.value = "success";
+  form.name = "";
+  form.email = "";
+  form.message = "";
+  return false;
 }
 </script>
 
@@ -80,6 +69,7 @@ async function handleSubmit(event: Event) {
         type="text"
         required
         autocomplete="name"
+        :maxlength="maxNameLength"
       />
     </div>
 
@@ -102,10 +92,10 @@ async function handleSubmit(event: Event) {
         required
         rows="5"
         class="resize-y"
-        :maxlength="maxTextAreaLength"
+        :maxlength="maxMessageLength"
       />
       <p class="text-sm text-text-muted text-right">
-        {{ form.message.length }}/{{ maxTextAreaLength }}
+        {{ form.message.length }}/{{ maxMessageLength }}
       </p>
     </div>
 

@@ -30,6 +30,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
       // see https://github.com/withastro/astro/issues/11919 for details
       (function () {
         if (!/CriOS|EdgiOS|FxiOS/.test(navigator.userAgent)) return;
+        var pushedHref = null;
 
         document.addEventListener(
           "click",
@@ -76,6 +77,12 @@ const { pageTitle, layout = "default", seo } = Astro.props;
             if (url.href === location.href) return;
 
             var prev = history.state || {};
+            // the router saves the leaving page's scroll onto history.state, which after
+            // our push is the new entry; save it on the old entry ourselves first
+            history.replaceState(
+              Object.assign({}, prev, { scrollX: scrollX, scrollY: scrollY }),
+              "",
+            );
             history.pushState(
               {
                 index: (typeof prev.index === "number" ? prev.index : 0) + 1,
@@ -85,9 +92,23 @@ const { pageTitle, layout = "default", seo } = Astro.props;
               "",
               url.href,
             );
+            pushedHref = url.href;
           },
           true,
         );
+
+        // undo the router writing the old page's scroll onto the entry we pushed
+        document.addEventListener("astro:after-swap", function () {
+          if (pushedHref !== location.href) return;
+          pushedHref = null;
+          history.replaceState(
+            Object.assign({}, history.state, { scrollX: 0, scrollY: 0 }),
+            "",
+          );
+        });
+        addEventListener("popstate", function () {
+          pushedHref = null;
+        });
       })();
     </script>
     <script is:inline>

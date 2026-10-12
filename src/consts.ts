@@ -2,6 +2,10 @@ import type { GitHubCard, TechStack } from "./types";
 
 export const SITE_URL = "https://coreydamocles.com";
 
+/** Contact form limits, enforced by the send action and mirrored in the form. */
+export const maxNameLength = 100;
+export const maxMessageLength = 500;
+
 /** CSS variable for language pill colors. Keys match TechStack; fallback used for unmapped. */
 export const languageColors: Partial<Record<TechStack, string>> = {
   TypeScript: "var(--typescript)",
