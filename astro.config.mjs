@@ -21,6 +21,10 @@ export default defineConfig({
   },
   output: "static",
   compressHTML: false,
+  build: {
+    // inline CSS so first paint doesn't wait on a stylesheet round trip
+    inlineStylesheets: "always",
+  },
   // Nothing here uses Astro.session. Left enabled, the Cloudflare adapter
   // injects a `SESSION` KV binding with no id, so `wrangler versions upload`
   // tries to create the namespace on every deploy and fails once it exists
