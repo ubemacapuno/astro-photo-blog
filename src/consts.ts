@@ -1,6 +1,28 @@
 import type { GitHubCard, TechStack } from "./types";
 
 export const SITE_URL = "https://coreydamocles.com";
+export const SITE_NAME = "Corey Damocles";
+
+// schema.org Person for JSON-LD
+export const person = {
+  "@type": "Person",
+  "@id": `${SITE_URL}/#person`,
+  name: "Corey Damocles",
+  url: SITE_URL,
+  image: `${SITE_URL}/images/hero-1.jpg`,
+  jobTitle: "Software Developer",
+  description: "Software developer and photographer based in Phoenix, Arizona.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Phoenix",
+    addressRegion: "AZ",
+    addressCountry: "US",
+  },
+  sameAs: [
+    "https://www.linkedin.com/in/corey-damocles",
+    "https://github.com/ubemacapuno",
+  ],
+};
 
 /** Contact form limits, enforced by the send action and mirrored in the form. */
 export const maxNameLength = 100;

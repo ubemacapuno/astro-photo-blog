@@ -9,6 +9,7 @@ interface SeoProps {
   description: string;
   url: string;
   image?: string;
+  type?: "website" | "article";
   robots?: string;
   structuredData?: Record<string, unknown>;
 }
@@ -80,6 +81,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
           description={seo.description}
           url={seo.url}
           image={seo.image}
+          type={seo.type}
           robots={seo.robots}
           structuredData={seo.structuredData}
         />
@@ -95,7 +97,7 @@ const { pageTitle, layout = "default", seo } = Astro.props;
       class={`grow ${layout === "post" ? "post-layout" : ""}`}
       transition:animate={fade({ duration: 300 })}
     >
-      <h1 class="my-4 text-4xl">{pageTitle}</h1>
+      {pageTitle && <h1 class="my-4 text-4xl">{pageTitle}</h1>}
       <slot />
     </main>
     <Footer />

@@ -6,9 +6,9 @@ import { SITE_URL } from "../consts";
 
 export const prerender = false;
 
-const pageTitle = "hello world!";
+const pageTitle = "About Corey Damocles";
 const seo = {
-  title: "Corey Damocles - Bio",
+  title: "About Corey Damocles - Developer and Photographer",
   description:
     "Phoenix-based photographer and software developer. Film photography, web development, and rock climbing.",
   url: new URL(Astro.url.pathname, SITE_URL).href,
@@ -100,9 +100,7 @@ const socialLinks = [
       }
     </div>
   </div>
-  <div
-    class="mt-6 rounded-2xl border border-card-border bg-card-bg p-5 sm:p-6"
-  >
+  <div class="mt-6 rounded-2xl border border-card-border bg-card-bg p-5 sm:p-6">
     <ContactForm client:load />
   </div>
 </BaseLayout>

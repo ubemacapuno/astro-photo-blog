@@ -1,9 +1,12 @@
 ---
+import { SITE_NAME } from "../consts";
+
 export interface Props {
   title: string;
   description: string;
   url: string;
   image?: string;
+  type?: "website" | "article";
   robots?: string;
   structuredData?: Record<string, any>;
 }
@@ -14,6 +17,7 @@ const {
   description,
   url,
   image,
+  type = "website",
   robots = "index, follow",
   structuredData,
 } = Astro.props;
@@ -30,7 +34,8 @@ const hasJsonLd = structuredData && Object.keys(structuredData).length > 0;
 <link rel="canonical" href={url} />
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE_NAME} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={url} />
