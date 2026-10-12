@@ -1,7 +1,7 @@
 ---
 import BlogNav from "../components/BlogNav.astro";
 import Tag from "../components/Tag.astro";
-import { formatDate, SITE_URL } from "../consts";
+import { formatDate, person, SITE_NAME, SITE_URL } from "../consts";
 import BaseLayout from "./BaseLayout.astro";
 
 const { frontmatter } = Astro.props;
@@ -12,20 +12,22 @@ const imageUrl = frontmatter.image.url.startsWith("http")
   : new URL(frontmatter.image.url, SITE_URL).href;
 
 const seo = {
-  title: frontmatter.title,
+  title: `${frontmatter.title} - ${SITE_NAME}`,
   description: frontmatter.description,
   url: canonicalUrl,
   image: imageUrl,
+  type: "article" as const,
   structuredData: {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: frontmatter.title,
     description: frontmatter.description,
     datePublished: frontmatter.pub_date.toISOString(),
-    author: {
-      "@type": "Person",
-      name: frontmatter.author,
-    },
+    author:
+      frontmatter.author === person.name
+        ? { "@type": "Person", "@id": person["@id"], name: person.name, url: SITE_URL }
+        : { "@type": "Person", name: frontmatter.author },
+    mainEntityOfPage: canonicalUrl,
     image: imageUrl,
   },
 };

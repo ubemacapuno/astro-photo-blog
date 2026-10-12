@@ -4,7 +4,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import BlogPost from "../components/BlogPost.astro";
 import ImageCarousel from "../components/vue/ImageCarousel.vue";
 import GitHubCard from "../components/GitHubCard.astro";
-import { projects, SITE_URL } from "../consts";
+import { person, projects, SITE_NAME, SITE_URL } from "../consts";
 import type { CarouselImage } from "../types";
 import { Icon } from "astro-icon/components";
 
@@ -17,23 +17,53 @@ const seo = {
   image: new URL("/images/hero-1.jpg", SITE_URL).href,
   structuredData: {
     "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "Corey Damocles",
-    url: SITE_URL,
-    logo: "🧑🏾‍💻",
+    "@graph": [
+      person,
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: SITE_NAME,
+        url: SITE_URL,
+        publisher: { "@id": person["@id"] },
+      },
+    ],
   },
 };
 const allPosts = await getCollection("blog");
 
 const carouselImages: CarouselImage[] = [
-  { src: "/images/hero-5.webp", alt: "Hero image 5" },
-  { src: "/images/hero-7.webp", alt: "Hero image 7" },
-  { src: "/images/hero-4.webp", alt: "Hero image 4" },
-  { src: "/images/hero-3.webp", alt: "Hero image 3" },
-  { src: "/images/hero-6.webp", alt: "Hero image 6" },
-  { src: "/images/hero-1.webp", alt: "Hero image 1" },
-  { src: "/images/hero-2.webp", alt: "Hero image 2" },
-  { src: "/images/hero-8.webp", alt: "Hero image 8" },
+  {
+    src: "/images/hero-5.webp",
+    alt: "Film photo of a climber in the crack between two split desert boulders, friends watching from below",
+  },
+  {
+    src: "/images/hero-7.webp",
+    alt: "Double-exposure film portrait of a woman's silhouette filled with a foggy coastal headland",
+  },
+  {
+    src: "/images/hero-4.webp",
+    alt: "Film photo looking down into a missile silo at the nose cone of a Titan II rocket",
+  },
+  {
+    src: "/images/hero-3.webp",
+    alt: "Double-exposure film portrait of a man's profile filled with oak leaves against a blue sky",
+  },
+  {
+    src: "/images/hero-6.webp",
+    alt: "Overhead film photo of friends on a sunny bouldering trail",
+  },
+  {
+    src: "/images/hero-1.webp",
+    alt: "Film portrait of a woman in a white cap under neon lights at night",
+  },
+  {
+    src: "/images/hero-2.webp",
+    alt: "Film photo of a hiker leaping across the top of a sandstone cliff above green brush",
+  },
+  {
+    src: "/images/hero-8.webp",
+    alt: "Double-exposure film photo of people silhouetted at a coastal overlook, layered with a fence of love locks",
+  },
 ];
 
 // Sort posts by pub_date (newest first)
@@ -51,8 +81,8 @@ const sortedPosts = allPosts.sort(
         <div id="carousel-wrapper" class="relative flex flex-col w-full h-full">
           <!-- Static LCP image in initial HTML so the browser discovers it immediately -->
           <img
-            src="/images/hero-5.webp"
-            alt="Hero image 5"
+            src={carouselImages[0].src}
+            alt={carouselImages[0].alt}
             width="415"
             height="590"
             fetchpriority="high"
@@ -70,13 +100,13 @@ const sortedPosts = allPosts.sort(
       </div>
 
       <div class="absolute z-10 flex flex-col items-center text-center">
-        <span
+        <h1
           id="corey-damocles"
           data-fade-group="hero-title"
           class="block text-5xl sm:text-7xl md:text-8xl lg:text-8xl text-center text-red-600 uppercase whitespace-nowrap anton-regular tracking-wide cursor-pointer transition-opacity duration-1000"
         >
           Corey Damocles
-        </span>
+        </h1>
         <small
           id="shot-on-film-desktop"
           data-fade-group="hero-title"
@@ -92,7 +122,7 @@ const sortedPosts = allPosts.sort(
     <div class="flex justify-between">
       <h2 class="text-3xl font-bold">Recent Posts</h2>
       <a
-        href="/blog"
+        href="/blog/"
         data-astro-prefetch
         class="plain-link"
         aria-label="Link to Blogs"

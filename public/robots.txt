@@ -49,7 +49,7 @@ User-agent: Amazonbot
 Disallow: /
 
 # Apple
-User-agent: Applebot
+User-agent: Applebot-Extended
 Disallow: /
 
 # Cohere
@@ -71,3 +71,8 @@ User-agent: Meltwater
 Disallow: /
 User-agent: Seekr
 Disallow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://coreydamocles.com/sitemap-index.xml

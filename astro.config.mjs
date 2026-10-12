@@ -5,10 +5,18 @@ import mdx from "@astrojs/mdx";
 import tailwindcss from "@tailwindcss/vite";
 import icon from "astro-icon";
 import cloudflare from "@astrojs/cloudflare";
+import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [vue(), mdx(), icon()],
+  site: "https://coreydamocles.com",
+  integrations: [
+    vue(),
+    mdx(),
+    icon(),
+    // noindex pages stay out of the sitemap
+    sitemap({ filter: (page) => !/\/(generate|404)\/?$/.test(page) }),
+  ],
   prefetch: true,
 
   markdown: {
