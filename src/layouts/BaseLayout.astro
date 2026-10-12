@@ -25,8 +25,9 @@ const { pageTitle, layout = "default", seo } = Astro.props;
 <html lang="en">
   <head>
     <script is:inline>
-      // iOS Chrome/Edge/Firefox treat ClientRouter's async pushState as a replace (Back
-      // exits the site). Push synchronously in the gesture, in the state shape it expects.
+      // iOS Chrome/Edge/Firefox treat ClientRouter's async pushState as a replace, so
+      // Back exits the site. On those browsers, mark the clicked link data-astro-reload
+      // (before the router's own click handler runs) so navigation is a native page load.
       // see https://github.com/withastro/astro/issues/11919 for details
       (function () {
         if (!/CriOS|EdgiOS|FxiOS/.test(navigator.userAgent)) return;
@@ -34,57 +35,9 @@ const { pageTitle, layout = "default", seo } = Astro.props;
         document.addEventListener(
           "click",
           function (ev) {
-            // mirrors ClientRouter's leavesWindow()
-            if (
-              (ev.button && ev.button !== 0) ||
-              ev.metaKey ||
-              ev.ctrlKey ||
-              ev.altKey ||
-              ev.shiftKey
-            )
-              return;
-            if (ev.defaultPrevented) return;
-
-            var el = ev.composed ? ev.composedPath()[0] : ev.target;
-            var link = el instanceof Element ? el.closest("a, area") : null;
-            if (!link) return;
-
-            var href =
-              typeof link.href === "string"
-                ? link.href
-                : link.href && link.href.baseVal;
-            if (!href) return;
-            var target =
-              typeof link.target === "string"
-                ? link.target
-                : link.target && link.target.baseVal;
-            if (target && target !== "_self") return;
-            if (link.dataset.astroReload !== undefined) return;
-            if (link.hasAttribute("download")) return;
-            // 'replace' links intentionally must not add an entry
-            if (link.dataset.astroHistory === "replace") return;
-
-            var url;
-            try {
-              url = new URL(href, location.href);
-            } catch (e) {
-              return;
-            }
-            if (url.origin !== location.origin) return;
-            // hash links get special scroll handling in the router; leave alone
-            if (url.hash) return;
-            if (url.href === location.href) return;
-
-            var prev = history.state || {};
-            history.pushState(
-              {
-                index: (typeof prev.index === "number" ? prev.index : 0) + 1,
-                scrollX: 0,
-                scrollY: 0,
-              },
-              "",
-              url.href,
-            );
+            const link =
+              ev.target instanceof Element ? ev.target.closest("a, area") : null;
+            if (link) link.dataset.astroReload = "";
           },
           true,
         );

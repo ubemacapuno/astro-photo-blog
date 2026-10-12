@@ -59,7 +59,7 @@ const sortedPosts = allPosts.sort(
             class="absolute inset-0 w-full h-full object-cover object-center"
             aria-hidden="true"
           />
-          <ImageCarousel client:visible images={carouselImages} />
+          <ImageCarousel client:idle images={carouselImages} />
           <small
             data-fade-group="hero-title"
             class="sm:hidden absolute top-full right-0 mt-2 mr-4 font-serif text-base font-normal italic text-black dark:text-white normal-case tracking-tight transition-opacity duration-500"

@@ -25,6 +25,8 @@ const MIN_SWIPE_DISTANCE = 50;
 // state
 const currentIndex = ref(1);
 const isTransitioning = ref(false);
+// off-screen slides get their src only after window load so they don't compete with the LCP image
+const isPageLoaded = ref(false);
 let isJumpingBack = false;
 let autoPlayTimer: ReturnType<typeof setInterval> | null = null;
 
@@ -127,14 +129,28 @@ const onTouchEnd = () => {
   touchEndX.value = null;
 };
 
+const markPageLoaded = () => {
+  isPageLoaded.value = true;
+};
+
+const shouldLoadImage = (src: string) =>
+  isPageLoaded.value || src === props.images[0]?.src;
+
 // lifecycle methods
 onMounted(() => {
+  if (document.readyState === "complete") {
+    markPageLoaded();
+  } else {
+    window.addEventListener("load", markPageLoaded, { once: true });
+  }
+
   if (props.images.length > 1) {
     startAutoPlay();
   }
 });
 
 onUnmounted(() => {
+  window.removeEventListener("load", markPageLoaded);
   if (autoPlayTimer) {
     clearInterval(autoPlayTimer);
   }
@@ -171,7 +187,7 @@ onUnmounted(() => {
         class="min-w-full h-full flex items-center justify-center"
       >
         <img
-          :src="image.src"
+          :src="shouldLoadImage(image.src) ? image.src : undefined"
           :alt="image.alt"
           class="w-full h-full object-cover object-center"
           :loading="index === 1 ? 'eager' : 'lazy'"
