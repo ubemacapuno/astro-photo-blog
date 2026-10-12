@@ -11,8 +11,7 @@ export const person = {
   url: SITE_URL,
   image: `${SITE_URL}/images/hero-1.jpg`,
   jobTitle: "Software Developer",
-  description:
-    "Software developer and film photographer based in Phoenix, Arizona.",
+  description: "Software developer and photographer based in Phoenix, Arizona.",
   address: {
     "@type": "PostalAddress",
     addressLocality: "Phoenix",
